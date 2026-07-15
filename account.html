@@ -42,9 +42,7 @@
 <body>
 
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
-    
 <!DOCTYPE html>
-
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -52,11 +50,11 @@
     <title>حساب المستخدم</title>
     <style>
         :root {
-            --primary-color: #667eea; /* A modern purple-blue */
+            --primary-color: #667eea;
             --primary-hover: #5a67d8;
-            --secondary-color: #38a169; /* A rich green */
+            --secondary-color: #38a169;
             --secondary-hover: #2f855a;
-            --info-color: #3182ce; /* A nice blue for the info button */
+            --info-color: #3182ce;
             --info-hover: #2b6cb0;
             --danger-color: #e53e3e;
             --danger-hover: #c53030;
@@ -67,410 +65,379 @@
             --focus-shadow: rgba(102, 126, 234, 0.25);
         }
 
-/* --- General Styles --- */
-    body {
-        margin: 0;
-        font-family: 'Cairo', Arial, sans-serif;
-        background: var(--background-gradient);
-    }
-    
-    body.modal-open {
-        overflow: hidden;
-    }
-
-    .main-content-wrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        padding: 40px 20px;
-    }
-
-    /* --- Account Page Specific Styles --- */
-    @font-face {
-        font-family: 'Cairo';
-        src: url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
-        font-display: swap;
-    }
-
-    .loader-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.3); display: flex; justify-content: center; align-items: center; z-index: 999; }
-    .loader { width: 50px; height: 50px; border: 5px solid var(--primary-color); border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    
-    .login-container { 
-        background-color: white; 
-        padding: 35px; 
-        border-radius: 20px; 
-        box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08); 
-        text-align: center; 
-        width: 400px; 
-        max-width: 95%; 
-        transition: all 0.3s ease-in-out;
-        margin-top: -130px;
-    }
-
-@media (max-width: 499px) {
-    .login-container {
-        margin-top: -195px;
-    }
-}
-#registerContainer { width: 750px; margin-top: 0px; }
-
-    .login-container h2 { font-family: 'Cairo', sans-serif; font-size: 24px; margin-bottom: 25px; color: var(--text-dark); }
-    
-    .form-grid {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 22px; 
-        margin-bottom: 20px;
-    }
-    .form-group {
-        flex: 1 1 calc(50% - 11px);
-        text-align: right;
-    }
-    .form-group label {
-        display: flex;
-        align-items: center;
-        font-size: 14px;
-        font-weight: 600;
-        color: var(--text-light);
-        margin-bottom: 8px;
-    }
-    .form-group label .fas {
-        margin-left: 8px;
-        color: var(--primary-color);
-        font-size: 16px;
-    }
-
-    .login-container input { 
-        width: 100%; 
-        padding: 12px 15px; 
-        border: 1px solid var(--border-color); 
-        border-radius: 8px; 
-        box-sizing: border-box; 
-        font-family: 'Cairo', sans-serif;
-        font-size: 15px;
-        transition: border-color 0.3s, box-shadow 0.3s;
-    }
-    #loginContainer input {
-        margin-bottom: 20px;
-    }
-    
-    .login-container input:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px var(--focus-shadow);
-        outline: none;
-    }
-
-    input[type="tel"] {
-        direction: ltr; 
-        text-align: right;
-    }
-    input[type="tel"]:not(:placeholder-shown) {
-        text-align: left;
-    }
-
-    .login-container button { 
-        width: 100%; 
-        padding: 11px 20px;
-        background-color: var(--primary-color); 
-        color: white; 
-        border: none; 
-        border-radius: 8px; 
-        cursor: pointer; 
-        margin-bottom: 10px; 
-        font-family: 'Cairo', sans-serif; 
-        font-weight: bold; 
-        font-size: 15px;
-        transition: background-color 0.3s, transform 0.2s;
-    }
-    .login-container button:hover { 
-        background-color: var(--primary-hover); 
-        transform: translateY(-2px);
-    }
-    .login-container button.register-btn { background-color: var(--secondary-color); }
-    .login-container button.register-btn:hover { background-color: var(--secondary-hover); }
-
-    .form-section-title {
-        width: 100%;
-        text-align: right;
-        font-size: 18px;
-        font-weight: 700;
-        color: var(--text-dark);
-        margin: 25px 0 15px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid var(--primary-color);
-    }
-
-    @media (max-width: 768px) {
-        #registerContainer { width: 95%; padding: 25px; }
-        .form-group { flex-basis: 100%; }
-    }
-
-    .profile-picture-container { 
-        position: relative; 
-        display: inline-block; 
-        margin-bottom: 30px; 
-        margin-top: 10px;
-    }
-    .profile-picture { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid white; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-    .profile-picture-placeholder { width: 120px; height: 120px; border-radius: 50%; background-color: #f1f1f1; display: flex; justify-content: center; align-items: center; color: #a0aec0; font-size: 50px; cursor: pointer; border: 2px dashed #cbd5e0; }
-    .camera-icon { position: absolute; bottom: 5px; right: 5px; background-color: var(--primary-color); width: 35px; height: 35px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; cursor: pointer; z-index: 2; border: 2px solid white; }
-    .hidden-file-input { display: none; }
-
-    .form-switcher-text {
-        margin-top: 20px;
-        font-size: 14px;
-        color: var(--text-light);
-    }
-    .form-switcher-text span {
-        color: var(--primary-color);
-        font-weight: bold;
-        cursor: pointer;
-        transition: color 0.2s;
-    }
-    .form-switcher-text span:hover {
-        color: var(--primary-hover);
-        text-decoration: underline;
-    }
-
-    #usernameDisplay { font-family: Cairo, sans-serif; font-size: 18px; font-weight: bold; margin-top: 5px; color: var(--text-dark); }
-    .modal-content, .custom-alert-content { border-radius: 15px; background-color: #fff; padding: 25px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); width: 90%; max-width: 380px; }
-    
-    /* --- Buttons in Profile --- */
-    .info-btn { background-color: var(--info-color) !important; color: white !important; margin-top: 10px; }
-    .info-btn:hover { background-color: var(--info-hover) !important; }
-    .purchases-btn { background-color: var(--text-dark) !important; color: white !important; margin-top: 5px; }
-    .logout-button { background-color: #f1f5f9 !important; margin-top: 5px; color: var(--text-light) !important; border: 1px solid var(--border-color) !important; }
-    
-    /* --- Logout Modal --- */
-    #logoutModal .logout-prompt { margin-bottom: 20px; color: var(--text-dark); font-family: 'Cairo', sans-serif; }
-    #logoutModal .modal-buttons { display: flex; justify-content: center; gap: 15px; }
-    #confirmLogout { background-color: var(--danger-color); }
-    #confirmLogout:hover { background-color: var(--danger-hover); }
-    #cancelLogout { background-color: #e2e8f0; color: var(--text-dark); }
-    #cancelLogout:hover { background-color: #cbd5e0; }
-
-    @media (max-width: 499px) {
-        /* MUCH SMALLER LOGOUT MODAL STYLES */
-        #logoutModal .modal-content {
-            max-width: 260px; /* Significantly smaller width */
-            width: 85%;
-            padding: 20px 15px; /* Reduced padding */
+        /* --- General Styles --- */
+        body {
+            margin: 0;
+            font-family: 'Cairo', Arial, sans-serif;
+            background: var(--background-gradient);
         }
-        #logoutModal .logout-prompt {
-            font-size: 15px; /* Smaller text */
-            margin-bottom: 15px; /* Reduced margin */
+        
+        body.modal-open {
+            overflow: hidden;
         }
-        #logoutModal .modal-buttons {
-            gap: 10px; /* Smaller gap between buttons */
+
+        .main-content-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
         }
-        #logoutModal .modal-buttons button {
-            padding: 8px 15px; /* Smaller buttons */
+
+        /* --- Account Page Specific Styles --- */
+        @font-face {
+            font-family: 'Cairo';
+            src: url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+            font-display: swap;
+        }
+
+        .loader-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.3); display: flex; justify-content: center; align-items: center; z-index: 999; }
+        .loader { width: 50px; height: 50px; border: 5px solid var(--primary-color); border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        .login-container { 
+            background-color: white; 
+            padding: 35px; 
+            border-radius: 20px; 
+            box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08); 
+            text-align: center; 
+            width: 400px; 
+            max-width: 95%; 
+            transition: all 0.3s ease-in-out;
+            margin-top: -130px;
+        }
+
+        @media (max-width: 499px) {
+            .login-container {
+                margin-top: -195px;
+            }
+        }
+        #registerContainer { width: 750px; margin-top: 0px; }
+
+        .login-container h2 { font-family: 'Cairo', sans-serif; font-size: 24px; margin-bottom: 25px; color: var(--text-dark); }
+        
+        .form-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 22px; 
+            margin-bottom: 20px;
+        }
+        .form-group {
+            flex: 1 1 calc(50% - 11px);
+            text-align: right;
+        }
+        .form-group label {
+            display: flex;
+            align-items: center;
             font-size: 14px;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 8px;
         }
-    }
+        .form-group label .fas {
+            margin-left: 8px;
+            color: var(--primary-color);
+            font-size: 16px;
+        }
 
-    /* --- Modals --- */
-    .modal, .custom-alert, .purchases-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center; z-index: 1000; }
-    
-    /* --- Purchases Modal --- */
-    .purchases-modal-content { background-color: #fff; width: 400px; max-height: 80vh; min-height: 300px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); overflow-y: auto; direction: rtl; }
-    .purchases-header { position: sticky; top: 0; background-color: #fff; padding: 15px; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center; z-index: 1; }
-    .purchases-header h3 { font-family: Cairo, sans-serif; font-size: 18px; margin: 0; color: #333; }
-    .purchases-header svg { cursor: pointer; }
-    .purchases-list { padding: 15px; font-family: Cairo, sans-serif; font-size: 14px; text-align: right; min-height: calc(300px - 60px); }
-    .purchase-item { margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #ddd; }
-    .purchase-item:last-child { border-bottom: none; }
-    .modal-buttons button { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-family: Cairo, sans-serif; font-weight: bold; flex-grow: 1;}
+        .form-error-text {
+            color: var(--danger-color);
+            font-size: 12px;
+            text-align: right;
+            margin-top: 5px; /* تم تعديل المسافة العلوية لتكون مناسبة داخل الحاوية */
+            display: none; /* مخفي بشكل افتراضي */
+        }
 
-    /* --- My Info Modal --- */
-    .my-info-modal-content { max-width: 600px; width: 95%; background-color: #fff; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); padding: 0; text-align: right; overflow: hidden; transform: translateY(33px); /* This centers the modal below a 66px header */ }
-    .my-info-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background-color: #f7fafc; border-bottom: 1px solid var(--border-color); }
-    .my-info-header h3 { margin: 0; font-size: 20px; color: var(--text-dark); }
-    .close-info-modal { font-size: 28px; color: var(--text-light); cursor: pointer; transition: color 0.2s; }
-    .close-info-modal:hover { color: var(--text-dark); }
-    .my-info-body { padding: 25px; max-height: 60vh; overflow-y: auto; text-align: center; }
-    .info-picture-container { text-align: center; margin-bottom: 25px; position: relative; display: inline-block; }
-    .info-picture-container .profile-picture, .info-picture-container .initial-avatar { width: 100px; height: 100px; font-size: 40px; margin: 0 auto; }
-    .info-picture-container .camera-icon { width: 30px; height: 30px; bottom: 0; right: 0; }
-    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 20px; text-align: right; }
-    .info-item { display: flex; flex-direction: column; }
-    .info-item label { font-size: 13px; font-weight: bold; color: var(--primary-color); margin-bottom: 6px; display: flex; align-items: center; }
-    .info-item label .fas { margin-left: 6px; }
-    .info-item input { background-color: #f8f9fa; border: 1px solid transparent; border-radius: 6px; padding: 10px; font-family: 'Cairo', sans-serif; font-size: 15px; color: var(--text-dark); transition: all 0.2s ease; }
-    .info-item input:read-only { cursor: default; }
-    .info-item input.editable-field { background-color: #fff; border-color: var(--border-color); }
-    .info-item input.editable-field:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px var(--focus-shadow); outline: none; }
-    .my-info-footer { padding: 15px 25px; background-color: #f7fafc; border-top: 1px solid var(--border-color); display: flex; gap: 10px; justify-content: flex-end; }
-    .my-info-footer button { width: auto; padding: 8px 25px; margin: 0; }
-    #updateInfoBtn { background-color: var(--secondary-color); }
-    #updateInfoBtn:hover { background-color: var(--secondary-hover); }
-    #cancelEditBtn { background-color: #e2e8f0; color: var(--text-dark); }
-    #cancelEditBtn:hover { background-color: #cbd5e0; }
-    
-    /* --- Alert & Icons --- */
-    .icon { width: 50px; height: 50px; margin-bottom: 10px; }
-    .checkmark-circle, .error-circle { stroke-width: 2; stroke-miterlimit: 10; stroke-dasharray: 166; stroke-dashoffset: 166; animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards; }
-    .checkmark-check, .error-x { stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 48; stroke-dashoffset: 48; animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards; }
-    .checkmark-circle, .checkmark-check { stroke: #4CAF50; }
-    .error-circle, .error-x { stroke: #ff0000; }
-    @keyframes stroke { 100% { stroke-dashoffset: 0; } }
-    #customAlertMessage { font-family: Cairo, sans-serif; font-size: 16px; margin-bottom: 20px; }
-    .custom-alert-content button { padding: 10px 20px; background-color: var(--primary-color); color: white; border: none; border-radius: 5px; cursor: pointer; }
-    .initial-avatar { width: 120px; height: 120px; border-radius: 50%; background-color: var(--primary-color); color: white; display: flex; justify-content: center; align-items: center; font-size: 50px; font-weight: bold; margin: 0 auto 15px auto; border: 4px solid white; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-</style>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+        .login-container input { 
+            width: 100%; 
+            padding: 12px 15px; 
+            margin-bottom: 5px; /* تقليل المسافة السفلية لاستيعاب رسالة الخطأ */
+            border: 1px solid var(--border-color); 
+            border-radius: 8px; 
+            box-sizing: border-box; 
+            font-family: 'Cairo', sans-serif;
+            font-size: 15px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        #loginContainer input {
+            margin-bottom: 20px;
+        }
+        
+        .login-container input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px var(--focus-shadow);
+            outline: none;
+        }
+
+        input[type="tel"] {
+            direction: ltr; 
+            text-align: right;
+        }
+        input[type="tel"]:not(:placeholder-shown) {
+            text-align: left;
+        }
+
+        .login-container button { 
+            width: 100%; 
+            padding: 11px 20px;
+            background-color: var(--primary-color); 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            margin-bottom: 10px; 
+            font-family: 'Cairo', sans-serif; 
+            font-weight: bold; 
+            font-size: 15px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .login-container button:hover { 
+            background-color: var(--primary-hover); 
+            transform: translateY(-2px);
+        }
+        .login-container button.register-btn { background-color: var(--secondary-color); }
+        .login-container button.register-btn:hover { background-color: var(--secondary-hover); }
+
+        .form-section-title {
+            width: 100%;
+            text-align: right;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 25px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            #registerContainer { width: 95%; padding: 25px; }
+            .form-group { flex-basis: 100%; }
+        }
+
+        .profile-picture-container { 
+            position: relative; 
+            display: inline-block; 
+            margin-bottom: 30px; 
+            margin-top: 10px;
+        }
+        .profile-picture { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid white; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .profile-picture-placeholder { width: 120px; height: 120px; border-radius: 50%; background-color: #f1f1f1; display: flex; justify-content: center; align-items: center; color: #a0aec0; font-size: 50px; cursor: pointer; border: 2px dashed #cbd5e0; }
+        .camera-icon { position: absolute; bottom: 5px; right: 5px; background-color: var(--primary-color); width: 35px; height: 35px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; cursor: pointer; z-index: 2; border: 2px solid white; }
+        .hidden-file-input { display: none; }
+
+        .form-switcher-text {
+            margin-top: 20px;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+        .form-switcher-text span {
+            color: var(--primary-color);
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .form-switcher-text span:hover {
+            color: var(--primary-hover);
+            text-decoration: underline;
+        }
+
+        #usernameDisplay { font-family: Cairo, sans-serif; font-size: 18px; font-weight: bold; margin-top: 5px; color: var(--text-dark); }
+        .modal-content, .custom-alert-content { border-radius: 15px; background-color: #fff; padding: 25px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); width: 90%; max-width: 380px; }
+        
+        /* --- Buttons in Profile --- */
+        .info-btn { background-color: var(--info-color) !important; color: white !important; margin-top: 10px; }
+        .info-btn:hover { background-color: var(--info-hover) !important; }
+        .purchases-btn { background-color: var(--text-dark) !important; color: white !important; margin-top: 5px; }
+        .logout-button { background-color: #f1f5f9 !important; margin-top: 5px; color: var(--text-light) !important; border: 1px solid var(--border-color) !important; }
+        
+        /* --- Logout Modal --- */
+        #logoutModal .logout-prompt { margin-bottom: 20px; color: var(--text-dark); font-family: 'Cairo', sans-serif; }
+        #logoutModal .modal-buttons { display: flex; justify-content: center; gap: 15px; }
+        #confirmLogout { background-color: var(--danger-color); }
+        #confirmLogout:hover { background-color: var(--danger-hover); }
+        #cancelLogout { background-color: #e2e8f0; color: var(--text-dark); }
+        #cancelLogout:hover { background-color: #cbd5e0; }
+
+        @media (max-width: 499px) {
+            #logoutModal .modal-content { max-width: 260px; width: 85%; padding: 20px 15px; }
+            #logoutModal .logout-prompt { font-size: 15px; margin-bottom: 15px; }
+            #logoutModal .modal-buttons { gap: 10px; }
+            #logoutModal .modal-buttons button { padding: 8px 15px; font-size: 14px; }
+        }
+
+        /* --- Modals --- */
+        .modal, .custom-alert { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0, 0, 0, 0.5); 
+            justify-content: center; 
+            align-items: center; 
+            z-index: 1000; 
+        }
+        
+        .purchases-modal, #myInfoModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding-top: 66px;
+            box-sizing: border-box;
+        }
+        
+        /* --- Purchases Modal (STYLES) --- */
+        .purchases-modal-content { background-color: #fff; width: 450px; max-width: 95%; max-height: 80vh; min-height: 300px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); direction: rtl; display: flex; flex-direction: column; }
+        .purchases-header { position: sticky; top: 0; background-color: #f8f9fa; padding: 15px 20px; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center; z-index: 1; }
+        .purchases-header h3 { font-family: Cairo, sans-serif; font-size: 18px; margin: 0; color: #333; }
+        .purchases-header svg { cursor: pointer; }
+
+        .purchases-list {
+            padding: 10px 0 20px 0;
+            font-family: Cairo, sans-serif;
+            font-size: 14px;
+            text-align: right;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        
+        .purchase-item {
+            position: relative;
+            padding: 0 20px;
+        }
+
+        .older-purchases .purchase-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            height: 1px;
+            background-color: var(--border-color);
+        }
+
+        .purchase-item-link {
+            color: inherit;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.2s, border-radius 0.2s ease-in-out;
+            border-radius: 8px;
+            padding: 15px 10px;
+            margin: 0 -10px;
+        }
+        .purchase-item-link:hover {
+            background-color: #f5f7fa;
+            border-radius: 0;
+            margin: 0 -20px;
+            padding: 15px 20px;
+        }
+
+        .purchase-details strong {
+            color: var(--text-dark);
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .purchase-details-line { 
+            color: var(--text-light); 
+            margin-top: 4px; 
+            font-size: 13px; /* Consistent font size */
+        }
+        .purchase-date { font-size: 12px; color: #718096; margin-top: 8px; }
+
+        .purchase-section-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--text-dark);
+            margin: 15px 0 10px 0;
+            padding: 0 20px;
+            text-align: right;
+        }
+        
+        .loading-text {
+            padding: 20px;
+            text-align: right;
+        }
+
+        .purchase-separator {
+            margin: 20px 0;
+            width: 100%;
+        }
+        .purchase-separator.colored {
+            height: 3px;
+            background: repeating-linear-gradient(90deg, red 0 15px, white 15px 30px, blue 30px 45px);
+            background-size: 45px 100%;
+        }
+
+        .modal-buttons button { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-family: Cairo, sans-serif; font-weight: bold; flex-grow: 1;}
+
+        /* --- My Info Modal --- */
+        .my-info-modal-content { max-width: 600px; width: 95%; background-color: #fff; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); padding: 0; text-align: right; overflow: hidden; }
+        .my-info-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background-color: #f7fafc; border-bottom: 1px solid var(--border-color); }
+        .my-info-header h3 { margin: 0; font-size: 20px; color: var(--text-dark); }
+        .close-info-modal { font-size: 28px; color: var(--text-light); cursor: pointer; transition: color 0.2s; }
+        .close-info-modal:hover { color: var(--text-dark); }
+        .my-info-body { padding: 25px; max-height: 60vh; overflow-y: auto; text-align: center; }
+        .info-picture-container { text-align: center; margin-bottom: 25px; position: relative; display: inline-block; }
+        .info-picture-container .profile-picture, .info-picture-container .initial-avatar { width: 100px; height: 100px; font-size: 40px; margin: 0 auto; }
+        .info-picture-container .camera-icon { width: 30px; height: 30px; bottom: 0; right: 0; }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 20px; text-align: right; }
+        .info-item { display: flex; flex-direction: column; }
+        .info-item label { font-size: 13px; font-weight: bold; color: var(--primary-color); margin-bottom: 6px; display: flex; align-items: center; }
+        .info-item label .fas { margin-left: 6px; }
+        .info-item input { background-color: #f8f9fa; border: 1px solid transparent; border-radius: 6px; padding: 10px; font-family: 'Cairo', sans-serif; font-size: 15px; color: var(--text-dark); transition: all 0.2s ease; }
+        .info-item input:read-only { cursor: default; }
+        .info-item input.editable-field { background-color: #fff; border-color: var(--border-color); }
+        .info-item input.editable-field:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px var(--focus-shadow); outline: none; }
+        .my-info-footer { padding: 15px 25px; background-color: #f7fafc; border-top: 1px solid var(--border-color); display: flex; gap: 10px; justify-content: flex-end; }
+        .my-info-footer button { width: auto; padding: 8px 25px; margin: 0; }
+        #updateInfoBtn { background-color: var(--secondary-color); }
+        #updateInfoBtn:hover { background-color: var(--secondary-hover); }
+        #cancelEditBtn { background-color: #e2e8f0; color: var(--text-dark); }
+        #cancelEditBtn:hover { background-color: #cbd5e0; }
+        
+        /* --- Alert & Icons --- */
+        .icon { width: 50px; height: 50px; margin-bottom: 10px; }
+        .checkmark-circle, .error-circle { stroke-width: 2; stroke-miterlimit: 10; stroke-dasharray: 166; stroke-dashoffset: 166; animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards; }
+        .checkmark-check, .error-x { stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 48; stroke-dashoffset: 48; animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards; }
+        .checkmark-circle, .checkmark-check { stroke: #4CAF50; }
+        .error-circle, .error-x { stroke: #ff0000; }
+        @keyframes stroke { 100% { stroke-dashoffset: 0; } }
+        #customAlertMessage { font-family: Cairo, sans-serif; font-size: 16px; margin-bottom: 20px; }
+        .custom-alert-content button { padding: 10px 20px; background-color: var(--primary-color); color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .initial-avatar { width: 120px; height: 120px; border-radius: 50%; background-color: var(--primary-color); color: white; display: flex; justify-content: center; align-items: center; font-size: 50px; font-weight: bold; margin: 0 auto 15px auto; border: 4px solid white; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
 
 <div class="loader-overlay" id="loaderOverlay"><div class="loader"></div></div>
-
 <div class="main-content-wrapper">
-    <div class="login-container" id="loginContainer" style="display: none;">
-        <h2>تسجيل الدخول</h2>
-        <input type="tel" id="loginPhone" placeholder="رقم الهاتف">
-        <input type="password" id="password" placeholder="كلمة المرور">
-        <button onclick="login()">تسجيل الدخول</button>
-        <button class="register-btn" onclick="showRegisterForm()">إنشاء حساب جديد</button>
-    </div>
-
-<div class="login-container" id="registerContainer" style="display: none;">
-    <h2>إنشاء حساب جديد</h2>
-<div class="profile-picture-container">
-    <div id="profilePicturePlaceholder" class="profile-picture-placeholder"><i class="fas fa-camera-retro"></i></div>
-    <div class="camera-icon" onclick="document.getElementById('profileImage').click()"><i class="fas fa-camera"></i></div>
-    <input type="file" id="profileImage" accept="image/*" class="hidden-file-input" onchange="previewImage(event)">
+    <div class="login-container" id="loginContainer" style="display: none;"><h2>تسجيل الدخول</h2><input type="tel" id="loginPhone" placeholder="رقم الهاتف"><input type="password" id="password" placeholder="كلمة المرور"><button onclick="login()">تسجيل الدخول</button><button class="register-btn" onclick="showRegisterForm()">إنشاء حساب جديد</button></div>
+    <div class="login-container" id="registerContainer" style="display: none;"><h2>إنشاء حساب جديد</h2><div class="profile-picture-container"><div id="profilePicturePlaceholder" class="profile-picture-placeholder"><i class="fas fa-camera-retro"></i></div><div class="camera-icon" onclick="document.getElementById('profileImage').click()"><i class="fas fa-camera"></i></div><input type="file" id="profileImage" accept="image/*" class="hidden-file-input" onchange="previewImage(event)"></div><div class="form-section-title">معلومات الحساب</div><div class="form-grid"><div class="form-group"><label for="registerUsername"><i class="fas fa-user"></i> اسم المستخدم (9 حروف أو أكثر)</label><input type="text" id="registerUsername" placeholder="مثال: عبدالله محمد علي"></div><div class="form-group"><label for="registerPhone"><i class="fas fa-phone"></i> رقم الهاتف</label><input type="tel" id="registerPhone" placeholder="01xxxxxxxxx"></div><div class="form-group"><label for="newPassword"><i class="fas fa-lock"></i> كلمة المرور</label><input type="password" id="newPassword" placeholder="اختر كلمة مرور قوية"></div><div class="form-group"><label for="registerEmail"><i class="fas fa-envelope"></i> البريد الإلكتروني</label><input type="email" id="registerEmail" placeholder="example@email.com"></div></div><div class="form-section-title">معلومات التوصيل</div><div class="form-grid"><div class="form-group"><label for="registerGovernorate"><i class="fas fa-map-marked-alt"></i> المحافظة</label><input type="text" id="registerGovernorate" placeholder="مثال: القاهرة"><div class="form-error-text" id="registerGovernorateErrorText"></div></div><div class="form-group"><label for="registerCity"><i class="fas fa-city"></i> المدينة</label><input type="text" id="registerCity" placeholder="مثال: مدينة نصر"></div><div class="form-group"><label for="registerStreet"><i class="fas fa-road"></i> اسم الشارع أو الحي</label><input type="text" id="registerStreet" placeholder="مثال: شارع عباس العقاد"></div><div class="form-group"><label for="registerLandmark"><i class="fas fa-landmark"></i> أقرب معلم مميز</label><input type="text" id="registerLandmark" placeholder="مثال: بجوار حديقة الطفل"></div></div><button onclick="register()">إنشاء الحساب</button><p class="form-switcher-text">لديك حساب بالفعل؟ <span onclick="showLoginForm()">تسجيل الدخول</span></p></div>
+    <div class="login-container" id="profileContainer" style="display: none;"><h2>حساب المستخدم</h2><div id="profilePictureDisplayContainer"></div><p id="usernameDisplay"></p><button class="info-btn" onclick="showMyInfo()">معلوماتي الشخصية</button><button class="purchases-btn" onclick="showPurchases()">مشترياتي (<span id="purchasesCount">0</span>)</button><button class="logout-button" onclick="logout()">تسجيل الخروج</button></div>
 </div>
-
-<div class="form-section-title">معلومات الحساب</div>
-<div class="form-grid">
-    <div class="form-group">
-        <label for="registerUsername"><i class="fas fa-user"></i> اسم المستخدم (9 حروف أو أكثر)</label>
-        <input type="text" id="registerUsername" placeholder="مثال: عبدالله محمد علي">
-    </div>
-    <div class="form-group">
-        <label for="registerPhone"><i class="fas fa-phone"></i> رقم الهاتف</label>
-        <input type="tel" id="registerPhone" placeholder="01xxxxxxxxx">
-    </div>
-    <div class="form-group">
-        <label for="newPassword"><i class="fas fa-lock"></i> كلمة المرور</label>
-        <input type="password" id="newPassword" placeholder="اختر كلمة مرور قوية">
-    </div>
-    <div class="form-group">
-        <label for="registerEmail"><i class="fas fa-envelope"></i> البريد الإلكتروني</label>
-        <input type="email" id="registerEmail" placeholder="example@email.com">
-    </div>
-</div>
-
-<div class="form-section-title">معلومات التوصيل</div>
-<div class="form-grid">
-     <div class="form-group">
-        <label for="registerGovernorate"><i class="fas fa-map-marked-alt"></i> المحافظة</label>
-        <input type="text" id="registerGovernorate" placeholder="مثال: القاهرة">
-    </div>
-     <div class="form-group">
-        <label for="registerCity"><i class="fas fa-city"></i> المدينة</label>
-        <input type="text" id="registerCity" placeholder="مثال: مدينة نصر">
-    </div>
-     <div class="form-group">
-        <label for="registerStreet"><i class="fas fa-road"></i> اسم الشارع أو الحي</label>
-        <input type="text" id="registerStreet" placeholder="مثال: شارع عباس العقاد">
-    </div>
-     <div class="form-group">
-        <label for="registerLandmark"><i class="fas fa-landmark"></i> أقرب معلم مميز</label>
-        <input type="text" id="registerLandmark" placeholder="مثال: بجوار حديقة الطفل">
-    </div>
-</div>
-
-<button onclick="register()">إنشاء الحساب</button>
-
-<p class="form-switcher-text">
-    لديك حساب بالفعل؟ <span onclick="showLoginForm()">تسجيل الدخول</span>
-</p>
-</div>
-
-<div class="login-container" id="profileContainer" style="display: none;">
-    <h2>حساب المستخدم</h2>
-    <div id="profilePictureDisplayContainer"></div>
-    <p id="usernameDisplay"></p>
-    <button class="info-btn" onclick="showMyInfo()">معلوماتي الشخصية</button>
-    <button class="purchases-btn" onclick="showPurchases()">مشترياتي (<span id="purchasesCount">0</span>)</button>
-    <button class="logout-button" onclick="logout()">تسجيل الخروج</button>
-</div>
-</div>
-
-<!-- Modals -->
-
 <div id="purchasesModal" class="purchases-modal"><div class="purchases-modal-content"><div class="purchases-header"><h3>المشتريات (<span id="modalPurchasesCount">0</span>)</h3><svg onclick="closePurchasesModal()" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(180deg);"><path d="M15 18l-6-6 6-6"/></svg></div><div class="purchases-list" id="purchasesList"></div></div></div>
 <div id="logoutModal" class="modal"><div class="modal-content"><p class="logout-prompt">أأنت متأكد من الإستكمال؟</p><div class="modal-buttons"><button id="confirmLogout">نعم</button><button id="cancelLogout">لا</button></div></div></div>
 <div id="customAlert" class="custom-alert"><div class="custom-alert-content"><div id="alertIcon"></div><p id="customAlertMessage"></p><button>حسنًا</button></div></div>
+<div id="myInfoModal" class="modal"><div class="my-info-modal-content"><div class="my-info-header"><h3>معلوماتي الشخصية</h3><span class="close-info-modal" onclick="closeMyInfoModal()">&times;</span></div><div class="my-info-body"><div class="info-picture-container"><div id="infoImagePreview"></div><div class="camera-icon" id="infoCameraIcon" style="display: none;" onclick="document.getElementById('infoProfileImageInput').click()"><i class="fas fa-camera"></i></div><input type="file" id="infoProfileImageInput" accept="image/*" class="hidden-file-input" onchange="previewNewProfileImage(event)"></div><div class="info-grid"><div class="info-item"><label for="infoUsername"><i class="fas fa-user"></i> اسم المستخدم</label><input type="text" id="infoUsername" readonly></div><div class="info-item"><label for="infoPhone"><i class="fas fa-phone"></i> رقم الهاتف</label><input type="tel" id="infoPhone" readonly style="cursor: not-allowed; background-color: #e9ecef;"></div><div class="info-item"><label for="infoEmail"><i class="fas fa-envelope"></i> البريد الإلكتروني</label><input type="email" id="infoEmail" readonly></div><div class="info-item"><label for="infoGovernorate"><i class="fas fa-map-marked-alt"></i> المحافظة</label><input type="text" id="infoGovernorate" readonly><div class="form-error-text" id="infoGovernorateErrorText" style="margin-top: 5px; margin-bottom: 0;"></div></div><div class="info-item"><label for="infoCity"><i class="fas fa-city"></i> المدينة</label><input type="text" id="infoCity" readonly></div><div class="info-item"><label for="infoStreet"><i class="fas fa-road"></i> الشارع/الحي</label><input type="text" id="infoStreet" readonly></div><div class="info-item"><label for="infoLandmark"><i class="fas fa-landmark"></i> أقرب معلم</label><input type="text" id="infoLandmark" readonly></div></div></div><div class="my-info-footer"><button id="editInfoBtn" onclick="enableInfoEditing()">تعديل البيانات</button><button id="updateInfoBtn" onclick="updateUserInfo()" style="display:none;">تحديث</button><button id="cancelEditBtn" onclick="cancelInfoEditing()" style="display:none;">إلغاء</button></div></div></div>
 
-<!-- My Info Modal -->
-
-<div id="myInfoModal" class="modal">
-    <div class="my-info-modal-content">
-        <div class="my-info-header">
-            <h3>معلوماتي الشخصية</h3>
-            <span class="close-info-modal" onclick="closeMyInfoModal()">&times;</span>
-        </div>
-        <div class="my-info-body">
-            <div class="info-picture-container">
-                <div id="infoImagePreview">
-                    <!-- Image or initial avatar will be inserted here by JS -->
-                </div>
-                <div class="camera-icon" id="infoCameraIcon" style="display: none;" onclick="document.getElementById('infoProfileImageInput').click()"><i class="fas fa-camera"></i></div>
-                <input type="file" id="infoProfileImageInput" accept="image/*" class="hidden-file-input" onchange="previewNewProfileImage(event)">
-            </div>
-            <div class="info-grid">
-                <div class="info-item">
-                    <label for="infoUsername"><i class="fas fa-user"></i> اسم المستخدم</label>
-                    <input type="text" id="infoUsername" readonly>
-                </div>
-                <div class="info-item">
-                    <label for="infoPhone"><i class="fas fa-phone"></i> رقم الهاتف</label>
-                    <input type="tel" id="infoPhone" readonly style="cursor: not-allowed; background-color: #e9ecef;">
-                </div>
-                <div class="info-item">
-                    <label for="infoEmail"><i class="fas fa-envelope"></i> البريد الإلكتروني</label>
-                    <input type="email" id="infoEmail" readonly>
-                </div>
-                <div class="info-item">
-                    <label for="infoGovernorate"><i class="fas fa-map-marked-alt"></i> المحافظة</label>
-                    <input type="text" id="infoGovernorate" readonly>
-                </div>
-                <div class="info-item">
-                    <label for="infoCity"><i class="fas fa-city"></i> المدينة</label>
-                    <input type="text" id="infoCity" readonly>
-                </div>
-                <div class="info-item">
-                    <label for="infoStreet"><i class="fas fa-road"></i> الشارع/الحي</label>
-                    <input type="text" id="infoStreet" readonly>
-                </div>
-                <div class="info-item">
-                    <label for="infoLandmark"><i class="fas fa-landmark"></i> أقرب معلم</label>
-                    <input type="text" id="infoLandmark" readonly>
-                </div>
-            </div>
-        </div>
-        <div class="my-info-footer">
-            <button id="editInfoBtn" onclick="enableInfoEditing()">تعديل البيانات</button>
-            <button id="updateInfoBtn" onclick="updateUserInfo()" style="display:none;">تحديث</button>
-            <button id="cancelEditBtn" onclick="cancelInfoEditing()" style="display:none;">إلغاء</button>
-        </div>
-    </div>
-</div>
 <script>
-    // =======================================================
-    // [الحل 1]: إعادة تعيين موضع التمرير عند العودة للصفحة من نافذة أخرى
     if (history.scrollRestoration) {
         history.scrollRestoration = 'manual';
     }
-    // =======================================================
-
-    // --- Firebase Initialization ---
     firebase.initializeApp({
         apiKey: "AIzaSyBkEIs1GP17POkhQd378yl0_2ZcPqYNiDM",
         authDomain: "buy-from-adger.firebaseapp.com",
@@ -480,29 +447,148 @@
         messagingSenderId: "396020785601",
         appId: "1:396020785601:web:yourWebAppID"
     });
-
     const database = firebase.database();
     let selectedProfileImage = null;
     let newProfileImageForUpdate = null;
-    
-    function showCustomAlert(message, isSuccess, callback) {
-        document.body.classList.add('modal-open');
-        const alertIcon = document.getElementById('alertIcon');
-        document.getElementById('customAlertMessage').textContent = message;
-        document.getElementById('customAlert').style.display = 'flex';
-        alertIcon.innerHTML = isSuccess ? `<svg class="icon" viewBox="0 0 52 52"><circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/><path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg>` : `<svg class="icon" viewBox="0 0 52 52"><circle class="error-circle" cx="26" cy="26" r="25" fill="none"/><path class="error-x" fill="none" d="M18 18l16 16M34 18l-16 16"/></svg>`;
-        document.getElementById('customAlert').querySelector('button').onclick = function() {
-            closeCustomAlert();
-            if (callback) callback();
-        };
-    }
-    function closeCustomAlert() { 
-        document.getElementById('customAlert').style.display = 'none';
-        if (document.querySelectorAll('.modal[style*="display: flex"], .purchases-modal[style*="display: flex"]').length === 0) {
-            document.body.classList.remove('modal-open');
+
+    const shippingRates = {
+        "القاهرة": 45, "الجيزة": 45, "الاسكندرية": 60, "القليوبية": 50, "المنوفية": 55,
+        "الغربية": 55, "الدقهلية": 60, "الشرقية": 60, "البحيرة": 65, "كفر الشيخ": 65,
+        "دمياط": 65, "بورسعيد": 70, "الإسماعيلية": 70, "السويس": 70, "الفيوم": 60,
+        "بني سويف": 65, "المنيا": 70, "أسيوط": 75, "سوهاج": 75, "قنا": 80,
+        "الأقصر": 80, "أسوان": 85, "البحر الأحمر": 90, "شمال سيناء": 95,
+        "جنوب سيناء": 95, "الوادي الجديد": 100, "مطروح": 90
+    };
+
+   function isValidGovernorate(userInput) {
+    const normalize = str => 
+        str.trim()
+           .replace(/ه$/, 'ة')
+           .replace(/ى/g, 'ي')
+           .replace(/ة/g, 'ه')
+           .replace(/[أإآ]/g, 'ا')
+           .replace(/^ال/, '');
+
+    const normalizedInput = normalize(userInput);
+
+    for (const key in shippingRates) {
+        if (normalize(key) === normalizedInput) {
+            return true;
         }
     }
+
+    return false;
+}
+
+
+    function showCustomAlert(message, isSuccess, callback) { /* Unchanged */ }
+    function closeCustomAlert() { /* Unchanged */ }
     
+    document.addEventListener('DOMContentLoaded', () => { /* Unchanged */ });
+    function previewImage(event) { /* Unchanged */ }
+    function showRegisterForm() { window.scrollTo(0, 0); document.getElementById('loginContainer').style.display = 'none'; document.getElementById('registerContainer').style.display = 'block'; }
+    function showLoginForm() { window.scrollTo(0, 0); document.getElementById('registerContainer').style.display = 'none'; document.getElementById('loginContainer').style.display = 'block'; }
+
+    function register() {
+        const governorateErrorText = document.getElementById('registerGovernorateErrorText');
+        governorateErrorText.style.display = 'none';
+
+        const username = document.getElementById('registerUsername').value.trim();
+        const phone = document.getElementById('registerPhone').value.trim();
+        const password = document.getElementById('newPassword').value;
+        const profileImage = selectedProfileImage || 'default';
+        const email = document.getElementById('registerEmail').value.trim();
+        const governorate = document.getElementById('registerGovernorate').value.trim();
+        const city = document.getElementById('registerCity').value.trim();
+        const street = document.getElementById('registerStreet').value.trim();
+        const landmark = document.getElementById('registerLandmark').value.trim();
+
+        if (!username || !phone || !password || !email || !governorate || !city || !street || !landmark) { showCustomAlert('يرجى ملء جميع الحقول!', false); return; }
+        if (username.length < 9) { showCustomAlert('يجب أن يتكون اسم المستخدم من 9 حروف على الأقل.', false); return; }
+        if (!phone.startsWith('01') || phone.length !== 11 || !/^\d+$/.test(phone)) { showCustomAlert('يرجى إدخال رقم هاتف مصري صحيح.', false); return; }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) { showCustomAlert('يرجى إدخال بريد إلكتروني صحيح.', false); return; }
+        
+        if (!isValidGovernorate(governorate)) {
+            governorateErrorText.textContent = 'الرجاء إدخال اسم محافظة صالح';
+            governorateErrorText.style.display = 'block';
+            return;
+        }
+
+        database.ref('users/' + phone).once('value', (snapshot) => { if (snapshot.exists()) { showCustomAlert('رقم الهاتف هذا مسجل بالفعل!', false); } else { const deliveryInfo = { name: username, phone: phone, email: email, governorate: governorate, city: city, street: street, landmark: landmark }; database.ref('users/' + phone).set({ username: username, password: password, profileImage: profileImage, deliveryInfo: deliveryInfo }); localStorage.setItem('phone', phone); localStorage.setItem('username', username); localStorage.setItem('profileImage', profileImage); localStorage.setItem('isLoggedIn', true); localStorage.setItem('deliveryInfo', JSON.stringify(deliveryInfo)); showCustomAlert('تم إنشاء الحساب بنجاح!', true, () => { window.location.reload(); }); } });
+    }
+
+    function login() { /* Unchanged */ }
+    function logout() { /* Unchanged */ }
+    function showPurchases() { /* Unchanged */ }
+    function closePurchasesModal() { /* Unchanged */ }
+    function populateInfoModal() { /* Unchanged */ }
+    function showMyInfo() { /* Unchanged */ }
+    function closeMyInfoModal() { /* Unchanged */ }
+    function enableInfoEditing() { /* Unchanged */ }
+    function cancelInfoEditing() { /* Unchanged */ }
+    function previewNewProfileImage(event) { /* Unchanged */ }
+
+    function updateUserInfo() {
+        const infoGovernorateErrorText = document.getElementById('infoGovernorateErrorText');
+        infoGovernorateErrorText.style.display = 'none';
+
+        const phone = localStorage.getItem('phone');
+        if (!phone) return;
+        const updatedData = {
+            username: document.getElementById('infoUsername').value.trim(),
+            email: document.getElementById('infoEmail').value.trim(),
+            governorate: document.getElementById('infoGovernorate').value.trim(),
+            city: document.getElementById('infoCity').value.trim(),
+            street: document.getElementById('infoStreet').value.trim(),
+            landmark: document.getElementById('infoLandmark').value.trim()
+        };
+        if (!updatedData.username || !updatedData.email || !updatedData.governorate || !updatedData.city || !updatedData.street || !updatedData.landmark) { showCustomAlert('يرجى ملء جميع الحقول!', false); return; }
+        
+        if (!isValidGovernorate(updatedData.governorate)) {
+            infoGovernorateErrorText.textContent = 'الرجاء إدخال اسم محافظة صالح';
+            infoGovernorateErrorText.style.display = 'block';
+            return;
+        }
+        
+        if (updatedData.username.length < 9) { showCustomAlert('يجب أن يتكون اسم المستخدم من 9 حروف على الأقل.', false); return; }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(updatedData.email)) { showCustomAlert('يرجى إدخال بريد إلكتروني صحيح.', false); return; }
+        
+        const updates = {
+            ['/users/' + phone + '/username']: updatedData.username,
+            ['/users/' + phone + '/deliveryInfo/name']: updatedData.username,
+            ['/users/' + phone + '/deliveryInfo/email']: updatedData.email,
+            ['/users/' + phone + '/deliveryInfo/governorate']: updatedData.governorate,
+            ['/users/' + phone + '/deliveryInfo/city']: updatedData.city,
+            ['/users/' + phone + '/deliveryInfo/street']: updatedData.street,
+            ['/users/' + phone + '/deliveryInfo/landmark']: updatedData.landmark,
+        };
+        if (newProfileImageForUpdate) { updates['/users/' + phone + '/profileImage'] = newProfileImageForUpdate; }
+        database.ref().update(updates).then(() => {
+            localStorage.setItem('username', updatedData.username);
+            const currentDeliveryInfo = JSON.parse(localStorage.getItem('deliveryInfo'));
+            currentDeliveryInfo.name = updatedData.username;
+            currentDeliveryInfo.email = updatedData.email;
+            currentDeliveryInfo.governorate = updatedData.governorate;
+            currentDeliveryInfo.city = updatedData.city;
+            currentDeliveryInfo.street = updatedData.street;
+            currentDeliveryInfo.landmark = updatedData.landmark;
+            localStorage.setItem('deliveryInfo', JSON.stringify(currentDeliveryInfo));
+            if (newProfileImageForUpdate) { localStorage.setItem('profileImage', newProfileImageForUpdate); }
+            document.getElementById('usernameDisplay').textContent = updatedData.username;
+            const profileImage = localStorage.getItem('profileImage');
+            const profileContainer = document.getElementById('profilePictureDisplayContainer');
+            if (profileImage && profileImage !== 'default') { profileContainer.innerHTML = `<img src="${profileImage}" alt="صورة المستخدم" class="profile-picture">`; } else { const initial = updatedData.username ? updatedData.username.charAt(0).toUpperCase() : ''; profileContainer.innerHTML = `<div class="initial-avatar">${initial}</div>`; }
+            closeMyInfoModal();
+            showCustomAlert('تم تحديث البيانات بنجاح!', true);
+        }).catch(error => { showCustomAlert('حدث خطأ أثناء تحديث البيانات: ' + error.message, false); });
+    }
+
+    // --- Pasting the rest of the JS for completeness ---
+    showCustomAlert = function(message, isSuccess, callback) { document.body.classList.add('modal-open'); const alertIcon = document.getElementById('alertIcon'); document.getElementById('customAlertMessage').textContent = message; document.getElementById('customAlert').style.display = 'flex'; alertIcon.innerHTML = isSuccess ? `<svg class="icon" viewBox="0 0 52 52"><circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/><path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg>` : `<svg class="icon" viewBox="0 0 52 52"><circle class="error-circle" cx="26" cy="26" r="25" fill="none"/><path class="error-x" fill="none" d="M18 18l16 16M34 18l-16 16"/></svg>`; document.getElementById('customAlert').querySelector('button').onclick = function() { closeCustomAlert(); if (callback) callback(); }; }
+    closeCustomAlert = function() { document.getElementById('customAlert').style.display = 'none'; if (document.querySelectorAll('.modal[style*="display: flex"], .purchases-modal[style*="display: flex"]').length === 0) { document.body.classList.remove('modal-open'); } }
+    previewImage = function(event) { const file = event.target.files[0]; if (file) { const reader = new FileReader(); reader.onload = e => { selectedProfileImage = e.target.result; document.getElementById('profilePicturePlaceholder').innerHTML = `<img src="${e.target.result}" alt="صورة المستخدم" class="profile-picture">`; }; reader.readAsDataURL(file); } }
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('loaderOverlay').style.display = 'none';
         const isLoggedIn = localStorage.getItem('isLoggedIn');
@@ -521,309 +607,113 @@
             }
             const phone = localStorage.getItem('phone');
             if(phone) {
-                database.ref('purchases').orderByChild('deliveryInfo/phone').equalTo(phone).once('value', (snapshot) => {
+                database.ref('purchases').orderByChild('buyerInfo/deliveryDetails/phone').equalTo(phone).once('value', (snapshot) => {
                     const purchasesCount = snapshot.exists() ? snapshot.numChildren() : 0;
                     document.getElementById('purchasesCount').textContent = purchasesCount;
                     document.getElementById('modalPurchasesCount').textContent = purchasesCount;
                 });
+            }
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('productName')) {
+                history.replaceState(null, '', window.location.pathname);
             }
         } else {
             document.getElementById('loginContainer').style.display = 'block';
             document.getElementById('profileContainer').style.display = 'none';
         }
     });
-
-    function previewImage(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = e => {
-                selectedProfileImage = e.target.result;
-                document.getElementById('profilePicturePlaceholder').innerHTML = `<img src="${e.target.result}" alt="صورة المستخدم" class="profile-picture">`;
-            };
-            reader.readAsDataURL(file);
-        }
-    }
-
-    // =======================================================
-    // [الحل 2]: إعادة التمرير للأعلى عند تبديل النماذج
-    // =======================================================
-    function showRegisterForm() {
-        window.scrollTo(0, 0); // <-- التعديل هنا
-        document.getElementById('loginContainer').style.display = 'none';
-        document.getElementById('registerContainer').style.display = 'block';
-    }
-    function showLoginForm() {
-        window.scrollTo(0, 0); // <-- والتعديل هنا
-        document.getElementById('registerContainer').style.display = 'none';
-        document.getElementById('loginContainer').style.display = 'block';
-    }
-    // =======================================================
-
-    function register() {
-        const username = document.getElementById('registerUsername').value.trim();
-        const phone = document.getElementById('registerPhone').value.trim();
-        const password = document.getElementById('newPassword').value;
-        const profileImage = selectedProfileImage || 'default';
-        const email = document.getElementById('registerEmail').value.trim();
-        const governorate = document.getElementById('registerGovernorate').value.trim();
-        const city = document.getElementById('registerCity').value.trim();
-        const street = document.getElementById('registerStreet').value.trim();
-        const landmark = document.getElementById('registerLandmark').value.trim();
-
-        if (!username || !phone || !password || !email || !governorate || !city || !street || !landmark) {
-             showCustomAlert('يرجى ملء جميع الحقول!', false); return; 
-        }
-        if (username.length < 9) {
-            showCustomAlert('يجب أن يتكون اسم المستخدم من 9 حروف على الأقل.', false); return;
-        }
-        if (!phone.startsWith('01') || phone.length !== 11 || !/^\d+$/.test(phone)) { 
-            showCustomAlert('يرجى إدخال رقم هاتف مصري صحيح.', false); return; 
-        }
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            showCustomAlert('يرجى إدخال بريد إلكتروني صحيح.', false); return;
-        }
-
-        database.ref('users/' + phone).once('value', (snapshot) => {
-            if (snapshot.exists()) {
-                showCustomAlert('رقم الهاتف هذا مسجل بالفعل!', false);
-            } else {
-                const deliveryInfo = { name: username, phone: phone, email: email, governorate: governorate, city: city, street: street, landmark: landmark };
-                database.ref('users/' + phone).set({ username: username, password: password, profileImage: profileImage, deliveryInfo: deliveryInfo });
-                localStorage.setItem('phone', phone);
-                localStorage.setItem('username', username);
-                localStorage.setItem('profileImage', profileImage);
-                localStorage.setItem('isLoggedIn', true);
-                localStorage.setItem('deliveryInfo', JSON.stringify(deliveryInfo));
-                showCustomAlert('تم إنشاء الحساب بنجاح!', true, () => {
-                    window.location.reload(); 
-                });
-            }
-        });
-    }
-
-    function login() {
-        const phone = document.getElementById('loginPhone').value;
-        const password = document.getElementById('password').value;
-        if (!phone || !password) { showCustomAlert('يرجى إدخال رقم الهاتف وكلمة المرور!', false); return; }
-        database.ref('users/' + phone).once('value', (snapshot) => {
-            if (snapshot.exists()) {
-                const userData = snapshot.val();
-                if (userData.password === password) {
-                    localStorage.setItem('phone', phone);
-                    localStorage.setItem('username', userData.username);
-                    localStorage.setItem('profileImage', userData.profileImage || 'default');
-                    localStorage.setItem('isLoggedIn', true);
-                    if (userData.deliveryInfo) {
-                        localStorage.setItem('deliveryInfo', JSON.stringify(userData.deliveryInfo));
-                    }
-                    showCustomAlert('تم تسجيل الدخول بنجاح!', true, () => {
-                       window.location.reload();
-                    });
-                } else {
-                    showCustomAlert('كلمة المرور غير صحيحة!', false);
-                }
-            } else {
-                showCustomAlert('رقم الهاتف غير موجود!', false);
-            }
-        });
-    }
-    
-    function logout() { 
-        document.body.classList.add('modal-open');
-        document.getElementById('logoutModal').style.display = 'flex'; 
-    }
-    document.getElementById('confirmLogout').addEventListener('click', () => {
-        localStorage.clear();
-        window.location.reload();
-    });
-    document.getElementById('cancelLogout').addEventListener('click', () => { 
-        document.getElementById('logoutModal').style.display = 'none'; 
-        document.body.classList.remove('modal-open');
-    });
-    
-    function showPurchases() {
+    login = function() { const phone = document.getElementById('loginPhone').value; const password = document.getElementById('password').value; if (!phone || !password) { showCustomAlert('يرجى إدخال رقم الهاتف وكلمة المرور!', false); return; } database.ref('users/' + phone).once('value', (snapshot) => { if (snapshot.exists()) { const userData = snapshot.val(); if (userData.password === password) { localStorage.setItem('phone', phone); localStorage.setItem('username', userData.username); localStorage.setItem('profileImage', userData.profileImage || 'default'); localStorage.setItem('isLoggedIn', true); if (userData.deliveryInfo) { localStorage.setItem('deliveryInfo', JSON.stringify(userData.deliveryInfo)); } showCustomAlert('تم تسجيل الدخول بنجاح!', true, () => { window.location.reload(); }); } else { showCustomAlert('كلمة المرور غير صحيحة!', false); } } else { showCustomAlert('رقم الهاتف غير موجود!', false); } }); }
+    logout = function() { document.body.classList.add('modal-open'); document.getElementById('logoutModal').style.display = 'flex'; }
+    document.getElementById('confirmLogout').addEventListener('click', () => { localStorage.clear(); window.location.reload(); });
+    document.getElementById('cancelLogout').addEventListener('click', () => { document.getElementById('logoutModal').style.display = 'none'; document.body.classList.remove('modal-open'); });
+    showPurchases = function() {
         document.body.classList.add('modal-open');
         const modal = document.getElementById('purchasesModal');
         const purchasesList = document.getElementById('purchasesList');
         purchasesList.innerHTML = '<p class="loading-text">جاري التحميل...</p>';
         modal.style.display = 'flex';
         const phone = localStorage.getItem('phone');
+
         if (phone) {
-            database.ref('purchases').orderByChild('deliveryInfo/phone').equalTo(phone).once('value', (snapshot) => {
+            database.ref('purchases').orderByChild('buyerInfo/deliveryDetails/phone').equalTo(phone).once('value', (snapshot) => {
                 purchasesList.innerHTML = '';
                 if (snapshot.exists()) {
                     const purchasesArray = [];
-                    snapshot.forEach(childSnapshot => { purchasesArray.push(childSnapshot.val()); });
-                    purchasesArray.sort((a, b) => b.timestamp - a.timestamp);
-                    purchasesArray.forEach(purchase => {
-                        const item = document.createElement('div');
-                        item.classList.add('purchase-item');
-                        const purchaseDate = new Date(purchase.timestamp).toLocaleString('ar-EG');
-                        item.innerHTML = `<strong>المنتج:</strong> ${purchase.productName}<br><strong>الكمية:</strong> ${purchase.quantity}<br><strong>السعر الإجمالي:</strong> ${purchase.totalPrice.toFixed(2)} جنيه<br><strong>التاريخ:</strong> ${purchaseDate}`;
-                        purchasesList.appendChild(item);
+                    snapshot.forEach(childSnapshot => {
+                        purchasesArray.push(childSnapshot.val());
                     });
+                    
+                    purchasesArray.sort((a, b) => b.timestamp - a.timestamp);
+                    document.getElementById('modalPurchasesCount').textContent = purchasesArray.length;
+
+                    const createProductElement = (purchase) => {
+                        const itemDiv = document.createElement('div');
+                        itemDiv.className = 'purchase-item';
+                        const purchaseDate = new Date(purchase.timestamp).toLocaleString('ar-EG', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute:'2-digit' });
+                        const product = purchase.productInfo;
+                        const pricing = purchase.pricing;
+                        
+                        let optionsHTML = '';
+                        if (product.color) optionsHTML += `<div class="purchase-details-line">اللون: ${product.color}</div>`;
+                        if (product.size) optionsHTML += `<div class="purchase-details-line">المقاس: ${product.size}</div>`;
+                        if (product.material) optionsHTML += `<div class="purchase-details-line">المادة: ${product.material}</div>`;
+
+                        itemDiv.innerHTML = `
+                            <a href="prod.html?id=${product.id}" class="purchase-item-link">
+                                <div class="purchase-details">
+                                    <strong>${product.name}</strong>
+                                    <div class="purchase-details-line">الكمية: ${product.quantity}</div>
+                                    <div class="purchase-details-line">السعر الإجمالي: ${pricing.total.toFixed(2)} جنيه</div>
+                                    ${optionsHTML}
+                                </div>
+                                <div class="purchase-date">${purchaseDate}</div>
+                            </a>
+                        `;
+                        return itemDiv;
+                    };
+
+                    const latestTitle = document.createElement('h4');
+                    latestTitle.className = 'purchase-section-title';
+                    latestTitle.textContent = 'احدث منتج تم شراؤه';
+                    purchasesList.appendChild(latestTitle);
+                    purchasesList.appendChild(createProductElement(purchasesArray[0]));
+
+                    if (purchasesArray.length > 1) {
+                        const separator = document.createElement('div');
+                        separator.className = 'purchase-separator colored';
+                        purchasesList.appendChild(separator);
+
+                        const olderTitle = document.createElement('h4');
+                        olderTitle.className = 'purchase-section-title';
+                        olderTitle.textContent = 'منتجاتي القديمه';
+                        purchasesList.appendChild(olderTitle);
+                        
+                        const olderItemsWrapper = document.createElement('div');
+                        olderItemsWrapper.className = 'older-purchases';
+                        
+                        for (let i = 1; i < purchasesArray.length; i++) {
+                            olderItemsWrapper.appendChild(createProductElement(purchasesArray[i]));
+                        }
+                        purchasesList.appendChild(olderItemsWrapper);
+                    }
                 } else {
-                    purchasesList.innerHTML = '<p>لا توجد مشتريات بعد.</p>';
+                    purchasesList.innerHTML = '<p class="loading-text">لا توجد مشتريات بعد.</p>';
                 }
             });
         } else {
-            purchasesList.innerHTML = '<p>لا توجد مشتريات لعرضها.</p>';
+            purchasesList.innerHTML = '<p class="loading-text">لا توجد مشتريات لعرضها.</p>';
         }
     }
-    function closePurchasesModal() {
-        document.getElementById('purchasesModal').style.display = 'none';
-        document.body.classList.remove('modal-open');
-    }
-
-    // --- My Info Modal Functions ---
-    function populateInfoModal() {
-        const deliveryInfo = JSON.parse(localStorage.getItem('deliveryInfo') || '{}');
-        const profileImage = localStorage.getItem('profileImage');
-        const username = localStorage.getItem('username');
-        
-        document.getElementById('infoUsername').value = deliveryInfo.name || '';
-        document.getElementById('infoPhone').value = deliveryInfo.phone || '';
-        document.getElementById('infoEmail').value = deliveryInfo.email || '';
-        document.getElementById('infoGovernorate').value = deliveryInfo.governorate || '';
-        document.getElementById('infoCity').value = deliveryInfo.city || '';
-        document.getElementById('infoStreet').value = deliveryInfo.street || '';
-        document.getElementById('infoLandmark').value = deliveryInfo.landmark || '';
-
-        const profileContainer = document.getElementById('infoImagePreview');
-        if (profileImage && profileImage !== 'default') {
-            profileContainer.innerHTML = `<img src="${profileImage}" alt="صورة المستخدم" class="profile-picture">`;
-        } else {
-            const initial = username ? username.charAt(0).toUpperCase() : '';
-            profileContainer.innerHTML = `<div class="initial-avatar">${initial}</div>`;
-        }
-    }
-    
-    function showMyInfo() {
-        document.body.classList.add('modal-open');
-        populateInfoModal();
-        document.getElementById('myInfoModal').style.display = 'flex';
-    }
-
-    function closeMyInfoModal() {
-        cancelInfoEditing(); 
-        document.getElementById('myInfoModal').style.display = 'none';
-        document.body.classList.remove('modal-open');
-    }
-
-    function enableInfoEditing() {
-        document.querySelectorAll('#myInfoModal .info-item input:not(#infoPhone)').forEach(input => {
-            input.readOnly = false;
-            input.classList.add('editable-field');
-        });
-        document.getElementById('infoCameraIcon').style.display = 'flex';
-        document.getElementById('editInfoBtn').style.display = 'none';
-        document.getElementById('updateInfoBtn').style.display = 'inline-block';
-        document.getElementById('cancelEditBtn').style.display = 'inline-block';
-    }
-
-    function cancelInfoEditing() {
-        document.querySelectorAll('#myInfoModal .info-item input').forEach(input => {
-            input.readOnly = true;
-            input.classList.remove('editable-field');
-        });
-        document.getElementById('infoCameraIcon').style.display = 'none';
-        document.getElementById('editInfoBtn').style.display = 'inline-block';
-        document.getElementById('updateInfoBtn').style.display = 'none';
-        document.getElementById('cancelEditBtn').style.display = 'none';
-        
-        newProfileImageForUpdate = null;
-        document.getElementById('infoProfileImageInput').value = '';
-        populateInfoModal(); 
-    }
-
-    function previewNewProfileImage(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = e => {
-                newProfileImageForUpdate = e.target.result;
-                document.getElementById('infoImagePreview').innerHTML = `<img src="${newProfileImageForUpdate}" alt="صورة المستخدم" class="profile-picture">`;
-            };
-            reader.readAsDataURL(file);
-        }
-    }
-
-    function updateUserInfo() {
-        const phone = localStorage.getItem('phone');
-        if (!phone) return;
-
-        const updatedData = {
-            username: document.getElementById('infoUsername').value.trim(),
-            email: document.getElementById('infoEmail').value.trim(),
-            governorate: document.getElementById('infoGovernorate').value.trim(),
-            city: document.getElementById('infoCity').value.trim(),
-            street: document.getElementById('infoStreet').value.trim(),
-            landmark: document.getElementById('infoLandmark').value.trim()
-        };
-        
-        if (!updatedData.username || !updatedData.email || !updatedData.governorate || !updatedData.city || !updatedData.street || !updatedData.landmark) {
-             showCustomAlert('يرجى ملء جميع الحقول!', false); return; 
-        }
-        if (updatedData.username.length < 9) {
-            showCustomAlert('يجب أن يتكون اسم المستخدم من 9 حروف على الأقل.', false); return;
-        }
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(updatedData.email)) {
-            showCustomAlert('يرجى إدخال بريد إلكتروني صحيح.', false); return;
-        }
-        
-        const updates = {
-            ['/users/' + phone + '/username']: updatedData.username,
-            ['/users/' + phone + '/deliveryInfo/name']: updatedData.username,
-            ['/users/' + phone + '/deliveryInfo/email']: updatedData.email,
-            ['/users/' + phone + '/deliveryInfo/governorate']: updatedData.governorate,
-            ['/users/' + phone + '/deliveryInfo/city']: updatedData.city,
-            ['/users/' + phone + '/deliveryInfo/street']: updatedData.street,
-            ['/users/' + phone + '/deliveryInfo/landmark']: updatedData.landmark,
-        };
-
-        if (newProfileImageForUpdate) {
-            updates['/users/' + phone + '/profileImage'] = newProfileImageForUpdate;
-        }
-
-        database.ref().update(updates).then(() => {
-            localStorage.setItem('username', updatedData.username);
-            const currentDeliveryInfo = JSON.parse(localStorage.getItem('deliveryInfo'));
-            currentDeliveryInfo.name = updatedData.username;
-            currentDeliveryInfo.email = updatedData.email;
-            currentDeliveryInfo.governorate = updatedData.governorate;
-            currentDeliveryInfo.city = updatedData.city;
-            currentDeliveryInfo.street = updatedData.street;
-            currentDeliveryInfo.landmark = updatedData.landmark;
-            localStorage.setItem('deliveryInfo', JSON.stringify(currentDeliveryInfo));
-            
-            if (newProfileImageForUpdate) {
-                localStorage.setItem('profileImage', newProfileImageForUpdate);
-            }
-
-            document.getElementById('usernameDisplay').textContent = updatedData.username;
-            const profileImage = localStorage.getItem('profileImage');
-            const profileContainer = document.getElementById('profilePictureDisplayContainer');
-             if (profileImage && profileImage !== 'default') {
-                profileContainer.innerHTML = `<img src="${profileImage}" alt="صورة المستخدم" class="profile-picture">`;
-            } else {
-                const initial = updatedData.username ? updatedData.username.charAt(0).toUpperCase() : '';
-                profileContainer.innerHTML = `<div class="initial-avatar">${initial}</div>`;
-            }
-
-            closeMyInfoModal();
-            showCustomAlert('تم تحديث البيانات بنجاح!', true);
-
-        }).catch(error => {
-            showCustomAlert('حدث خطأ أثناء تحديث البيانات: ' + error.message, false);
-        });
-    }
-
+    closePurchasesModal = function() { document.getElementById('purchasesModal').style.display = 'none'; document.body.classList.remove('modal-open'); }
+    populateInfoModal = function() { const deliveryInfo = JSON.parse(localStorage.getItem('deliveryInfo') || '{}'); const profileImage = localStorage.getItem('profileImage'); const username = localStorage.getItem('username'); document.getElementById('infoUsername').value = deliveryInfo.name || ''; document.getElementById('infoPhone').value = deliveryInfo.phone || ''; document.getElementById('infoEmail').value = deliveryInfo.email || ''; document.getElementById('infoGovernorate').value = deliveryInfo.governorate || ''; document.getElementById('infoCity').value = deliveryInfo.city || ''; document.getElementById('infoStreet').value = deliveryInfo.street || ''; document.getElementById('infoLandmark').value = deliveryInfo.landmark || ''; const profileContainer = document.getElementById('infoImagePreview'); if (profileImage && profileImage !== 'default') { profileContainer.innerHTML = `<img src="${profileImage}" alt="صورة المستخدم" class="profile-picture">`; } else { const initial = username ? username.charAt(0).toUpperCase() : ''; profileContainer.innerHTML = `<div class="initial-avatar">${initial}</div>`; } }
+    showMyInfo = function() { document.body.classList.add('modal-open'); populateInfoModal(); document.getElementById('myInfoModal').style.display = 'flex'; }
+    closeMyInfoModal = function() { cancelInfoEditing(); document.getElementById('myInfoModal').style.display = 'none'; document.body.classList.remove('modal-open'); }
+    enableInfoEditing = function() { document.querySelectorAll('#myInfoModal .info-item input:not(#infoPhone)').forEach(input => { input.readOnly = false; input.classList.add('editable-field'); }); document.getElementById('infoCameraIcon').style.display = 'flex'; document.getElementById('editInfoBtn').style.display = 'none'; document.getElementById('updateInfoBtn').style.display = 'inline-block'; document.getElementById('cancelEditBtn').style.display = 'inline-block'; }
+    cancelInfoEditing = function() { document.querySelectorAll('#myInfoModal .info-item input').forEach(input => { input.readOnly = true; input.classList.remove('editable-field'); }); document.getElementById('infoCameraIcon').style.display = 'none'; document.getElementById('editInfoBtn').style.display = 'inline-block'; document.getElementById('updateInfoBtn').style.display = 'none'; document.getElementById('cancelEditBtn').style.display = 'none'; newProfileImageForUpdate = null; document.getElementById('infoProfileImageInput').value = ''; populateInfoModal(); document.getElementById('infoGovernorateErrorText').style.display = 'none'; }
+    previewNewProfileImage = function(event) { const file = event.target.files[0]; if (file) { const reader = new FileReader(); reader.onload = e => { newProfileImageForUpdate = e.target.result; document.getElementById('infoImagePreview').innerHTML = `<img src="${newProfileImageForUpdate}" alt="صورة المستخدم" class="profile-picture">`; }; reader.readAsDataURL(file); } }
 </script>
-
-
+</body>
+</html>
 
 
 

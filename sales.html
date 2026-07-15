@@ -5,298 +5,163 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adger</title>
     <link rel="icon" href="sales.jpg" type="image/x-icon">
-    <link rel="stylesheet" href="style.css">
-<html>
-<head>
-    <title>سجل المشتريات</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Cairo', Arial, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', Arial, sans-serif; }
         
-        body {
-            background: white;
-            padding: 15px;
-            max-width: 100%;
-            overflow-x: hidden;
-            font-family: 'Cairo', sans-serif;
-        }
+        body.modal-open { overflow: hidden; }
         
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding: 15px 0;
-            border-bottom: 1px solid #d8d8d8;
-            width: 100%;
-        }
+        body { background: white; padding: 15px; max-width: 100%; overflow-x: hidden; font-family: 'Cairo', sans-serif; }
         
-        .header-content {
-            text-align: right;
-            margin-left: auto;
-        }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 15px 0; border-bottom: 1px solid #d8d8d8; width: 100%; }
+        .header-content { text-align: right; margin-left: auto; }
+        .header-title { font-size: 22px; color: #000; font-weight: bold; margin-bottom: -2px; }
+        .header-subtitle { font-size: 20px; color: #161616; font-weight: bold; }
+        .header-actions { display: flex; flex-direction: column; gap: 8px; margin-right: auto; }
         
-        .header-title {
-            font-size: 22px;
-            color: #000;
-            font-weight: bold;
-            margin-bottom: -2px;
-        }
+        .activity-btn, .gifts-btn { color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; white-space: nowrap; }
+        .activity-btn { background: #007bff; }
+        .gifts-btn { background: #ffc107; color: #333; }
         
-        .header-subtitle {
-            font-size: 20px;
-            color: #161616;
-            font-weight: bold;
-        }
+        .main-content { width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: right; overflow-wrap: break-word; vertical-align: middle; }
+        th { background-color: #f8f9fa; }
         
-        .activity-btn {
-            background: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-right: auto;
-        }
+        .gift-image { width: 80px; height: 80px; object-fit: contain; border-radius: 5px; display: block; margin: auto; }
         
-        .main-content {
-            width: 100%;
-            overflow-x: auto;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-            font-size: 14px;
-        }
-        
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: right;
-            overflow-wrap: break-word;
-        }
-        
-        th {
-            background-color: #f8f9fa;
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-        }
-        
-        .modal-content {
-            background: white;
-            margin: 20px auto;
-            padding: 20px;
-            width: 95%;
-            max-width: 1200px;
-            max-height: 90vh;
-            overflow: auto;
-            border-radius: 5px;
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .modal-title {
-            font-size: 24px;
-            color: #333;
-            font-weight: bold;
-        }
-        
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: #777;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .stat-card {
-            padding: 15px;
-            border: 1px solid #eee;
-            border-radius: 5px;
-            text-align: center;
-        }
-        
-        .stat-number {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #007bff;
-            margin-bottom: 5px;
-        }
-        
-        .stat-label {
-            color: #777;
-            font-size: 16px;
-        }
-        
-        .chart-container {
-            width: 100%;
-            height: 400px;
-            margin-top: 20px;
-        }
-        
-        /* Password Modal Styles */
-        .password-modal {
-            display: flex;
-            position: fixed;
-            z-index: 9999;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.7);
+        .modal { 
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0; 
+            top: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.6); 
+            backdrop-filter: blur(3px);
+            align-items: center; 
             justify-content: center;
-            align-items: center;
         }
         
-        .password-container {
-            background-color: #fefefe;
-            padding: 30px;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        .modal-content { 
+            background: #f8f9fa; 
+            width: 95%; 
+            max-width: 1400px; 
+            height: 90vh; 
+            max-height: 900px; 
+            border-radius: 12px; 
+            display: flex; 
+            flex-direction: column; 
+            overflow: hidden; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: relative;
         }
-        
-        .password-title {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: #333;
+
+        .modal-header { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 15px 25px; background: white; border-bottom: 1px solid #ddd; flex-shrink: 0; 
         }
+        .modal-title { font-size: 20px; color: #333; font-weight: bold; }
         
-        .password-input {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-            text-align: center;
+        .close-btn { background: none; border: none; font-size: 28px; cursor: pointer; color: #777; line-height: 1; transition: 0.2s; }
+        .close-btn:hover { color: #777; }
+        
+        .activity-body {
+            flex: 1; 
+            display: flex; 
+            flex-direction: column; 
+            padding: 20px; 
+            gap: 20px; 
+            overflow-y: auto; 
+            overflow-x: hidden; 
         }
-        
-        .password-btn {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            width: 100%;
+
+        .filters-wrapper { display: flex; justify-content: center; gap: 10px; flex-shrink: 0; }
+        .filter-pill {
+            background: white; border: 1px solid #ccc; padding: 6px 25px;
+            border-radius: 20px; cursor: pointer; font-size: 14px; color: #555; transition: 0.2s;
         }
-        
-        .password-btn:hover {
-            background-color: #0056b3;
+        .filter-pill.active { background: #007bff; color: white; border-color: #007bff; box-shadow: 0 2px 5px rgba(0,123,255,0.3); }
+
+        .kpi-row { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 15px; 
+            flex-shrink: 0; 
         }
-        
-        .error-message {
-            color: red;
-            margin-top: 10px;
-            display: none;
+        .kpi-card {
+            background: white; padding: 15px; border-radius: 10px; border: 1px solid #e0e0e0;
+            text-align: center; display: flex; flex-direction: column; justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
         }
-        
-        /* Loading Spinner */
-        .loading-spinner {
-            display: flex;
-            position: fixed;
-            z-index: 9998;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: white;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+        .kpi-val { font-size: 1.6em; font-weight: bold; color: #2c3e50; line-height: 1.2; margin-bottom: 5px; }
+        .kpi-lbl { font-size: 14px; color: #7f8c8d; }
+
+        .charts-row { 
+            display: flex; 
+            gap: 15px; 
+            flex-wrap: wrap; 
         }
-        
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #007bff;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 15px;
+        .chart-wrapper {
+            background: white; border-radius: 10px; border: 1px solid #e0e0e0; padding: 15px;
+            display: flex; flex-direction: column;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            min-width: 0; 
+            overflow: hidden;
         }
+        .chart-title-sm { font-size: 16px; font-weight: bold; color: #555; text-align: center; margin-bottom: 10px; }
         
-        .loading-text {
-            font-size: 18px;
-            color: #333;
-            margin-top: 15px;
+        .canvas-container { 
+            position: relative; 
+            width: 100%; 
+            height: 300px; 
+            overflow: hidden; 
         }
+
+        .truncate-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; display: block; direction: rtl; }
+
+        .password-modal { display: flex; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); justify-content: center; align-items: center; }
+        .password-container { background-color: #fefefe; padding: 30px; border-radius: 10px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .password-title { font-size: 24px; margin-bottom: 20px; color: #333; }
+        .password-input { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 5px; font-size: 16px; text-align: center; }
+        .password-btn { background-color: #007bff; color: white; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; width: 100%; }
+        .password-btn:hover { background-color: #0056b3; }
+        .error-message { color: red; margin-top: 10px; display: none; }
+        .loading-spinner { display: flex; position: fixed; z-index: 9998; left: 0; top: 0; width: 100%; height: 100%; background-color: white; justify-content: center; align-items: center; flex-direction: column; }
+        .spinner { width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid #007bff; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; }
+        .loading-text { font-size: 18px; color: #333; margin-top: 15px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        /* Media Queries */
+        @media (max-width: 992px) {
+            .kpi-row { grid-template-columns: repeat(2, 1fr); } 
         }
-        
+
         @media (max-width: 768px) {
-            .header-title {
-                font-size: 22px;
-            }
+            .header-title { font-size: 22px; } .header-subtitle { font-size: 18px; }
+            .activity-btn, .gifts-btn { font-size: 14px; padding: 8px 16px; }
+            table { font-size: 12px; } th, td { padding: 6px; }
             
-            .header-subtitle {
-                font-size: 18px;
-            }
+            .modal-content { height: 95vh; width: 95%; }
+            .charts-row { flex-direction: column; } 
+            .chart-wrapper { width: 100% !important; margin-bottom: 15px; }
+            .canvas-container { height: 250px; }
             
-            .activity-btn {
-                font-size: 14px;
-                padding: 8px 16px;
-            }
-            
-            table {
-                font-size: 12px;
-            }
-            
-            th, td {
-                padding: 6px;
-            }
+            .kpi-row { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .kpi-val { font-size: 1.2em; }
         }
     </style>
 </head>
 <body>
-    <!-- Loading Spinner -->
     <div id="loadingSpinner" class="loading-spinner">
         <div class="spinner"></div>
         <div class="loading-text">جاري التحميل...</div>
     </div>
 
-    <!-- Password Modal -->
     <div id="passwordModal" class="password-modal" style="display: none;">
         <div class="password-container">
             <h2 class="password-title">🔒 أدخل كلمة المرور</h2>
@@ -306,10 +171,12 @@
         </div>
     </div>
 
-    <!-- Main Content (Hidden by default) -->
     <div id="mainContent" style="display: none;">
         <div class="header">
-            <button class="activity-btn" onclick="openModal()">📊 نشاطتي</button>
+            <div class="header-actions">
+                <button class="activity-btn" onclick="openModal()">📊 نشاطي</button>
+                <button class="gifts-btn" onclick="openGiftsModal()">🎁 الجوائز (<span id="giftsCount">0</span>)</button>
+            </div>
             <div class="header-content">
                 <h1 class="header-title">سجل المشتريات</h1>
                 <h2 class="header-subtitle">إجمالي المبيعات: <span id="totalSales">0.00</span> جنيه</h2>
@@ -325,45 +192,90 @@
                         <th>الكمية</th>
                         <th>السعر الإجمالي</th>
                         <th>اسم المستخدم</th>
-                        <th>معلومات التوصيل</th>
+                        <th>معلومات توصيل المشتري</th>
+                        <th>معلومات التاجر</th>
                         <th>الخيارات</th>
                         <th>التوقيت</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <!-- سيتم إضافة صفوف المشتريات هنا -->
-                </tbody>
+                <tbody></tbody>
             </table>
         </div>
 
-        <!-- Modal للإحصائيات -->
+        <!-- Activity Modal -->
         <div id="activityModal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2 class="modal-title">📈 تحليل نشاط المبيعات</h2>
+                    <h2 class="modal-title">📈 لوحة النشاط</h2>
                     <button class="close-btn" onclick="closeModal()">×</button>
                 </div>
-                <div class="modal-body">
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-number" id="totalOrders">0</div>
-                            <div class="stat-label">إجمالي الطلبات</div>
+                
+                <div class="activity-body">
+                    <!-- Filters -->
+                    <div class="filters-wrapper">
+                        <button class="filter-pill" onclick="filterData('week', this)">7 أيام</button>
+                        <button class="filter-pill" onclick="filterData('month', this)">30 يوم</button>
+                        <button class="filter-pill active" onclick="filterData('all', this)">كل الوقت</button>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="kpi-row">
+                        <div class="kpi-card">
+                            <div class="kpi-val" id="totalOrders">0</div>
+                            <div class="kpi-lbl">الطلبات</div>
                         </div>
-                        <div class="stat-card">
-                            <div class="stat-number" id="totalRevenue">0</div>
-                            <div class="stat-label">إجمالي الإيرادات (جنيه)</div>
+                        <div class="kpi-card">
+                            <div class="kpi-val" id="totalRevenue" style="color: #28a745;">0</div>
+                            <div class="kpi-lbl">الإيرادات (ج.م)</div>
                         </div>
-                        <div class="stat-card">
-                            <div class="stat-number" id="avgOrderValue">0</div>
-                            <div class="stat-label">متوسط قيمة الطلب</div>
+                        <div class="kpi-card">
+                            <div class="kpi-val" id="avgOrderValue" style="color: #007bff;">0</div>
+                            <div class="kpi-lbl">متوسط الطلب</div>
                         </div>
-                        <div class="stat-card">
-                            <div class="stat-number" id="topProduct">—</div>
-                            <div class="stat-label">المنتج الأكثر مبيعاً</div>
+                        <div class="kpi-card">
+                            <div class="kpi-val truncate-text" id="topProduct" style="color: #6f42c1; padding: 0 5px;">—</div>
+                            <div class="kpi-lbl">الأكثر مبيعاً</div>
                         </div>
                     </div>
-                    <div class="chart-container">
-                        <canvas id="salesChart"></canvas>
+
+                    <!-- Charts Area -->
+                    <div class="charts-row">
+                        <div class="chart-wrapper" style="flex: 2;">
+                            <div class="chart-title-sm">المبيعات عبر الزمن</div>
+                            <div class="canvas-container">
+                                <canvas id="salesChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper" style="flex: 1;">
+                            <div class="chart-title-sm">توزيع المنتجات</div>
+                            <div class="canvas-container" style="display: flex; justify-content: center;">
+                                <canvas id="productsChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="giftsModal" class="modal" style="align-items: center; justify-content: center;">
+            <div class="modal-content" style="height: auto; max-height: 90vh; display: block; overflow-y: auto;">
+                <div class="modal-header">
+                    <h2 class="modal-title">🎁 سجل الجوائز المُستلمة</h2>
+                    <button class="close-btn" onclick="closeGiftsModal()">×</button>
+                </div>
+                <div class="modal-body" style="padding: 15px;">
+                    <div class="main-content" style="box-shadow: none; padding: 0;">
+                         <table id="giftsTable">
+                            <thead>
+                                <tr>
+                                    <th>صورة الجائزة</th>
+                                    <th>اسم الجائزة</th>
+                                    <th>معلومات الفائز والتوصيل</th>
+                                    <th>توقيت الاستلام</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -371,7 +283,6 @@
     </div>
 
     <script>
-        // تهيئة Firebase
         firebase.initializeApp({
             apiKey: "AIzaSyBkEIs1GP17POkhQd378yl0_2ZcPqYNiDM",
             authDomain: "buy-from-adger.firebaseapp.com",
@@ -382,240 +293,356 @@
             appId: "1:396020785601:web:yourWebAppID"
         });
 
-        // كلمة المرور الصحيحة
         const CORRECT_PASSWORD = "11523";
-        
-        // متغيرات عامة
-        let allPurchases = [];
+        let allPurchases = []; 
+        let filteredPurchases = [];
         let salesChart = null;
-        
-        // التحقق من وجود كلمة مرور محفوظة
+        let productsChart = null;
+        let currentFilter = 'all';
+
         function checkSavedPassword() {
-            const savedPassword = localStorage.getItem('savedPassword');
-            if (savedPassword === CORRECT_PASSWORD) {
-                // إخفاء دائرة التحميل مباشرة إذا كانت كلمة المرور محفوظة
+            if (localStorage.getItem('savedPassword') === CORRECT_PASSWORD) {
                 document.getElementById('loadingSpinner').style.display = 'none';
                 document.getElementById('mainContent').style.display = 'block';
                 loadContent();
+                loadGiftsData();
             } else {
-                // إخفاء دائرة التحميل وإظهار نموذج كلمة المرور
                 document.getElementById('loadingSpinner').style.display = 'none';
                 document.getElementById('passwordModal').style.display = 'flex';
             }
         }
         
-        // التحقق من كلمة المرور المدخلة
         function checkPassword() {
             const passwordInput = document.getElementById('passwordInput').value;
-            const errorMessage = document.getElementById('errorMessage');
-            
             if (passwordInput === CORRECT_PASSWORD) {
-                // حفظ كلمة المرور للجلسات القادمة
                 localStorage.setItem('savedPassword', passwordInput);
-                
-                // إخفاء نموذج كلمة المرور وإظهار المحتوى الرئيسي
                 document.getElementById('passwordModal').style.display = 'none';
                 document.getElementById('mainContent').style.display = 'block';
-                
-                // تحميل المحتوى
                 loadContent();
+                loadGiftsData();
             } else {
+                const errorMessage = document.getElementById('errorMessage');
                 errorMessage.style.display = 'block';
                 document.getElementById('passwordInput').value = '';
-                setTimeout(() => {
-                    errorMessage.style.display = 'none';
-                }, 3000);
+                setTimeout(() => { errorMessage.style.display = 'none'; }, 3000);
             }
         }
         
-        // تحميل المحتوى بعد المصادقة
         function loadContent() {
-            const database = firebase.database();
-            const purchasesRef = database.ref('purchases');
+            const purchasesRef = firebase.database().ref('purchases');
+            purchasesRef.on('value', (snapshot) => {
+                const purchases = snapshot.val() || {};
+                const purchasesArray = Object.values(purchases);
+                
+                allPurchases = purchasesArray;
+                updateMainTable(purchasesArray);
 
-            // جلب المشتريات مرة واحدة
-            purchasesRef.once('value', (snapshot) => {
-                const purchases = snapshot.val();
-                const tbody = document.querySelector('#purchasesTable tbody');
-                let totalSales = 0;
+                if(document.getElementById('activityModal').style.display === 'flex') {
+                    applyFilter(currentFilter);
+                }
+            });
+        }
 
-                if (!purchases) {
-                    const row = document.createElement('tr');
-                    row.innerHTML = '<td colspan="8" style="text-align: center;">لا توجد مشتريات بعد</td>';
-                    tbody.appendChild(row);
+        function updateMainTable(data) {
+            const tbody = document.querySelector('#purchasesTable tbody');
+            tbody.innerHTML = '';
+            let totalSales = 0;
+
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9" style="text-align: center;">لا توجد مشتريات بعد</td></tr>';
+                document.getElementById('totalSales').textContent = '0.00';
+                return;
+            }
+
+            const displayData = [...data].sort((a, b) => b.timestamp - a.timestamp);
+
+            displayData.forEach((purchase) => {
+                const pInfo = purchase.productInfo || {};
+                const pricing = purchase.pricing || {};
+                const buyerInfo = purchase.buyerInfo || {};
+                const deliveryDetails = purchase.deliveryDetails || (purchase.buyerInfo && purchase.buyerInfo.deliveryDetails) || {};
+                const merchantInfo = purchase.merchantInfo || {};
+
+                let options = '';
+                if (pInfo.color) options += `اللون: ${pInfo.color}<br>`;
+                if (pInfo.size) options += `المقاس: ${pInfo.size}<br>`;
+                if (pInfo.material) options += `المادة: ${pInfo.material}<br>`;
+                
+                const purchaseDate = new Date(purchase.timestamp);
+                const formattedTimestamp = `<span style="white-space: nowrap;">${purchaseDate.toLocaleDateString('ar-EG')}</span><br><span style="white-space: nowrap;">${purchaseDate.toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'})}</span>`;
+                
+                const buyerDeliveryHTML = `
+                    الاسم: ${deliveryDetails.name || ''}<br>
+                    الهاتف: ${deliveryDetails.phone || ''}<br>
+                    الإيميل: ${deliveryDetails.email || ''}<br>
+                    المحافظة: ${deliveryDetails.governorate || ''}<br>
+                    المدينة: ${deliveryDetails.city || ''}<br>
+                    الشارع: ${deliveryDetails.street || ''}<br>
+                    المعلم: ${deliveryDetails.landmark || ''}
+                `;
+                
+                const merchantDeliveryHTML = `
+                    الاسم: ${merchantInfo.name || ''}<br>
+                    الهاتف: ${merchantInfo.phone || ''}<br>
+                    الإيميل: ${merchantInfo.email || ''}<br>
+                    المحافظة: ${merchantInfo.governorate || ''}<br>
+                    المدينة: ${merchantInfo.city || ''}<br>
+                    الشارع: ${merchantInfo.street || ''}<br>
+                    المعلم: ${merchantInfo.landmark || ''}
+                `;
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${pInfo.name || 'N/A'}</td>
+                    <td>${pInfo.id || 'N/A'}</td>
+                    <td>${pInfo.quantity || 'N/A'}</td>
+                    <td>${(pricing.total || 0).toFixed(2)}</td>
+                    <td>${buyerInfo.username || 'N/A'}</td>
+                    <td>${buyerDeliveryHTML}</td>
+                    <td>${merchantDeliveryHTML}</td>
+                    <td>${options || 'لا يوجد'}</td>
+                    <td>${formattedTimestamp}</td>
+                `;
+                tbody.appendChild(row);
+                totalSales += (pricing.total || 0);
+            });
+            document.getElementById('totalSales').textContent = totalSales.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+        
+        function loadGiftsData() {
+            const giftsRef = firebase.database().ref('gift_claims');
+            giftsRef.on('value', (snapshot) => {
+                const gifts = snapshot.val() || {};
+                const tbody = document.querySelector('#giftsTable tbody');
+                tbody.innerHTML = '';
+                
+                const giftsArray = Object.values(gifts);
+                document.getElementById('giftsCount').textContent = giftsArray.length;
+
+                if (giftsArray.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align: center;">لا توجد جوائز مستلمة بعد</td></tr>';
                     return;
                 }
 
-                const purchasesArray = [];
-                for (const key in purchases) {
-                    purchasesArray.push({ id: key, ...purchases[key] });
-                }
-
-                allPurchases = purchasesArray;
-                purchasesArray.sort((a, b) => b.timestamp - a.timestamp);
-
-                purchasesArray.forEach((purchase) => {
-                    let options = '';
-                    if (purchase.color) options += `اللون: ${purchase.color}<br>`;
-                    if (purchase.size) options += `المقاس: ${purchase.size}<br>`;
-                    if (purchase.material) options += `المادة: ${purchase.material}<br>`;
+                giftsArray.sort((a, b) => b.timestamp - a.timestamp);
+                
+                giftsArray.forEach((gift) => {
+                    const claimDate = new Date(gift.timestamp);
+                    const formattedTimestamp = `<span style="white-space: nowrap;">${claimDate.toLocaleDateString('ar-EG')}</span><br><span style="white-space: nowrap;">${claimDate.toLocaleTimeString('ar-EG', {hour: '2-digit', minute: '2-digit'})}</span>`;
                     
-                    // --- بداية التعديل ---
-                    const purchaseDate = new Date(purchase.timestamp);
-                    const datePart = purchaseDate.toLocaleDateString('ar-EG', { year: 'numeric', month: 'numeric', day: 'numeric' });
-                    const timePart = purchaseDate.toLocaleTimeString('ar-EG', { hour: 'numeric', minute: '2-digit', hour12: true });
-                    
-                    // نغلف كل جزء بـ span مع خاصية تمنع انكسار السطر لضمان عدم انقسام السنة أو الوقت
-                    const formattedTimestamp = `<span style="white-space: nowrap;">${datePart}</span><br><span style="white-space: nowrap;">${timePart}</span>`;
-                    // --- نهاية التعديل ---
-
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                        <td>${purchase.productName}</td>
-                        <td>${purchase.productId}</td>
-                        <td>${purchase.quantity}</td>
-                        <td>${purchase.totalPrice.toFixed(2)}</td>
-                        <td>${purchase.username}</td>
-                        <td>
-                            الاسم: ${purchase.deliveryInfo.name}<br>
-                            الهاتف: ${purchase.deliveryInfo.phone}<br>
-                            الإيميل: ${purchase.deliveryInfo.email}<br>
-                            المحافظة: ${purchase.deliveryInfo.governorate}<br>
-                            المدينة: ${purchase.deliveryInfo.city}<br>
-                            الشارع: ${purchase.deliveryInfo.street}<br>
-                            المعلم: ${purchase.deliveryInfo.landmark}
-                        </td>
-                        <td>${options}</td>
+                        <td><img src="${gift.productImage}" alt="${gift.productName}" class="gift-image"></td>
+                        <td>${gift.productName}</td>
+                        <td>الاسم: ${gift.deliveryInfo.name}<br>الهاتف: ${gift.deliveryInfo.phone}<br>الإيميل: ${gift.deliveryInfo.email}<br>العنوان: ${gift.deliveryInfo.governorate}, ${gift.deliveryInfo.city}</td>
                         <td>${formattedTimestamp}</td>
                     `;
                     tbody.appendChild(row);
-                    totalSales += purchase.totalPrice;
                 });
-
-                // تعديل عرض إجمالي المبيعات لإضافة فواصل الآلاف
-                document.getElementById('totalSales').textContent = totalSales.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             });
         }
-
-        // فتح نافذة الإحصائيات
-        function openModal() {
-            document.getElementById('activityModal').style.display = 'block';
-            generateStatistics();
-            createChart();
+        
+        function truncateText(text, length) {
+            if (!text) return '';
+            if (text.length <= length) return text;
+            return text.substring(0, length) + '...';
         }
 
-        // إغلاق نافذة الإحصائيات
-        function closeModal() {
-            document.getElementById('activityModal').style.display = 'none';
-            if (salesChart) {
-                salesChart.destroy();
-                salesChart = null;
+        // --- وظائف نافذة النشاط ---
+        
+        function openModal() { 
+            document.body.classList.add('modal-open'); 
+            const modal = document.getElementById('activityModal');
+            modal.style.display = 'flex'; 
+            
+            setTimeout(() => {
+                const allTimeBtn = document.querySelectorAll('.filter-pill')[2];
+                filterData('all', allTimeBtn);
+            }, 10);
+        }
+        
+        function closeModal() { 
+            document.body.classList.remove('modal-open'); 
+            document.getElementById('activityModal').style.display = 'none'; 
+            if (salesChart) { salesChart.destroy(); salesChart = null; }
+            if (productsChart) { productsChart.destroy(); productsChart = null; }
+        }
+        
+        function openGiftsModal() { 
+            document.body.classList.add('modal-open');
+            const modal = document.getElementById('giftsModal');
+            modal.style.display = 'flex';
+        }
+        function closeGiftsModal() { 
+            document.body.classList.remove('modal-open');
+            document.getElementById('giftsModal').style.display = 'none'; 
+        }
+
+        function filterData(range, btnElement) {
+            currentFilter = range;
+            if(btnElement) {
+                document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+                btnElement.classList.add('active');
             }
+            applyFilter(range);
         }
 
-        // توليد الإحصائيات
-        function generateStatistics() {
-            if (allPurchases.length === 0) return;
+        function applyFilter(range) {
+            const now = new Date();
+            let cutoff = 0;
 
-            const totalOrders = allPurchases.length;
-            const totalRevenue = allPurchases.reduce((sum, p) => sum + p.totalPrice, 0);
-            const avgOrderValue = totalRevenue / totalOrders;
+            if (range === 'week') {
+                cutoff = now.getTime() - (7 * 24 * 60 * 60 * 1000);
+            } else if (range === 'month') {
+                cutoff = now.getTime() - (30 * 24 * 60 * 60 * 1000);
+            } else {
+                cutoff = 0;
+            }
 
+            if (!allPurchases || allPurchases.length === 0) {
+                filteredPurchases = [];
+            } else {
+                filteredPurchases = allPurchases.filter(p => {
+                    const ts = p.timestamp || 0;
+                    return ts >= cutoff;
+                });
+            }
+            
+            updateActivity();
+        }
+
+        function updateActivity() {
+            const totalOrders = filteredPurchases.length;
+            const totalRevenue = filteredPurchases.reduce((sum, p) => sum + (p.pricing?.total || 0), 0);
+            const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+            
             const productSales = {};
-            allPurchases.forEach(p => {
-                productSales[p.productName] = (productSales[p.productName] || 0) + p.quantity;
+            filteredPurchases.forEach(p => {
+                const name = p.productInfo?.name;
+                if (name) {
+                    productSales[name] = (productSales[name] || 0) + (p.productInfo.quantity || 1);
+                }
             });
-            const topProduct = Object.keys(productSales).reduce((a, b) => 
-                productSales[a] > productSales[b] ? a : b, '—'
-            );
+
+            let topProduct = '—';
+            let maxQty = 0;
+            for(let [name, qty] of Object.entries(productSales)){
+                if(qty > maxQty){ maxQty = qty; topProduct = name; }
+            }
 
             document.getElementById('totalOrders').textContent = totalOrders;
-            document.getElementById('totalRevenue').textContent = totalRevenue.toFixed(2);
-            document.getElementById('avgOrderValue').textContent = avgOrderValue.toFixed(2);
-            document.getElementById('topProduct').textContent = topProduct;
+            document.getElementById('totalRevenue').textContent = totalRevenue.toLocaleString('en-US', {minimumFractionDigits: 2});
+            document.getElementById('avgOrderValue').textContent = avgOrderValue.toLocaleString('en-US', {minimumFractionDigits: 1});
+            
+            const topProdEl = document.getElementById('topProduct');
+            topProdEl.textContent = truncateText(topProduct, 25);
+            topProdEl.title = topProduct;
+
+            renderCharts(productSales);
         }
 
-        // إنشاء الرسم البياني
-        function createChart() {
-            if (allPurchases.length === 0) return;
+        function renderCharts(productSalesData) {
+            if (salesChart) { salesChart.destroy(); salesChart = null; }
+            if (productsChart) { productsChart.destroy(); productsChart = null; }
 
-            const ctx = document.getElementById('salesChart').getContext('2d');
-            
+            const ctx1 = document.getElementById('salesChart').getContext('2d');
             const salesByDate = {};
-            allPurchases.forEach(purchase => {
-                const date = new Date(purchase.timestamp).toLocaleDateString('ar-EG');
-                salesByDate[date] = (salesByDate[date] || 0) + purchase.totalPrice;
+            
+            filteredPurchases.forEach(purchase => {
+                let d = new Date(purchase.timestamp || Date.now());
+                if(!isNaN(d.getTime())) {
+                    const dateKey = d.toLocaleDateString('en-CA');
+                    salesByDate[dateKey] = (salesByDate[dateKey] || 0) + (purchase.pricing?.total || 0);
+                }
             });
-
-            const sortedDates = Object.keys(salesByDate).sort((a, b) => 
-                new Date(a.split('/').reverse().join('-')) - new Date(b.split('/').reverse().join('-'))
-            );
-
+            
+            const sortedDates = Object.keys(salesByDate).sort();
+            const formattedLabels = sortedDates.map(date => new Date(date).toLocaleDateString('ar-EG', {month:'short', day:'numeric'}));
             const salesData = sortedDates.map(date => salesByDate[date]);
 
-            if (salesChart) {
-                salesChart.destroy();
-            }
+            // الحل الجذري: استخدام رقم كبير جداً (2000) بدلاً من 300 أو 400
+            // هذا يضمن أن التدرج يغطي الشاشات عالية الدقة (High DPI / Retina)
+            let gradient = ctx1.createLinearGradient(0, 0, 0, 2000);
+            gradient.addColorStop(0, 'rgba(0, 123, 255, 0.4)');
+            gradient.addColorStop(1, 'rgba(0, 123, 255, 0.0)');
 
-            salesChart = new Chart(ctx, {
+            salesChart = new Chart(ctx1, {
                 type: 'line',
                 data: {
-                    labels: sortedDates,
+                    labels: formattedLabels,
                     datasets: [{
-                        label: 'المبيعات اليومية (جنيه)',
+                        label: 'المبيعات',
                         data: salesData,
                         borderColor: '#007bff',
-                        backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                        backgroundColor: gradient,
                         borderWidth: 2,
-                        fill: true,
-                        tension: 0.4
+                        fill: 'start', 
+                        tension: 0.4,
+                        pointRadius: 3
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'تطور المبيعات عبر الوقت',
-                            font: {
-                                size: 18,
-                                weight: 'bold'
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
+                    plugins: { legend: { display: false } },
+                    scales: { 
+                        y: { beginAtZero: true, grid: { borderDash: [5, 5] }, ticks: { font: {size: 11} } }, 
+                        x: { grid: { display: false }, ticks: { font: {size: 11} } } 
                     }
                 }
             });
-        }
 
-        // إغلاق النافذة عند النقر خارجها
-        window.onclick = function(event) {
-            const modal = document.getElementById('activityModal');
-            if (event.target === modal) {
-                closeModal();
+            const ctx2 = document.getElementById('productsChart').getContext('2d');
+            let sortedProducts = Object.entries(productSalesData).sort((a, b) => b[1] - a[1]);
+            let finalLabels = [];
+            let finalData = [];
+            let otherCount = 0;
+
+            sortedProducts.forEach((item, index) => {
+                if(index < 5) {
+                    finalLabels.push(truncateText(item[0], 12));
+                    finalData.push(item[1]);
+                } else {
+                    otherCount += item[1];
+                }
+            });
+
+            if(otherCount > 0) {
+                finalLabels.push('أخرى');
+                finalData.push(otherCount);
             }
-        }
-
-        // عند تحميل الصفحة، التحقق من كلمة المرور المحفوظة
-        document.addEventListener('DOMContentLoaded', function() {
-            // إظهار دائرة التحميل أولاً
-            document.getElementById('loadingSpinner').style.display = 'flex';
             
-            // بعد تأخير بسيط (لإظهار تأثير التحميل)، التحقق من كلمة المرور
-            setTimeout(checkSavedPassword, 500);
-        });
+            let bgColors = ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b', '#858796'];
+            
+            productsChart = new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: finalLabels,
+                    datasets: [{
+                        data: finalData,
+                        backgroundColor: bgColors,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '65%',
+                    plugins: {
+                        legend: { position: 'right', labels: { boxWidth: 10, font: {size: 11} } }
+                    },
+                    layout: { padding: 0 }
+                }
+            });
+        }
         
-        // السماح بإدخال كلمة المرور بالضغط على زر Enter
-        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                checkPassword();
-            }
-        });
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('activityModal')) { closeModal(); }
+            if (event.target == document.getElementById('giftsModal')) { closeGiftsModal(); }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => { document.getElementById('loadingSpinner').style.display = 'flex'; setTimeout(checkSavedPassword, 500); });
+        document.getElementById('passwordInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') { checkPassword(); } });
     </script>
 </body>
 </html>

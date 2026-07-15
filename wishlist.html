@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قائمة الرغبات</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap');
+
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #1a202c;
+            --danger-color: #e53e3e;
+            --light-gray: #f7fafc;
+            --border-color: #e2e8f0;
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            --card-hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding-top: 75px;
+            background-color: var(--light-gray);
+            color: var(--secondary-color);
+            transition: background-color 0.3s;
+        }
+
+        body.selection-mode {
+            background-color: #eef2f7;
+        }
+
+        .header {
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: saturate(180%) blur(10px);
+            padding: 0 25px;
+            height: 75px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+            border-bottom: 1px solid var(--border-color);
+            position: fixed;
+            top: 0; right: 0; left: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .header-section {
+            display: flex;
+            align-items: center;
+            gap: 15px; 
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 800;
+        }
+        
+        .back-arrow {
+            color: var(--secondary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s ease;
+        }
+        .back-arrow:hover { color: var(--primary-color); }
+        .back-arrow svg { width: 28px; height: 28px; }
+
+        .header-actions button {
+            border: none;
+            font-family: 'Cairo', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 10px 20px;
+            border-radius: 10px;
+            transition: all 0.2s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        #select-btn { 
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 14px rgba(0, 123, 255, 0.25);
+            display: none; 
+        }
+        #select-btn:hover { 
+            background-color: #0069d9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 123, 255, 0.3);
+        }
+
+        #cancel-btn { 
+            background-color: transparent;
+            color: #555;
+            border: 2px solid var(--border-color);
+        }
+        #cancel-btn:hover { background-color: #f1f1f1; }
+
+        #delete-btn { 
+            background-color: var(--danger-color);
+            color: white;
+            box-shadow: 0 4px 14px rgba(229, 62, 62, 0.25);
+        }
+        #delete-btn:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(229, 62, 62, 0.3);
+        }
+        #delete-btn:disabled { 
+            background-color: #e2e8f0;
+            color: #a0aec0;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+        #delete-btn svg { width: 18px; height: 18px; }
+        
+        #delete-btn,
+        #cancel-btn {
+            display: none;
+        }
+        
+        body.selection-mode #select-btn {
+            display: none !important; 
+        }
+        body.selection-mode #delete-btn,
+        body.selection-mode #cancel-btn {
+            display: flex; 
+        }
+
+        #wishlist-container {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 75px - 60px);
+            box-sizing: border-box;
+        }
+
+        .wishlist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 320px));
+            gap: 30px;
+            justify-content: center;
+            width: 100%;
+            align-self: flex-start;
+        }
+
+        .product-card {
+            background-color: #fff;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            position: relative;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+        
+        body:not(.selection-mode) .product-card { cursor: pointer; }
+        body:not(.selection-mode) .product-card:hover {
+            box-shadow: var(--card-hover-shadow);
+            transform: translateY(-5px);
+        }
+
+        .product-card.selected {
+            outline: 3px solid var(--primary-color);
+            outline-offset: -3px;
+            box-shadow: var(--card-hover-shadow);
+        }
+
+        .product-image-container {
+            aspect-ratio: 1 / 1;
+            background-color: #fff;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-category {
+            font-size: 14px;
+            font-weight: 600;
+            color: #ffc400;
+            margin-bottom: 8px;
+        }
+        
+        .selection-overlay {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255, 255, 255, 0.2);
+            display: none; align-items: flex-start; justify-content: flex-start;
+            padding: 15px; cursor: pointer;
+        }
+        body.selection-mode .selection-overlay { display: flex; }
+
+        .checkbox-icon {
+            width: 28px; height: 28px; border: 2px solid rgba(0,0,0,0.2);
+            background-color: rgba(255,255,255,0.8); border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .product-card.selected .checkbox-icon { background-color: var(--primary-color); border-color: var(--primary-color); }
+        .checkbox-icon svg {
+            width: 20px; height: 20px; color: white; opacity: 0; transform: scale(0.5);
+            transition: all 0.2s ease;
+        }
+        .product-card.selected .checkbox-icon svg { opacity: 1; transform: scale(1); }
+
+        .product-info { padding: 20px; text-align: right; flex-grow: 1; display: flex; flex-direction: column; }
+        
+        .product-card h2 { 
+            font-size: 18px; 
+            margin: 0 0 15px 0; 
+            line-height: 1.5; 
+            font-weight: 700; 
+            flex-grow: 1; 
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .product-price { font-size: 26px; font-weight: 800; }
+        .product-price span { font-size: 16px; font-weight: 600; margin-right: 5px; }
+        
+        .product-discount-text {
+            color: var(--danger-color);
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .empty-wishlist-container {
+            padding: 50px 30px;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .empty-wishlist-container svg {
+            color: var(--primary-color);
+            width: 100px;
+            height: 100px;
+            margin-bottom: 25px;
+            animation: pulse 2.5s infinite ease-in-out;
+        }
+
+        .empty-wishlist-container h2 {
+            font-size: 28px;
+            font-weight: 800;
+            margin: 0 0 15px 0;
+            color: var(--secondary-color);
+        }
+
+        .empty-wishlist-container p {
+            font-size: 17px;
+            color: #718096;
+            line-height: 1.7;
+            margin: 0 0 30px 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
+            padding: 14px 40px;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 14px rgba(0, 123, 255, 0.25);
+        }
+
+        .cta-button:hover {
+            background-color: #0069d9;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 123, 255, 0.3);
+        }
+
+        @media (max-width: 767px) {
+            body { padding-top: 65px; }
+            .header { height: 65px; padding: 0 15px; }
+            .header h1 { font-size: 20px; }
+            .header-actions button { padding: 8px 12px; font-size: 14px; }
+            #wishlist-container { padding: 20px 10px; min-height: calc(100vh - 65px - 40px); }
+            .wishlist-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+            .product-info { padding: 15px; }
+            .product-card h2 { font-size: 15px; margin-bottom: 10px; }
+            .product-price { font-size: 20px; }
+            .empty-wishlist-container { margin-top: 0; padding: 40px 20px; }
+            .empty-wishlist-container h2 { font-size: 22px; }
+            .empty-wishlist-container p { font-size: 15px; }
+            .cta-button { font-size: 16px; padding: 12px 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-section">
+            <a href="javascript:history.back()" class="back-arrow" aria-label="الرجوع للخلف">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+            <h1>قائمة الرغبات</h1>
+        </div>
+
+        <div class="header-section header-actions">
+            <button id="select-btn">تحديد</button>
+            <button id="delete-btn" disabled>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                حذف (<span id="selected-count">0</span>)
+            </button>
+            <button id="cancel-btn">إلغاء</button>
+        </div>
+    </header>
+
+    <main id="wishlist-container"></main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('wishlist-container');
+            const selectBtn = document.getElementById('select-btn');
+            const cancelBtn = document.getElementById('cancel-btn');
+            const deleteBtn = document.getElementById('delete-btn');
+            const selectedCountSpan = document.getElementById('selected-count');
+            const headerTitle = document.querySelector('.header h1');
+            const body = document.body;
+            let isSelectionModeActive = false;
+            let selectedItems = new Set();
+
+            function loadWishlist() {
+                container.innerHTML = '';
+                
+                const wishlist = JSON.parse(localStorage.getItem('favorites')) || [];
+                
+                headerTitle.textContent = `قائمة الرغبات (${wishlist.length})`;
+
+                if (wishlist.length === 0) {
+                    selectBtn.style.display = 'none'; // <-- هذا هو السطر الذي تم إضافته لحل المشكلة
+                    const emptyStateHTML = `
+                        <div class="empty-wishlist-container">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                            </svg>
+                            <h2>قائمة رغباتك فارغة بعد!</h2>
+                            <p>اكتشف منتجات رائعة وأضفها هنا بالضغط على أيقونة القلب لتعود إليها لاحقًا.</p>
+                            <a href="index.html" class="cta-button">ابدأ التسوق</a>
+                        </div>
+                    `;
+                    container.innerHTML = emptyStateHTML;
+                    return;
+                }
+                selectBtn.style.display = 'flex'; 
+                
+                const grid = document.createElement('div');
+                grid.className = 'wishlist-grid';
+
+                wishlist.forEach(product => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.dataset.link = product.link;
+                    
+                    const formattedPrice = Number(product.price).toFixed(2);
+                    
+                    const discountTextElement = product.discount ? `<div class="product-discount-text">${product.discount}</div>` : '';
+                    const categoryElement = product.sold ? `<div class="product-category">${product.sold}</div>` : '';
+
+                    card.innerHTML = `
+                        <div class="product-image-container">
+                            <img src="${product.image}" alt="${product.name}" loading="lazy">
+                            <div class="selection-overlay">
+                                <div class="checkbox-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            ${categoryElement}
+                            <h2>${product.name}</h2>
+                            <div class="product-price">${formattedPrice}<span>جنيه</span></div>
+                            ${discountTextElement}
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+                
+                container.appendChild(grid);
+                addCardEventListeners();
+            }
+
+            function enterSelectionMode() { isSelectionModeActive = true; body.classList.add('selection-mode'); }
+            function exitSelectionMode() { isSelectionModeActive = false; body.classList.remove('selection-mode'); selectedItems.clear(); document.querySelectorAll('.product-card.selected').forEach(card => card.classList.remove('selected')); updateSelectedCount(); }
+            function updateSelectedCount() { selectedCountSpan.textContent = selectedItems.size; deleteBtn.disabled = selectedItems.size === 0; }
+            function toggleSelection(card) { const link = card.dataset.link; if (selectedItems.has(link)) { selectedItems.delete(link); card.classList.remove('selected'); } else { selectedItems.add(link); card.classList.add('selected'); } updateSelectedCount(); }
+            function handleCardClick(event) { const card = event.currentTarget; if (isSelectionModeActive) { toggleSelection(card); } else { window.location.href = card.dataset.link; } }
+            function addCardEventListeners() { document.querySelectorAll('.product-card').forEach(card => { card.addEventListener('click', handleCardClick); }); }
+            function deleteSelected() { if (selectedItems.size === 0) return; let wishlist = JSON.parse(localStorage.getItem('favorites')) || []; const updatedWishlist = wishlist.filter(item => !selectedItems.has(item.link)); localStorage.setItem('favorites', JSON.stringify(updatedWishlist)); exitSelectionMode(); loadWishlist(); }
+
+            selectBtn.addEventListener('click', enterSelectionMode);
+            cancelBtn.addEventListener('click', exitSelectionMode);
+            deleteBtn.addEventListener('click', deleteSelected);
+
+            loadWishlist();
+        });
+    </script>
+
+</body>
+</html>

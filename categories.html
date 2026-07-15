@@ -3,384 +3,430 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adger</title>
-    <link rel="icon" href="logo.jpg" type="image/x-icon">
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <title>Adger - الفئات</title>
+    <link rel="icon" href="https://i.postimg.cc/8CKxL3B8/logo.jpg" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --header-height: 66px;
+            --sidebar-width: 100px;
+            --primary-color: #8c00ff;
+            --secondary-color: #00e0ff;
+            --content-bg: #f4f5f7;
+            --text-color: #333;
+            --text-light-color: #666;
+            --border-color: #eef0f3;
+        }
+
+        /* --- Global & Animations --- */
+        html {
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+        
+        body, div, main, h2, h3, img, span, p {
+            box-sizing: inherit;
+        }
+        
+        .menu-item {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--content-bg);
+            overflow: hidden;
         }
+        
+        @keyframes shimmer {
+            100% { transform: translateX(100%); }
+        }
+
+        /* --- Page Loader --- */
+        .page-loader-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - var(--header-height) - 50px);
+            width: 100%;
+        }
+        .dots-loader {
+            display: flex; position: relative; width: 60px; justify-content: center; align-items: center;
+        }
+        .dots-loader .dot {
+            width: 20px; height: 20px; border-radius: 50%; position: absolute;
+        }
+        .dots-loader .dot1 {
+            background-color: var(--primary-color);
+            animation: tiktok-dots-loader 1.2s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+        }
+        .dots-loader .dot2 {
+            background-color: var(--secondary-color);
+            animation: tiktok-dots-loader 1.2s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+            animation-delay: -0.6s;
+        }
+        @keyframes tiktok-dots-loader {
+            0%, 100% { transform: translateX(-15px) scale(0.8); }
+            50% { transform: translateX(15px) scale(1.2); }
+        }
+
+        /* --- Sidebar --- */
         .sidebar {
-            width: 100px;
-            height: 100vh;
-            background-color: #333; 
-            color: white;
-            text-align: center;
+            width: var(--sidebar-width);
+            height: calc(100vh - var(--header-height));
+            background-color: #2c2c2c;
             position: fixed;
-            top: 66px;
+            top: var(--header-height);
             right: 0;
+            overflow-y: auto;
+            padding-top: 15px;
+            border-left: 1px solid #444;
         }
         .menu-item {
-            padding: 20px;
-            cursor: pointer;
+            padding: 15px 5px; cursor: pointer; font-size: 14px;
+            color: white; text-align: center; user-select: none;
+            border-right: 4px solid transparent;
         }
-        .menu-item:hover {
-            background-color: #7474743b;
-        }
+        .menu-item:hover { background-color: rgba(255, 255, 255, 0.1); }
         .menu-item.active {
-            background-color: #8c00ff;
-            border-radius: 1px;
+            font-weight: 700;
+            border-right: 4px solid var(--primary-color);
+            background-color: rgba(255, 255, 255, 0.1);
         }
-        .content {
-            display: none;
+        .menu-item-placeholder {
+            height: 30px; width: 70px; margin: 0 auto 20px;
+            border-radius: 6px; position: relative; overflow: hidden;
+            background-color: #4a4a4a;
+        }
+        .menu-item-placeholder::after {
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%; transform: translateX(-100%);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shimmer 1.5s infinite;
+        }
+
+        /* --- Content Area --- */
+        .content-area {
             position: fixed;
-            top: 66px;
-            right: 100px;
-            width: calc(100% - 100px);
-            height: 100vh;
-            background-color: #f4f4f4;
-            padding: 20px;
-            box-sizing: border-box;
+            top: var(--header-height);
+            right: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            height: calc(100vh - var(--header-height));
+            padding: 20px; 
             overflow-y: auto;
+            background-color: #f0f0f0; 
         }
-        .circle-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, auto));
-            gap: 20px;
-            justify-content: start;
-            margin-top: 0;
-            margin-bottom: 66px;
-        }
-        .circle {
-            text-align: center;
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            cursor: pointer;
-        }
-        .circle img {
-            width: 100%;
-            height: 100%;
-            max-width: 150px;
-            max-height: 150px;
-            border-radius: 50%;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            background-color: rgba(255, 255, 255, 0.8);
-            object-fit: cover;
-        }
-        .circle img:hover {
-            transform: scale(1.05);
-        }
-        .circle p, .circle h1 {
-            margin: 0;
-            font-size: 16px;
-        }
-        .producte {
-            font-size: 11px;
-            color: #000;
-            font-family: Cairo, sans-serif;
-            cursor: pointer;
-        }
-        .category-title {
+        .content { display: none; }
+        
+        .category-header {
             font-size: 19px;
             font-family: Cairo, sans-serif;
             color: #333;
             text-align: right;
-            margin: 10px 20px;
-            margin-top: -8px;
+            margin: -8px 20px 20px 20px; 
+        }
+        .header-main-text, .header-category-name {
+            display: none;
         }
 
-        /* Responsive adjustments */
+        /* --- Product Grid & Card Styling --- */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 20px;
+            justify-content: start;
+            margin-bottom: 10px;
+        }
+        
+        .product-card {
+            text-align: center;
+            cursor: pointer;
+        }
+        .image-wrapper {
+            position: relative; width: 100%; aspect-ratio: 1 / 1;
+            border-radius: 50%; margin-bottom: 10px; overflow: hidden;
+            background-color: #ffffff;
+            transition: transform 0.3s ease;
+        }
+        .image-wrapper.more-card-wrapper {
+            background-color: transparent;
+        }
+        .product-card img {
+            width: 100%; height: 100%; object-fit: cover;
+            opacity: 0; 
+            transition: opacity 0.5s ease;
+        }
+        .product-card:hover .image-wrapper {
+            transform: scale(1.05); 
+        }
+        .product-card img.loaded { opacity: 1; }
+        
+        .product-name {
+            display: block; width: 100%;
+            margin: 0 0 5px 0;
+            font-size: 16px;
+            color: var(--text-color); font-weight: 600;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .product-price {
+            margin: 0;
+            font-size: 11px;
+            color: #000;
+            font-family: Cairo, sans-serif;
+        }
+
+        /* --- Scroll Up Indicator --- */
+        .scroll-indicator {
+            text-align: center;
+            padding-top: 25px; /* تم فصل الحشوة العلوية */
+            padding-bottom: 25px; /* تم فصل الحشوة السفلية */
+            color: #888;
+        }
+        .scroll-indicator .indicator-line {
+            border: 0;
+            height: 1px;
+            background-color: #e0e0e0;
+            margin-bottom: 25px;
+            margin-right: -20px; 
+            margin-left: -20px; 
+        }
+        .scroll-indicator .arrow-circle {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .scroll-indicator .arrow-circle svg {
+            width: 20px;
+            height: 20px;
+            stroke: #aaa;
+        }
+        .scroll-indicator .indicator-text {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* --- Responsive Design --- */
         @media (max-width: 769px) {
-            .category-title { font-size: 16px; margin-right: -4px; }
-            .circle-container { grid-template-columns: repeat(auto-fit, minmax(100px, auto)); }
-            .circle img { max-width: 120px; max-height: 120px; }
-            .circle p, .circle h1 { font-size: 14px; }
+            .category-header { font-size: 16px; margin-right: -4px; }
+            .products-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
+            .product-name, .product-price { font-size: 14px; }
+
+            /* **تعديل جديد وحاسم**: تقليل المسافة أسفل شبكة المنتجات في الهواتف */
+            .products-grid {
+                margin-bottom: 10px;
+            }
+
+            .scroll-indicator {
+                /* **تعديل جديد وحاسم**: تقليل المسافة العلوية بشكل أكبر */
+                padding-top: 5px;
+                padding-bottom: 20px;
+            }
+
+            .scroll-indicator .indicator-line {
+                margin-bottom: 20px;
+            }
+            .scroll-indicator .arrow-circle {
+                width: 35px;
+                height: 35px;
+                margin-bottom: 10px;
+            }
+            .scroll-indicator .indicator-text {
+                font-size: 12px;
+            }
         }
         @media (max-width: 499px) {
-            .circle-container { grid-template-columns: repeat(auto-fit, minmax(80px, auto)); }
-            .circle img { max-width: 80px; max-height: 80px; }
-            .circle p, .circle h1 { font-size: 12px; }
+            .products-grid { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); }
+            .product-name, .product-price { font-size: 12px; }
         }
         @media (min-width: 1024px) {
-            .circle-container { grid-template-columns: repeat(auto-fit, minmax(150px, auto)); }
-            .circle img { max-width: 180px; max-height: 180px; }
-            .circle p, .circle h1 { font-size: 18px; }
+            .products-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+            .product-name, .product-price { font-size: 18px; }
         }
         @media (min-width: 1200px) {
-            .circle-container { grid-template-columns: repeat(auto-fit, minmax(180px, auto)); }
-            .circle img { max-width: 200px; max-height: 200px; }
-            .circle p, .circle h1 { font-size: 20px; }
+            .products-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+            .product-name, .product-price { font-size: 20px; }
         }
     </style>
 </head>
 <body>
+    <div class="sidebar" id="sidebar">
+        <div class="menu-item-placeholder"></div><div class="menu-item-placeholder"></div><div class="menu-item-placeholder"></div><div class="menu-item-placeholder"></div><div class="menu-item-placeholder"></div>
+    </div>
 
-    <!-- Sidebar Menu -->
-    <div class="sidebar">
-        <div class="menu">
-            <div class="menu-item active" onclick="showContent('tech')">التكنولوجيا</div>
-            <div class="menu-item" onclick="showContent('home')">البيت</div>
-            <div class="menu-item" onclick="showContent('fashion')">أزياء</div>
-            <div class="menu-item" onclick="showContent('books')">كتب</div>
-            <div class="menu-item" onclick="showContent('art')">الفن</div>
-            <div class="menu-item" onclick="showContent('gaming')">الألعاب</div>
-            <div class="menu-item" onclick="showContent('lighting')">الإضاءة</div>
-            <div class="menu-item" onclick="showContent('office')">مستلزمات مكتبية</div>
-            <div class="menu-item" onclick="showContent('spare')">قطع غيار</div>
+    <main id="main-content" class="content-area">
+        <div id="page-loader" class="page-loader-container">
+            <div class="dots-loader"><span class="dot dot1"></span><span class="dot dot2"></span></div>
         </div>
-    </div>
+    </main>
 
-    <!-- Technology Section -->
-    <div class="content active" id="tech-content">
-        <div class="category-title">التسوق حسب الفئة</div>
-        <div class="circle-container"></div>
-    </div>
-
-    <!-- Home Section -->
-    <div class="content" id="home-content">
-        <div class="category-title">التسوق حسب الفئة</div>
-        <div class="circle-container"></div>
-    </div>
-
-    <!-- Fashion Section -->
-    <div class="content" id="fashion-content">
-        <div class="category-title">التسوق حسب الفئة</div>
-        <div class="circle-container"></div>
-    </div>
-
-    <!-- Books Section -->
-    <div class="content" id="books-content">
-        <div class="category-title">التسوق حسب الفئة</div>
-        <div class="circle-container"></div>
-    </div>
-
-    <!-- Art Section -->
-    <div class="content" id="art-content">
-        <div class="category-title">التسوق حسب الفئة</div>
-        <div class="circle-container"></div>
-    </div>
-
-    <!-- Gaming Section -->
-    <div class="content" id="gaming-content">
-        <div class="category-title">التسوق حسب الفئة</div>
-        <div class="circle-container"></div>
-    </div>
-
-    <!-- Lighting Section -->
-    <div class="content" id="lighting-content">
-        <div class="category-title">التسوق حسب الفئة</div>
-        <div class="circle-container"></div>
-    </div>
-
-    <!-- Office Section -->
-    <div class="content" id="office-content">
-        <div class="category-title">التسوق حسب الفئة</div>
-        <div class="circle-container"></div>
-    </div>
-
-    <!-- Spare Parts Section -->
-    <div class="content" id="spare-content">
-        <div class="category-title">التسوق حسب الفئة</div>
-        <div class="circle-container"></div>
-    </div>
-
-    <!-- The SINGLE "More" button element, initially hidden -->
-    <div class="circle" id="more-button-container" style="display: none;">
-        <img src="https://files.catbox.moe/xrquxf.jpg" alt="المزيد">
-        <h1 class="producte">المزيد</h1>
-    </div>
-
-<script>
-    // --- Database of Products ---
-    const productsData = {
-        tech: [
-            { id: 3, img: 'https://i.postimg.cc/qM6k1ht9/2025-04-28-23-23-23-af80f9a8-removebg-preview.png', price: '450.00' },
-            { id: 4, img: 'https://i.postimg.cc/J7DrRk82/1730638332091458963.jpg', price: '400.00' },
-            { id: 6, img: 'https://i.postimg.cc/CM7QL9Hm/CRUCIAL-4-GB-2133-MHz.jpg', price: '300.00' },
-            { id: 9, img: 'https://i.postimg.cc/rmt1cw7K/2025-04-03-13-30-49-5707d50e-removebg-preview.png', price: '520.00' },
-            { id: 10, img: 'https://i.postimg.cc/gJTzW3fP/1740299607img-20250223-102854-892-removebg-preview-2.png', price: '750.00' },
-            { id: 11, img: 'https://i.postimg.cc/B6W3T82x/1742354291temp3533940705814865608-removebg-preview-1.png', price: '900.00' },
-            { id: 12, img: 'https://i.postimg.cc/vHmKmWKc/1721172867600-removebg-preview-1.png', price: '25.00' },
-            { id: 13, img: 'https://i.postimg.cc/t476F315/Se6d5ca33f10945deab3dd7c243bfe272m-jpg-220x220q75-jpg.avif', price: '200.00' },
-            { id: 14, img: 'https://i.postimg.cc/tTsvfZmt/Sf9ab821542a04fd8b688512de6b6749d-N-jpg-220x220q75-jpg.avif', price: '350.00' },
-            { id: 16, img: 'https://i.postimg.cc/kGPg5h1W/20230223-ccf860f1cd9c7a31-398853818381-mp4-264-hd-taobao-mp4.webp', price: '150.00' },
-            { id: 17, img: 'https://i.postimg.cc/V6jVMGwZ/2025-04-15-12-02-26-534e3de8.jpg', price: '75.00' },
-            { id: 18, img: 'https://i.postimg.cc/4xKBhNds/2025-04-15-19-11-59-058a98d4.jpg', price: '300.00' },
-            { id: 19, img: 'https://i.postimg.cc/x1jRCRk2/P1-UQs-QCZCwlwmiu4b-ZZo-Ykz-LMROa-WBVLk-IKSM5-G9-removebg-preview.png', price: '600.00' },
-            { id: 21, img: 'https://i.postimg.cc/8zcCbwT1/S1c06f902da394c85a608a1d543564e89-F.webp', price: '420.00' },
-            { id: 23, img: 'https://i.postimg.cc/mDx0MTJz/Seed8ace5b1514057aa08b0b29ee3f128-V-jpg-220x220q75-jpg.avif', price: '230.00' },
-            { id: 32, img: 'https://i.postimg.cc/NjySm4sf/1744752825temp2679216310105117556.jpg', price: '900.00' },
-            { id: 33, img: 'https://i.postimg.cc/0ynJwTwV/2025-06-07-12-56-24-2e0a2958-removebg-preview.png', price: '80.00' },
-            { id: 35, img: 'https://files.catbox.moe/rm98ik.png', price: '230.00' },
-            { id: 36, img: 'https://files.catbox.moe/b5gu3j.avif', price: '450.00' },
-            { id: 37, img: 'https://files.catbox.moe/835qjx.avif', price: '40.00' },
-            { id: 38, img: 'https://i.postimg.cc/N0c83JVS/2025-06-01-20-25-21-95a385b8.jpg', price: '10.00' },
-            { id: 40, img: 'https://i.postimg.cc/3RwrSGXV/2025-06-01-21-35-12-aeae3c69.jpg', price: '450.00' },
-            { id: 41, img: 'https://i.postimg.cc/bYZnd9yw/2-removebg-preview.png', price: '800.00' },
-            { id: 43, img: 'https://i.postimg.cc/DzP4GxDt/ifa3986e5-3d2a-450c-b333-9849e31954c8.webp', price: '375.00' },
-            { id: 44, img: 'https://i.postimg.cc/bJvWbNLk/Universal-USB-Mobile-Charger-for-i-Phone-Samsung-Pixel-Portable-Power-Supply-Charger-USB-Battery-Char.avif', price: '55.00' },
-            { id: 45, img: 'https://i.postimg.cc/4NnkztqV/7184t1y-VFs-L-AC-UF894-1000-QL80.jpg', price: '280.00' },
-            { id: 53, img: 'https://i.postimg.cc/5yMrCb9Q/O1-CN010jkob-E1hczj-GJLNYO-2216853194299-0-cib-removebg-preview.png', price: '430.00' },
-            { id: 55, img: 'https://i.postimg.cc/mDCj4Xzy/O1-CN01xe4-VIy1-Qshr-IKdc-Rw-2218070352032-0-cib.jpg', price: '250.00' },
-            { id: 56, img: 'https://files.catbox.moe/9enqy5.avif', price: '320.00' },
-            { id: 62, img: 'https://files.catbox.moe/g3u7u2.jpg', price: '320.00' },
-            { id: 63, img: 'https://files.catbox.moe/octcjo.webp', price: '520.00' },
-            { id: 71, img: 'https://files.catbox.moe/4g7ai9.jpg', price: '1400.00' },
-            { id: 74, img: 'https://files.catbox.moe/2w9a5f.jpg', price: '1450.00' },
-            { id: 82, img: 'https://files.catbox.moe/ujwolf.png', price: '380.00' },
-            { id: 88, img: 'https://files.catbox.moe/e6kd7m.jpg', price: '1100.00' },
-            { id: 90, img: 'https://files.catbox.moe/y4ja4i.png', price: '230.00' },
-            { id: 93, img: 'https://files.catbox.moe/u3s0fx.webp', price: '180.00' },
-            { id: 94, img: 'https://files.catbox.moe/prj35v.png', price: '750.00' },
-            { id: 95, img: 'https://files.catbox.moe/hj1590.webp', price: '1200.00' },
-            { id: 96, img: 'https://files.catbox.moe/4s67k2.jpg', price: '220.00' },
-            { id: 98, img: 'https://files.catbox.moe/ttfvmx.avif', price: '350.00' },
-            { id: 99, img: 'https://files.catbox.moe/ykzh7e.png', price: '800.00' },
-            { id: 100, img: 'https://files.catbox.moe/98euh0.jpg', price: '3500.00' }
-        ],
-        home: [
-            { id: 20, img: 'https://i.postimg.cc/25V7dSF9/y6nvu2.avif', price: '104.00' },
-            { id: 25, img: 'https://i.postimg.cc/sXrLzPQV/aefb9bc52eb1c9c5d190899706152885ac077ce5ae8b12948d30bcb6e6bb3ec8-removebg-preview.png', price: '30.00' },
-            { id: 31, img: 'https://i.postimg.cc/DyvytY8n/1730281084711651511-removebg-preview-removebg-preview.png', price: '280.00' },
-            { id: 34, img: 'https://files.catbox.moe/w7qm91.avif', price: '265.00' },
-            { id: 42, img: 'https://i.postimg.cc/yN2KTCcj/Whats-App-Image-2025-02-26-at-10-26-29-1e8de24c.jpg', price: '100.00' },
-            { id: 46, img: 'https://i.postimg.cc/fW9YkgT9/abec198d-c52d-4815-a8d4-21e0d8861812.png', price: '120.00' },
-            { id: 47, img: 'https://files.catbox.moe/ea66j2.avif', price: '260.00' },
-            { id: 49, img: 'https://files.catbox.moe/m8f5b9.jpg', price: '60.00' },
-            { id: 52, img: 'https://files.catbox.moe/i0ir6m.avif', price: '210.00' },
-            { id: 54, img: 'https://files.catbox.moe/bmuevt.jpg', price: '300.00' },
-            { id: 70, img: 'https://files.catbox.moe/5pkfho.jpg', price: '150.00' },
-            { id: 73, img: 'https://files.catbox.moe/9x1hgg.jpg', price: '230.00' },
-            { id: 78, img: 'https://files.catbox.moe/fqppcd.jpg', price: '280.00' },
-            { id: 79, img: 'https://files.catbox.moe/5v44ku.png', price: '400.00' },
-            { id: 80, img: 'https://files.catbox.moe/rgtj83.jpg', price: '330.00' },
-            { id: 84, img: 'https://files.catbox.moe/uhyu59.jpg', price: '200.00' },
-            { id: 85, img: 'https://files.catbox.moe/wta4q8.webp', price: '250.00' },
-            { id: 89, img: 'https://files.catbox.moe/vsf0pc.jpg', price: '180.00' },
-            { id: 97, img: 'https://files.catbox.moe/08k2sg.jpg', price: '400.00' }
-        ],
-        fashion: [
-            { id: 2, img: 'https://i.postimg.cc/nVmJf8kW/1703917864-DSC04765.jpg', price: '299.00' },
-            { id: 5, img: 'https://i.postimg.cc/j506JbY9/1745746083temp1014429155113836232-removebg-preview.png', price: '520.00' },
-            { id: 8, img: 'https://i.postimg.cc/c4tztV8s/1742285437temp7370626005691229244.jpg', price: '200.00' },
-            { id: 22, img: 'https://i.postimg.cc/HxhjrYCM/2025-04-25-09-15-29-8649081c.jpg', price: '240.00' },
-            { id: 29, img: 'https://i.postimg.cc/0NRqFscJ/2025-04-27-13-17-18-feb372c0.jpg', price: '350.00' },
-            { id: 51, img: 'https://files.catbox.moe/nokqqd.avif', price: '55.00' },
-            { id: 59, img: 'https://files.catbox.moe/crc2qu.avif', price: '200.00' },
-            { id: 61, img: 'https://files.catbox.moe/uo19qq.webp', price: '250.00' },
-            { id: 67, img: 'https://files.catbox.moe/mlwl5s.jpg', price: '200.00' },
-            { id: 72, img: 'https://files.catbox.moe/v8srik.jpg', price: '180.00' },
-            { id: 75, img: 'https://files.catbox.moe/lrizlx.jpg', price: '190.00' },
-            { id: 81, img: 'https://files.catbox.moe/lzblx5.avif', price: '200.00' },
-            { id: 83, img: 'https://files.catbox.moe/c7wp4f.png', price: '240.00' },
-            { id: 86, img: 'https://files.catbox.moe/gb6xfe.png', price: '300.00' },
-            { id: 87, img: 'https://files.catbox.moe/hkayxv.png', price: '215.00' },
-            { id: 92, img: 'https://files.catbox.moe/s76yvg.png', price: '140.00' }
-        ],
-        books: [
-            { id: 1, img: 'https://i.postimg.cc/k5BR8sS6/1.jpg', price: '70.00' },
-            { id: 30, img: 'https://i.postimg.cc/qBm1DHLB/2025-04-27-15-52-46-cf1a38ac-removebg-preview.png', price: '100.00' },
-            { id: 102, img: 'https://files.catbox.moe/bjoc03.jpg', price: '80.00' }
-        ],
-        art: [
-            { id: 7, img: 'https://i.postimg.cc/15z3Yh3F/1723529658temp250218069738258446.jpg', price: '270.00' },
-            { id: 27, img: 'https://i.postimg.cc/vHNnzDK3/2025-04-26-21-05-26-92348bce.jpg', price: '20.00' }
-        ],
-        gaming: [
-            { id: 24, img: 'https://i.postimg.cc/BQHQwKgK/2025-06-02-00-03-34-0b2fd672.jpg', price: '100.00' },
-            { id: 26, img: 'https://i.postimg.cc/KzYffwP6/2025-05-31-23-59-28-c56f7074.jpg', price: '300.00' },
-            { id: 64, img: 'https://files.catbox.moe/evoa6q.jpg', price: '950.00' },
-            { id: 65, img: 'https://files.catbox.moe/3xdjvn.png', price: '1350.00' },
-            { id: 66, img: 'https://files.catbox.moe/y0j778.jpg', price: '680.00' },
-            { id: 69, img: 'https://files.catbox.moe/663nkl.png', price: '4600.00' },
-            { id: 58, img: 'https://files.catbox.moe/gpsmvp.avif', price: '950.00' }
-        ],
-        lighting: [
-            { id: 25, img: 'https://i.postimg.cc/sXrLzPQV/aefb9bc52eb1c9c5d190899706152885ac077ce5ae8b12948d30bcb6e6bb3ec8-removebg-preview.png', price: '30.00' },
-            { id: 78, img: 'https://files.catbox.moe/fqppcd.jpg', price: '280.00' },
-            { id: 79, img: 'https://files.catbox.moe/5v44ku.png', price: '400.00' },
-            { id: 84, img: 'https://files.catbox.moe/uhyu59.jpg', price: '200.00' },
-            { id: 89, img: 'https://files.catbox.moe/vsf0pc.jpg', price: '180.00' },
-            { id: 97, img: 'https://files.catbox.moe/08k2sg.jpg', price: '400.00' }
-        ],
-        office: [
-            { id: 28, img: 'https://i.postimg.cc/02bMbPNm/2025-04-26-21-06-07-48e64101.jpg', price: '5.00' },
-            { id: 39, img: 'https://files.catbox.moe/u8v60l.jpg', price: '30.00' },
-            { id: 48, img: 'https://files.catbox.moe/n7atdk.jpg', price: '350.00' },
-            { id: 50, img: 'https://i.postimg.cc/vBw3myv1/O1-CN01me-Sj-YL1u-Wf-FODTva-B-2217550386045-0-cib.jpg', price: '1250.00' },
-            { id: 57, img: 'https://files.catbox.moe/9fkdag.avif', price: '600.00' },
-            { id: 60, img: 'https://files.catbox.moe/na0o0h.avif', price: '200.00' },
-            { id: 68, img: 'https://files.catbox.moe/mohptz.jpg', price: '375.00' },
-            { id: 76, img: 'https://files.catbox.moe/l51ulp.png', price: '690.00' },
-            { id: 77, img: 'https://files.catbox.moe/9u3606.jpg', price: '280.00' },
-            { id: 91, img: 'https://files.catbox.moe/a1ctdw.webp', price: '250.00' },
-            { id: 101, img: 'https://files.catbox.moe/26hrxj.jpg', price: '250.00' }
-        ],
-        spare: [
-            { id: 15, img: 'https://i.postimg.cc/L4vN0SSJ/Sb00017d314db4165b9074bfc4db19243v-jpg-220x220q75-jpg.avif', price: '1.00' }
-        ]
-    };
-
-    function searchCategory(categoryName) {
-        window.location.href = `adger.search.html?search=${encodeURIComponent(categoryName)}`;
-    }
-
-    function showContent(contentId) {
-        // Hide all content sections
-        document.querySelectorAll('.content').forEach(content => {
-            content.style.display = 'none';
-        });
-
-        // Show the active content section
-        const activeContent = document.getElementById(contentId + '-content');
-        activeContent.style.display = 'block';
-
-        // Update active class in the sidebar menu
-        document.querySelectorAll('.menu-item').forEach(item => {
-            item.classList.remove('active');
-        });
-        const activeMenuItem = document.querySelector(`[onclick="showContent('${contentId}')"]`);
-        activeMenuItem.classList.add('active');
-
-        // --- DYNAMIC "MORE" BUTTON LOGIC ---
-        const moreButton = document.getElementById('more-button-container');
-        moreButton.style.display = 'block';
-        const categoryName = activeMenuItem.textContent;
-        moreButton.onclick = () => searchCategory(categoryName);
+    <script type="module">
+      import { createClient } from "https://esm.sh/@supabase/supabase-js@2.38.5";
+        const supabase = createClient(
+            'https://aagsmtkuygnlgeyboarg.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFhZ3NtdGt1eWdubGdleWJvYXJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ3NDQzNDEsImV4cCI6MjA3MDMyMDM0MX0.rgMrAM3vURYo7bFvy9okiogXEh9wyFwp9Z0yAxBE9SI'
+        );
         
-        const targetContainer = activeContent.querySelector('.circle-container');
-        targetContainer.appendChild(moreButton);
-    }
-    
-    function populateProducts() {
-        for (const categoryId in productsData) {
-            const container = document.getElementById(`${categoryId}-content`).querySelector('.circle-container');
-            const products = productsData[categoryId];
-            
-            products.forEach(product => {
-                const productHtml = `
-                    <div class="circle" onclick="window.location.href='prod.html?id=${product.id}'">
-                        <img src="${product.img}" alt="product image">
-                        <h1 class="producte">${product.price} جنيه</h1>
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('main-content');
+        const pageLoader = document.getElementById('page-loader');
+        let allProducts = [];
+        let contentPanes = {};
+
+        function searchCategory(categoryName) {
+            window.location.href = `adger.search.html?search=${encodeURIComponent(categoryName)}`;
+        }
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const card = entry.target;
+                    const img = card.querySelector('img');
+                    if(img && img.dataset.src) {
+                        img.src = img.dataset.src;
+                        img.onload = () => img.classList.add('loaded');
+                    }
+                    observer.unobserve(card);
+                }
+            });
+        }, { rootMargin: '0px 0px 200px 0px' });
+
+        async function initializeApp() {
+            document.body.style.overflow = 'hidden';
+            try {
+                const { data, error } = await supabase.from('products').select('id, name, category, images, price');
+                if (error) throw error;
+                allProducts = data.map(p => ({
+                    ...p,
+                    category: p.category ? p.category.trim() : 'عام'
+                })).filter(p => p.images && Array.isArray(p.images) && p.images.length > 0);
+
+                const categories = [...new Set(allProducts.map(p => p.category))].sort();
+                buildUI(categories);
+                pageLoader.style.display = 'none';
+                if (categories.length > 0) {
+                    showCategory(categories[0]);
+                }
+            } catch (err) {
+                console.error('Error fetching data:', err);
+                pageLoader.style.display = 'none';
+                mainContent.innerHTML += `<p style="text-align: center; color: red;">فشل تحميل البيانات. يرجى تحديث الصفحة والمحاولة مرة أخرى.</p>`;
+            } finally {
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function buildUI(categories) {
+            sidebar.innerHTML = '';
+            categories.forEach(cat => {
+                const menuItem = document.createElement('div');
+                menuItem.className = 'menu-item';
+                menuItem.textContent = cat;
+                menuItem.dataset.category = cat;
+                menuItem.onclick = () => showCategory(cat);
+                sidebar.appendChild(menuItem);
+            });
+            categories.forEach(cat => {
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'content';
+                contentDiv.id = `content-${cat}`;
+                contentDiv.innerHTML = `
+                    <div class="category-header">
+                        <span class="header-main-text">التسوق حسب الفئة:</span>
+                        <span class="header-category-name">${cat}</span>
+                        التسوق حسب الفئة 
                     </div>
+                    <div class="products-grid"></div>
                 `;
-                container.innerHTML += productHtml;
+                mainContent.appendChild(contentDiv);
+                contentPanes[cat] = contentDiv;
             });
         }
-    }
+        
+        function createAndAppendScrollIndicator(container, categoryName) {
+            const indicator = document.createElement('div');
+            indicator.className = 'scroll-indicator';
+            indicator.innerHTML = `
+                <hr class="indicator-line">
+                <div class="arrow-circle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                </div>
+                <p class="indicator-text">اسحب لأعلى لمتابعة تصفح ${categoryName}</p>
+            `;
+            container.appendChild(indicator);
+        }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        populateProducts();
-        showContent('tech');
-    });
-</script>
+        function showCategory(category) {
+            Object.values(contentPanes).forEach(pane => pane.style.display = 'none');
+            document.querySelectorAll('.scroll-indicator').forEach(el => el.remove());
 
+            sidebar.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
+            const activeMenuItem = sidebar.querySelector(`.menu-item[data-category="${category}"]`);
+            activeMenuItem.classList.add('active');
+            
+            const activeContent = contentPanes[category];
+            activeContent.style.display = 'block';
+            
+            const grid = activeContent.querySelector('.products-grid');
+            if (grid.children.length === 0) {
+                populateGridWithProducts(grid, category);
+            }
+
+            setTimeout(() => {
+                if (activeContent.scrollHeight > mainContent.clientHeight) {
+                    createAndAppendScrollIndicator(activeContent, category);
+                }
+            }, 100);
+        }
+        
+        function populateGridWithProducts(grid, category) {
+            grid.innerHTML = ''; 
+            const productsToDisplay = allProducts.filter(p => p.category === category);
+            
+            productsToDisplay.forEach(product => {
+                const card = createProductCard(product);
+                grid.appendChild(card);
+                observer.observe(card);
+            });
+            
+            const moreCard = document.createElement('div');
+            moreCard.className = 'product-card';
+            moreCard.onclick = () => searchCategory(category);
+            moreCard.innerHTML = `
+                <div class="image-wrapper more-card-wrapper">
+                    <img src="https://i.postimg.cc/sDzLCyrs/xrquxf-removebg-preview.png" alt="المزيد" class="loaded" style="object-fit: cover;">
+                </div>
+                <h2 class="product-name" style="font-weight: 700; display:none;">المزيد</h2>
+                <h3 class="product-price">المزيد</h3>
+            `;
+            grid.appendChild(moreCard);
+        }
+
+        function createProductCard(product) {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.onclick = () => window.location.href = `prod.html?id=${product.id}`;
+            const productName = product.name || 'منتج غير مسمى';
+            const productPrice = (product.price || 0).toFixed(2);
+            card.innerHTML = `
+                <div class="image-wrapper">
+                    <img data-src="${product.images[0]}" alt="${productName}">
+                </div>
+                <h2 class="product-name" title="${productName}">${productName}</h2>
+                <h3 class="product-price">${productPrice} جنيه</h3>
+            `;
+            return card;
+        }
+
+        initializeApp();
+    </script>
 </body>
-</html>
 </html>
 
 

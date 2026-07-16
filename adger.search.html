@@ -276,7 +276,6 @@
                 right: 0;
                 height: 48px;
                 background-color: white;
-                box-shadow: 0 3px 1px -2px rgba(37, 37, 37, 0.1);
                 text-shadow: none;
                 z-index: 999;
                 display: flex;
@@ -1293,7 +1292,7 @@
 <body>
     <div class="top-background"></div>
     
-    <div class="sub-header-background"></div>
+  <div class="sub-header-background"></div>
     <div class="sub-header">
         <nav>
             <a href="#" onclick="selectItem('الكل', this)" style="font-family: Cairo, sans-serif;">الكل</a>
@@ -1381,7 +1380,6 @@
         function shuffleArray(array) { for (let i = array.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [array[i], array[j]] = [array[j], array[i]]; } }
         function getSearchTermFromURL() { return new URLSearchParams(window.location.search).get('search') || ''; }
         
-        // --- START: دوال النافذة الجانبية من الكود المحفوظ ---
         window.toggleMenu = function() {
             const menuPopup = document.getElementById('menuPopup');
             if (menuPopup.classList.contains('active')) {
@@ -1410,7 +1408,6 @@
             if (isSwiping) { const swipeDistance = touchStartX - event.touches[0].screenX; if (swipeDistance > 50) { toggleMenu(); isSwiping = false; } }
         });
         document.addEventListener('touchend', function() { isSwiping = false; });
-        // --- END: دوال النافذة الجانبية ---
 
         function updateWelcomeMessage() { const username = localStorage.getItem('username'); const welcomeMessage = document.getElementById('welcomeMessage'); if (!welcomeMessage) return; if (username) { const displayName = truncateUsername(username); welcomeMessage.innerHTML = `أهلاً، <span id="usernameDisplay" style="cursor: pointer;">${displayName}</span>`; window.addEventListener('resize', () => { const usernameDisplay = document.getElementById('usernameDisplay'); if (usernameDisplay) usernameDisplay.textContent = truncateUsername(username); }); } else { welcomeMessage.innerHTML = 'أهلاً، <span style="color: black; cursor: pointer; white-space: nowrap;" onclick="window.location.href=\'account.html\'">سجل دخولك</span>'; } }
         function updateCartCount() { const cart = JSON.parse(localStorage.getItem('cart')) || []; const cartCountElement = document.querySelector('.cart-count'); if (cartCountElement) cartCountElement.textContent = cart.length; }
@@ -1448,13 +1445,12 @@
                     tempFiltered = [];
                 }
             } else {
-                // --- START: الكود المضاف هنا ---
                 const priceMatch = searchTrimmed.match(/أقل من (\d+)/);
                 if (priceMatch) {
                     const maxPrice = parseInt(priceMatch[1]);
                     let minPrice = 0;
                     const priceRanges = [
-                        {max: 99, min: 0}, {max: 200, min: 100}, {max: 350, min: 201},
+                        {max: 99, min: 50}, {max: 200, min: 100}, {max: 350, min: 201},
                         {max: 500, min: 351}, {max: 750, min: 501}, {max: 1000, min: 751},
                         {max: 1500, min: 1001}, {max: 2000, min: 1501}, {max: 3000, min: 2001},
                         {max: 5000, min: 3001}, {max: 7500, min: 5001}, {max: 10000, min: 7501},
@@ -1463,13 +1459,11 @@
                     ];
                     const foundRange = priceRanges.find(range => maxPrice <= range.max);
                     minPrice = foundRange ? foundRange.min : 0;
-                    // تم التعديل لاستخدام allSupabaseProducts بدلا من products
                     tempFiltered = allSupabaseProducts.filter(product => {
                         const productPrice = parseInt(product.price);
                         return productPrice >= minPrice && productPrice <= maxPrice;
                     });
                 } else {
-                // --- END: الكود المضاف هنا ---
                     const searchLower = normalizeArabic(searchTrimmed);
                     if (!searchLower || searchTrimmed === 'الكل') {
                         tempFiltered = [...allSupabaseProducts];
@@ -1478,6 +1472,10 @@
                         if (keywordMap[searchTrimmed]) {
                             searchKeywords = [...new Set([...searchKeywords, ...keywordMap[searchTrimmed].map(normalizeArabic)])];
                         }
+                        
+                        // التعبير النمطي للبحث عن "خصم [رقم] %"
+                        const discountRegex = /^خصم\s*\d+\s*%/;
+
                         tempFiltered = allSupabaseProducts.filter(product => {
                             const fieldsToSearch = [
                                 normalizeArabic(product.name),
@@ -1485,8 +1483,9 @@
                                 normalizeArabic(product.search_keywords)
                             ].filter(Boolean);
                             
+                            // تعديل زر خصومات لجلب المنتجات التي تحتوي نصوصها على صيغة الخصم المحددة
                             if (searchTrimmed === 'خصومات') {
-                               return product.old_price && product.old_price > 0;
+                                return product.discountTexts.some(text => discountRegex.test(text));
                             }
                             
                             return searchKeywords.some(keyword =>

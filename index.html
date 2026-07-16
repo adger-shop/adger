@@ -220,7 +220,7 @@
                 margin-top: 119px;
                 width: 100%; /* عرض الشاشة بالكامل */
                 height: 350px; /* ارتفاع 350 بكسل */
-                background: linear-gradient(135deg, hsl(0, 0%, 48%), #3a3a3a) !important;
+                background-color: #f1f1f1;
                 background-image: url('your-image-url.jpg'); /* رابط الصورة الخلفية */
                 background-size: cover; /* تغطية الخلفية بالكامل */
                 background-position: center; /* تمركز الخلفية */
@@ -833,7 +833,8 @@
             }
         }
 
-        .arrow-button {
+        /* تعديل مسميات الأسهم لعدم التداخل */
+        .arrow-button2 {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
@@ -847,11 +848,11 @@
             z-index: 1;
         }
 
-        .left-arrow {
+        .left-arrow2 {
             left: 10px;
         }
 
-        .right-arrow {
+        .right-arrow2 {
             right: 10px;
         }
 
@@ -885,25 +886,23 @@
     <script>
         // دالة لتوجيه المستخدم إلى صفحة sea.html وإضافة الاسم إلى صندوق البحث
         function redirectToSea(categoryName) {
-            // توجيه المستخدم إلى صفحة sea.html مع إضافة النص كمعلمة بحث
             window.location.href = `adger.search.html?search=${encodeURIComponent(categoryName)}`;
         }
 
-        // دالة لتنفيذ البحث (يمكن استخدامها في صفحة sea.html)
+        // دالة لتنفيذ البحث
         function performSearch(searchTerm) {
-            const products = document.querySelectorAll('.product'); // جميع المنتجات
-
+            const products = document.querySelectorAll('.product'); 
             products.forEach(product => {
-                const productName = product.getAttribute('data-name').toLowerCase(); // اسم المنتج
+                const productName = product.getAttribute('data-name').toLowerCase();
                 if (productName.includes(searchTerm.toLowerCase())) {
-                    product.classList.remove('hidden'); // إظهار المنتج إذا تطابق
+                    product.classList.remove('hidden');
                 } else {
-                    product.classList.add('hidden'); // إخفاء المنتج إذا لم يتطابق
+                    product.classList.add('hidden');
                 }
             });
         }
 
-        // عند تحميل الصفحة، تحقق من وجود معلمة بحث في الرابط
+        // عند تحميل الصفحة
         window.onload = function () {
             const urlParams = new URLSearchParams(window.location.search);
             const searchTerm = urlParams.get('search');
@@ -911,77 +910,75 @@
             if (searchTerm) {
                 const searchBox = document.getElementById('search-box');
                 if (searchBox) {
-                    searchBox.value = searchTerm; // تعبئة صندوق البحث بالقيمة
+                    searchBox.value = searchTerm;
                 }
-                performSearch(searchTerm); // تنفيذ البحث
+                performSearch(searchTerm);
             }
         };
 
         // دالة للكشف عن نوع الجهاز
-        function isDesktop() {
+        function isDesktop2() {
             const userAgent = navigator.userAgent.toLowerCase();
             const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
             const isTablet = /(ipad|tablet|playbook|silk)|(android(?!.*mobile))/i.test(userAgent);
             const screenWidth = window.innerWidth;
-
-            // إذا كان الجهاز ليس هاتفًا أو جهازًا لوحيًا وكان عرض الشاشة أكبر من 768 بكسل
             return !isMobile && !isTablet && screenWidth > 768;
         }
 
-        // إنشاء الأسهم وإضافتها إلى الصفحة إذا كان الجهاز كمبيوتر
-        function createArrows() {
-            if (!isDesktop()) return; // إذا لم يكن الجهاز كمبيوتر، لا ننفذ الكود
+        // إنشاء الأسهم وإضافتها (تعديل الأسماء لتجنب التداخل)
+        function createArrows2() {
+            if (!isDesktop2()) return; 
 
             const container = document.querySelector('.photo-slider-container');
             const slider = document.querySelector('.photo-slider');
 
-            // إنشاء سهم اليسار
+            // إنشاء سهم التمرير للأمام
             const leftArrow = document.createElement('button');
-            leftArrow.innerHTML = '&#10094;'; // رمز السهم الأيسر
-            leftArrow.classList.add('arrow-button', 'left-arrow');
+            leftArrow.innerHTML = '&#10094;'; 
+            leftArrow.classList.add('arrow-button2', 'left-arrow2');
             leftArrow.onclick = () => {
-                scrollSlider(-200);
-                updateArrowsVisibility();
+                scrollSlider2(-200);
             };
 
-            // إنشاء سهم اليمين
+            // إنشاء سهم التمرير للخلف (يظهر عند التمرير)
             const rightArrow = document.createElement('button');
-            rightArrow.innerHTML = '&#10095;'; // رمز السهم الأيمن
-            rightArrow.classList.add('arrow-button', 'right-arrow');
-            rightArrow.style.display = 'none'; // إخفاء السهم الأيمن في البداية
+            rightArrow.innerHTML = '&#10095;'; 
+            rightArrow.classList.add('arrow-button2', 'right-arrow2');
+            rightArrow.style.display = 'none'; // مخفي في البداية
             rightArrow.onclick = () => {
-                scrollSlider(200);
-                updateArrowsVisibility();
+                scrollSlider2(200);
             };
 
-            // إضافة الأسهم إلى الحاوية
             container.appendChild(leftArrow);
             container.appendChild(rightArrow);
 
-            // دالة لتحديث رؤية الأسهم بناءً على موقع التمرير
-            function updateArrowsVisibility() {
-                if (slider.scrollLeft === 0) {
-                    rightArrow.style.display = 'none'; // إخفاء السهم الأيمن عند البداية
+            // دالة تحديث الرؤية (منطق مشابه للكود الاحتياطي)
+            function updateArrowsVisibility2() {
+                // استخدام Math.abs لضمان صحة القراءة في جميع المتصفحات
+                const scrollPos = Math.abs(slider.scrollLeft);
+
+                // إظهار سهم "العودة" بمجرد بدء التمرير
+                if (scrollPos > 5) {
+                    rightArrow.style.display = 'block';
                 } else {
-                    rightArrow.style.display = 'block'; // إظهار السهم الأيمن
+                    rightArrow.style.display = 'none';
                 }
 
-                if (slider.scrollLeft + slider.clientWidth >= slider.scrollWidth) {
-                    leftArrow.style.display = 'none'; // إخفاء السهم الأيسر عند النهاية
+                // إخفاء سهم "الأمام" عند الوصول للنهاية
+                if (scrollPos + slider.clientWidth >= slider.scrollWidth - 5) {
+                    leftArrow.style.display = 'none';
                 } else {
-                    leftArrow.style.display = 'block'; // إظهار السهم الأيسر
+                    leftArrow.style.display = 'block';
                 }
             }
 
-            // تحديث رؤية الأسهم عند التمرير
-            slider.addEventListener('scroll', updateArrowsVisibility);
-
-            // تحديث رؤية الأسهم عند تحميل الصفحة
-            updateArrowsVisibility();
+            slider.addEventListener('scroll', updateArrowsVisibility2);
+            // تشغيل أولي للتأكد من وضعية السهم
+            setTimeout(updateArrowsVisibility2, 100);
         }
 
-        // دالة للتمرير
-        function scrollSlider(scrollAmount) {
+        // دالة التمرير المنفصلة
+        function scrollSlider2(scrollAmount) {
             const slider = document.querySelector('.photo-slider');
             slider.scrollBy({
                 left: scrollAmount,
@@ -989,8 +986,8 @@
             });
         }
 
-        // إنشاء الأسهم عند تحميل الصفحة إذا كان الجهاز كمبيوتر
-        createArrows();
+        // تنفيذ الوظيفة
+        createArrows2();
     </script>
 </body>
 </html>
@@ -1007,432 +1004,273 @@
     @media (max-width: 768px) {
    .disco{
         font-size: 19px !important;
+        margin-bottom: 5px;
     }
 }
 @media (min-width: 768px) {
    .disco{
       margin-top: 21px;
+      margin-bottom: 5px;
     }
 }
  </style>
-
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>معرض الصور</title>
+    <title>معرض الخصومات</title>
     <style>
+        /* --- التصميم الأساسي --- */
+        .carousel-container {
+            position: relative; 
+        }
         .carousel {
             display: flex;
             overflow-x: auto;
             scroll-behavior: smooth;
             scrollbar-width: none;
-            direction: rtl; /* Ensure RTL direction */
+            direction: rtl;
+            padding: 15px 10px; 
+            gap: 12px; 
         }
-        .carousel::-webkit-scrollbar {
-            display: none;
-        }
+        .carousel::-webkit-scrollbar { display: none; }
+
         .carousel-item {
             width: 220px;
-            margin: 0 7px;
             text-align: center;
             border: 2px solid #ccc;
             border-radius: 35px;
             padding: 0;
             flex: 0 0 auto;
-            overflow: hidden; /* لضمان عدم خروج الصورة عن الإطار */
+            overflow: hidden;
+            background-color: #fff;
+            /* تم تقليل الارتفاع من 380px إلى 360px */
+            height: 356px; 
         }
+
+        .skeleton {
+            background-color: #e0e0e0 !important;
+            border-color: #d1d1d1 !important;
+            position: relative;
+        }
+        .skeleton::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, #e0e0e0 25%, #ececec 50%, #e0e0e0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
         .carousel-item img {
-            width: 100%;
-            height: 200px;
-            cursor: pointer;
-            border-radius: 33px 33px 0 0; /* جعل الحدود العلوية مدورة فقط */
-            transition: transform 0.3s;
+            width: 100%; height: 200px; object-fit: cover;
+            border-radius: 33px 33px 0 0; display: block; margin-bottom: 10px;
             background: #c4c4c43a;
-            object-fit: cover;
-            display: block;
-            margin: 0;
-            padding: 0;
-            margin-bottom: 10px;
-
-            -webkit-tap-highlight-color: transparent; /* لإزالة الهايلايت الأزرق في الجوال */
-            outline: none; /* إزالة الإطار عند النقر */
-            -webkit-focus-ring-color: transparent; /* إزالة الإطار الأزرق في بعض المتصفحات */
         }
 
-        @media (max-width: 1367px) {
-    .carousel-item {
-        width: 190px; /* تعديل العرض */
-    }
-
-    .carousel-item img {
-        height: 170px; /* تعديل الارتفاع */
-    }
-
-    .carousel-item h1:nth-child(5) { /* الخصم */
-                font-size: 12px !important;
-                line-height: 21px !important;
-                height: 23px !important;
-            }
-
-    .carousel-item p,
-    .carousel-item h1 {
-        font-size: 13px !important; /* تم التعديل */}
-}
-
-
-        @media (max-width: 768px) {
-            .carousel-item img {
-                background: #e0e0e031;
-            }
-        }
-        .carousel-item p {
-            margin: 5px 0;
-        }
         .carousel-item h1 {
             font-family: 'Cairo', sans-serif;
-            margin: 5px 0;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            margin: 5px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
-        /* تعديل نص اسم المنتج فقط */
-        .carousel-item h1:nth-child(2) {
-            text-align: right; /* محاذاة اسم المنتج إلى اليمين */
-            padding-right: 10px; /* مسافة ثابتة على يمين اسم المنتج */
-        }
-        @media (max-width: 768px) {
-            .carousel-item {
-                width: 150px;
-                margin: 0 2px;
-                padding: 0; /* إزالة الحشوة لضمان ملء الصورة للإطار */
-            }
-            .carousel-item img {
-                width: 100%;
-                height: 140px;
-                border-radius: 18px 18px 0 0; /* جعل الحدود العلوية مدورة فقط */
-                margin-bottom: 8px;
-            }
-            .carousel-item h1 {
-                font-size: 13.5px !important;
-                margin: 3px 0 !important;
-                line-height: 19px !important;
-            }
-            .carousel-item h1:nth-child(2) { /* اسم المنتج */
-                font-size: 12px !important;
-                padding-right: 8px; /* تعديل المسافة للشاشات الصغيرة */
-            }
-            .carousel-item h1:nth-child(3) { /* السعر الحالي */
-                font-size: 12px !important;
-            }
-            .carousel-item h1:nth-child(4) { /* السعر القديم */
-                font-size: 11px !important;
-                margin-top: -4px !important;
-            }
-            .carousel-item h1:nth-child(5) { /* الخصم */
-                font-size: 10px !important;
-                line-height: 21px !important;
-                height: 21px !important;
-                padding-right: 5px !important;
-                padding-left: 5px !important;
-                margin-right: 13px !important;
-                margin-bottom: 15px !important; /* زيادة المسافة أسفل نص الخصم في الهواتف */
-            }
-        }
+
+    .carousel-item h1:nth-child(2) { text-align: right; padding-right: 12px; color: #363636; font-size: 16px; }
+.carousel-item h1:nth-child(3) { color: #4e4e4e; font-size: 16px; }
+.carousel-item h1:nth-child(4) { color: #868686; font-size: 14px; text-decoration: line-through; margin-top: -8px; }
+.carousel-item h1:nth-child(5) { 
+    color: #ffffff; font-size: 12px; background-color: #ff0000; border-radius: 2px;
+    text-align: center; line-height: 28px; height: 28px; float: right;
+    margin-right: 17px; padding: 0 10px; 
+    /* المسافة الافتراضية */
+    margin-bottom: 8px; 
+}
+
+.show-more-item {
+    width: 220px; text-align: center; border-radius: 35px;
+    flex: 0 0 auto; display: flex; flex-direction: column;
+    justify-content: center; align-items: center; cursor: pointer;
+}
+.show-more-icon {
+    width: 24px; height: 24px; margin-bottom: 10px;
+    border: 2px solid #2e2e2ed3; border-radius: 50%; padding: 6px;
+}
+.show-more-text { font-family: 'Cairo', sans-serif; color: #363636; font-size: 19px; }
+
+@media (max-width: 1367px) {
+    .carousel-item { width: 190px; height: 325px; }
+    .carousel-item img { height: 170px; }
+}
+
+@media (max-width: 768px) {
+    .carousel { gap: 8px; padding: 10px 5px; } 
+    /* تم إرجاع الارتفاع لـ 285px ليتناسب مع زيادة المسافة */
+    .carousel-item { width: 155px; height: 275px; }
+    .carousel-item img { height: 140px; }
+    .carousel-item h1 { font-size: 12.5px !important; }
+    .carousel-item h1:nth-child(2) { padding-right: 8px; }
+    
+    /* تكبير المسافة أسفل الخصم في الهواتف فقط */
+    .carousel-item h1:nth-child(5) { margin-bottom: 18px; }
+
+    .show-more-item { width: 130px; }
+    .show-more-text { font-size: 16px; }
+}
+
+        /* --- ستايل الأسهم --- */
         .arrow-button {
             position: absolute;
             top: 50%;
-            border-radius: 66px;
             transform: translateY(-50%);
+            border-radius: 66px;
             background-color: rgba(0, 0, 0, 0.5);
             color: white;
             border: none;
-            padding: 7px;
+            padding: 10px;
             cursor: pointer;
-            font-size: 17px;
+            font-size: 20px;
             z-index: 1;
         }
-        .left-arrow {
-            left: 10px;
-        }
-        .right-arrow {
-            right: 10px;
-        }
-        .carousel-container {
-            will-change: transform;
-            transform: translateZ(0);
-            position: relative;
-        }
-        /* Add spacing after the last item */
-        .carousel::after {
-            content: '';
-            width: 9px; /* Adjust spacing size */
-            flex: 0 0 auto;
-        }
-        
-        /* Style for the "Show More" item */
-        .show-more-item {
-            width: 220px;
-            margin: 0 7px;
-            text-align: center;
-            border-radius: 35px;
-            padding: 0;
-            flex: 0 0 auto;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            order: 999; /* Move to the end (left side in RTL) */
-            margin-left: -30px;
-            margin-right: -30px;
-            -webkit-tap-highlight-color: transparent;
-            user-select: none; /* لمنع التحديد */
-        }
-        .show-more-item:hover {
-            background-color: #f3f3f300; /* لون مختلف عند تمرير الماوس */
-        }
 
-        
-        .show-more-icon {
-            width: 24px;
-            height: 24px;
-            margin-bottom: 10px;
-            border: 2px solid #2e2e2ed3; /* إضافة border للسهم */
-            border-radius: 50%; /* جعل السهم دائري */
-            padding: 6px; /* إضافة مساحة داخلية للسهم */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .show-more-text {
-            font-family: 'Cairo', sans-serif;
-            color: #363636;
-            font-size: 19px;
-            margin-bottom: 15px;
-        }
-        
-        @media (max-width: 768px) {
-            .show-more-item {
-                width: 150px;
-                margin: 0 2px;
-                margin-left: 5px;
-                margin-right: -12px;
-            }
-            
-            .show-more-text {
-                font-size: 17px;
-            }
-        }
+        .left-arrow { left: 10px; }
+        .right-arrow { right: 10px; }
     </style>
 </head>
 <body>
-    <div class="carousel-container">
-        <div class="carousel" id="carousel">
-            <!-- Show More Item - Now positioned to be on the left side -->
-            <div class="show-more-item" onclick="redirectToDiscounts()">
-                <svg class="show-more-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"/>
-                </svg>
-                <div class="show-more-text">عرض المزيد</div>
-            </div>
-            
-            <div class="carousel-item" style="margin-right: 12px;" loading="lazy">
-                <img src="https://i.postimg.cc/k5BR8sS6/1.jpg" alt="صورة 1" onclick="selectImage('prod.html?id=1')" loading="lazy">
-                <h1 style="color: #363636; font-size: 16px;">ابقَ قوياً 365 يومًا في السنة ل ديمى لوفاتو</h1>
-                <h1 style="color: #4e4e4e; font-size: 16px;">70.00 جنيه</h1>
-                <h1 style="color: #868686; font-size: 14px; text-decoration: line-through; margin-top: -8px; margin-right: -41px;">114.00 جنيه</h1>
-                <h1 style="color: #ffffff; font-size: 13px; background-color: #ff0000; border-radius: 2px; text-align: center; line-height: 28px; height: 28px; float: right; margin-right: 17px; padding-right: 8px; padding-left: 8px; margin-bottom: 15px;">
-                الخصم 38.6% 
-                </h1>
-            </div>
 
-            <div class="carousel-item" style="margin-right: 12px;" loading="lazy">
-                <img src="https://i.postimg.cc/nVmJf8kW/1703917864-DSC04765.jpg" alt="صورة 1" onclick="selectImage('prod.html?id=2')" loading="lazy">
-                <h1 style="color: #363636; font-size: 16px;">حذاء جلد طبيعي عالي الجودة بمظهر أنيق</h1>
-                <h1 style="color: #4e4e4e; font-size: 16px;">299.00 جنيه</h1>
-                <h1 style="color: #868686; font-size: 14px; text-decoration: line-through; margin-top: -8px; margin-right: -41px;">450.00 جنيه</h1>
-                <h1 style="color: #ffffff; font-size: 13px; background-color: #ff0000; border-radius: 2px; text-align: center; line-height: 28px; height: 28px; float: right; margin-right: 17px; padding-right: 8px; padding-left: 8px; margin-bottom: 15px;">
-                    الخصم 33.56%
-                </h1>
-            </div>
+<div class="carousel-container">
+    <div class="carousel" id="carousel">
+        <div class="carousel-item skeleton"></div>
+        <div class="carousel-item skeleton"></div>
+        <div class="carousel-item skeleton"></div>
+        <div class="carousel-item skeleton"></div>
+        <div class="carousel-item skeleton"></div>
+        <div class="carousel-item skeleton"></div>
+        <div class="carousel-item skeleton"></div>
+        <div class="carousel-item skeleton"></div>
+        <div class="carousel-item skeleton"></div>
 
-            <div class="carousel-item" style="margin-right: 12px;" loading="lazy">
-                <img src="https://files.catbox.moe/g2tzgl.webp" alt="صورة 1" onclick="selectImage('prod.html?id=21')" loading="lazy">
-                <h1 style="color: #363636; font-size: 16px;">سماعة بلوتوث TWS بتصميم مميز</h1>
-                <h1 style="color: #4e4e4e; font-size: 16px;">420.00 جنيه</h1>
-                <h1 style="color: #868686; font-size: 14px; text-decoration: line-through; margin-top: -8px; margin-right: -41px;">650.00 جنيه</h1>
-                <h1 style="color: #ffffff; font-size: 13px; background-color: #ff0000; border-radius: 2px; text-align: center; line-height: 28px; height: 28px; float: right; margin-right: 17px; padding-right: 8px; padding-left: 8px; margin-bottom: 15px;">
-                    الخصم 54%
-                </h1>
-            </div>
-
-            <div class="carousel-item" style="margin-right: 12px;" loading="lazy">
-                <img src="https://i.postimg.cc/J7DrRk82/1730638332091458963.jpg" alt="ايربودز A-16 بلوتوث" onclick="selectImage('prod.html?id=4')" loading="lazy">
-                <h1 style="color: #363636; font-size: 16px;">ايربودز A-16 بلوتوث</h1>
-                <h1 style="color: #4e4e4e; font-size: 16px;">400.00 جنيه</h1>
-                <h1 style="color: #868686; font-size: 14px; text-decoration: line-through; margin-top: -8px; margin-right: -41px;">500.00 جنيه</h1>
-                <h1 style="color: #ffffff; font-size: 13px; background-color: #ff0000; border-radius: 2px; text-align: center; line-height: 28px; height: 28px; float: right; margin-right: 17px; padding-right: 8px; padding-left: 8px; margin-bottom: 15px;">
-                    الخصم 20%
-                </h1>
-            </div>
-          
-            <div class="carousel-item" style="margin-right: 12px;" loading="lazy">
-                <img src="https://i.postimg.cc/j506JbY9/1745746083temp1014429155113836232-removebg-preview.png" alt="شنطة كروس jeep" onclick="selectImage('prod.html?id=5')" loading="lazy">
-                <h1 style="color: #363636; font-size: 16px;">شنطة كروس jeep للكتف وأخري لليد و محفظة </h1>
-                <h1 style="color: #4e4e4e; font-size: 16px;">225.00 جنيه</h1>
-                <h1 style="color: #868686; font-size: 14px; text-decoration: line-through; margin-top: -8px; margin-right: -41px;">300.00 جنيه</h1>
-                <h1 style="color: #ffffff; font-size: 13px; background-color: #ff0000; border-radius: 2px; text-align: center; line-height: 28px; height: 28px; float: right; margin-right: 17px; padding-right: 8px; padding-left: 8px; margin-bottom: 15px;">
-                    الخصم 25%
-                </h1>
-            </div>
-            
-            <div class="carousel-item" style="margin-right: 12px;" loading="lazy">
-                <img src="https://i.postimg.cc/CM7QL9Hm/CRUCIAL-4-GB-2133-MHz.jpg" alt="رامة DDR4 4G" onclick="selectImage('prod.html?id=6')" loading="lazy">
-                <h1 style="color: #363636; font-size: 16px;">رامة DDR4 4G</h1>
-                <h1 style="color: #4e4e4e; font-size: 16px;">300.00 جنيه</h1>
-                <h1 style="color: #868686; font-size: 14px; text-decoration: line-through; margin-top: -8px; margin-right: -41px;">400.00 جنيه</h1>
-                <h1 style="color: #ffffff; font-size: 13px; background-color: #ff0000; border-radius: 2px; text-align: center; line-height: 28px; height: 28px; float: right; margin-right: 17px; padding-right: 8px; padding-left: 8px; margin-bottom: 15px;">
-                    الخصم 25%
-                </h1>
-            </div>
-            
-            <div class="carousel-item" style="margin-right: 12px;" loading="lazy">
-                <img src="https://i.postimg.cc/15z3Yh3F/1723529658temp250218069738258446.jpg" alt="علبة ألوان عملاقة 168 قطعة" onclick="selectImage('prod.html?id=7')" loading="lazy">
-                <h1 style="color: #363636; font-size: 16px;">علبة ألوان عملاقة 168 قطعة</h1>
-                <h1 style="color: #4e4e4e; font-size: 16px;">270.00 جنيه</h1>
-                <h1 style="color: #868686; font-size: 14px; text-decoration: line-through; margin-top: -8px; margin-right: -41px;">360.00 جنيه</h1>
-                <h1 style="color: #ffffff; font-size: 13px; background-color: #ff0000; border-radius: 2px; text-align: center; line-height: 28px; height: 28px; float: right; margin-right: 17px; padding-right: 8px; padding-left: 8px; margin-bottom: 15px;">
-                    الخصم 25%
-                </h1>
-            </div>
-
-            <div class="carousel-item" style="margin-right: 12px;" loading="lazy">
-                <img src="https://i.postimg.cc/c4tztV8s/1742285437temp7370626005691229244.jpg" alt="شنطة كروس ميكي" onclick="selectImage('prod.html?id=8')" loading="lazy">
-                <h1 style="color: #363636; font-size: 16px;">شنطة كروس ميكي</h1>
-                <h1 style="color: #4e4e4e; font-size: 16px;">200.00 جنيه</h1>
-                <h1 style="color: #868686; font-size: 14px; text-decoration: line-through; margin-top: -8px; margin-right: -41px;"> 250.00 جنيه  </h1>
-                <h1 style="color: #ffffff; font-size: 13px; background-color: #ff0000; border-radius: 2px; text-align: center; line-height: 28px; height: 28px; float: right; margin-right: 17px; padding-right: 8px; padding-left: 8px; margin-bottom: 15px;">
-                    الخصم 20%
-                </h1>
-            </div>
-            
-        
-    
-            <!-- يمكنك إضافة المزيد من العناصر هنا بنفس الطريقة -->
+        <!-- زر عرض المزيد -->
+        <div class="show-more-item" onclick="window.location.href='adger.search.html?search=خصومات'">
+            <svg class="show-more-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"/>
+            </svg>
+            <div class="show-more-text">عرض المزيد</div>
         </div>
     </div>
-    <script>
-        // دالة لترتيب المنتجات عشوائياً
-        function shuffleCarouselItems() {
+</div>
+
+<script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2.38.5";
+
+    window.supabase = createClient(
+        'https://aagsmtkuygnlgeyboarg.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFhZ3NtdGt1eWdubGdleWJvYXJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ3NDQzNDEsImV4cCI6MjA3MDMyMDM0MX0.rgMrAM3vURYo7bFvy9okiogXEh9wyFwp9Z0yAxBE9SI'
+    );
+
+    async function loadDiscounts() {
+        try {
+            const { data, error } = await supabase.from('products').select('*');
+            if (error) throw error;
+
+            const regex = /^خصم\s*\d+\s*%/;
+            let filtered = data.filter(p => {
+                const text1 = (p.discount_text_1 || "").trim();
+                const text2 = (p.discount_text_2 || "").trim();
+                return regex.test(text1) || regex.test(text2);
+            });
+
+            filtered.sort(() => Math.random() - 0.5);
+            const selected = filtered.slice(0, 9);
             const carousel = document.getElementById('carousel');
-            const items = Array.from(carousel.querySelectorAll('.carousel-item'));
-            for (let i = items.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [items[i], items[j]] = [items[j], items[i]];
+            const skeletons = carousel.querySelectorAll('.skeleton');
+
+            if (selected.length === 0) {
+                skeletons.forEach(s => s.remove());
+                return;
             }
-            items.forEach(item => carousel.appendChild(item));
-            
-            // Make sure the "Show More" item stays at the end (left in RTL)
-            const showMoreItem = carousel.querySelector('.show-more-item');
-            if (showMoreItem) {
-                carousel.appendChild(showMoreItem);
+
+            selected.forEach((product, index) => {
+                if (skeletons[index]) {
+                    const img = (product.images && product.images[0]) ? product.images[0] : 'placeholder.jpg';
+                    const matchedText = regex.test(product.discount_text_1) ? product.discount_text_1 : product.discount_text_2;
+                    
+                    skeletons[index].classList.remove('skeleton');
+                    skeletons[index].innerHTML = `
+                        <img src="${img}" onclick="window.location.href='prod.html?id=${product.id}'">
+                        <h1>${product.name}</h1>
+                        <h1>${product.price.toFixed(2)} جنيه</h1>
+                        <h1>${product.old_price ? product.old_price.toFixed(2) + ' جنيه' : ''}</h1>
+                        <h1>${matchedText}</h1>
+                    `;
+                }
+            });
+
+            skeletons.forEach((s, idx) => {
+                if (idx >= selected.length) s.remove();
+            });
+
+        } catch (e) {
+            console.error("Fetch Error:", e);
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', loadDiscounts);
+</script>
+
+<script>
+    function isDesktop() {
+        const userAgent = navigator.userAgent.toLowerCase();
+        const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+        const isTablet = /(ipad|tablet|playbook|silk)|(android(?!.*mobile))/i.test(userAgent);
+        return !isMobile && !isTablet && window.innerWidth > 768;
+    }
+
+    function createArrows() {
+        if (!isDesktop()) return;
+
+        const container = document.querySelector('.carousel-container');
+        const slider = document.querySelector('.carousel');
+
+        const leftArrow = document.createElement('button');
+        leftArrow.innerHTML = '&#10094;';
+        leftArrow.classList.add('arrow-button', 'left-arrow');
+        leftArrow.onclick = () => scrollSlider(-200);
+
+        const rightArrow = document.createElement('button');
+        rightArrow.innerHTML = '&#10095;';
+        rightArrow.classList.add('arrow-button', 'right-arrow');
+        rightArrow.style.display = 'none';
+        rightArrow.onclick = () => scrollSlider(200);
+
+        container.appendChild(leftArrow);
+        container.appendChild(rightArrow);
+
+        function updateArrowsVisibility() {
+            rightArrow.style.display = slider.scrollLeft === 0 ? 'none' : 'block';
+            if (Math.abs(slider.scrollLeft) + slider.clientWidth >= slider.scrollWidth - 1) {
+                leftArrow.style.display = 'none';
+            } else {
+                leftArrow.style.display = 'block';
             }
         }
 
-        function selectImage(path) {
-            window.location.href = path;
-        }
-        
-        function redirectToDiscounts() {
-            window.location.href = 'adger.search.html?search=خصومات';
-        }
-        
-        function isDesktop() {
-            const userAgent = navigator.userAgent.toLowerCase();
-            const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
-            const isTablet = /(ipad|tablet|playbook|silk)|(android(?!.*mobile))/i.test(userAgent);
-            const screenWidth = window.innerWidth;
-            return !isMobile && !isTablet && screenWidth > 768;
-        }
-        function createArrows() {
-            if (!isDesktop()) return;
-            const container = document.querySelector('.carousel-container');
-            const carousel = document.querySelector('.carousel');
-            const leftArrow = document.createElement('button');
-            leftArrow.innerHTML = '❮';
-            leftArrow.classList.add('arrow-button', 'left-arrow');
-            leftArrow.style.display = 'block';
-            leftArrow.onclick = () => {
-                scrollCarousel(-200);
-                updateArrowsVisibility();
-            };
-            const rightArrow = document.createElement('button');
-            rightArrow.innerHTML = '❯';
-            rightArrow.classList.add('arrow-button', 'right-arrow');
-            rightArrow.style.display = 'none';
-            rightArrow.onclick = () => {
-                scrollCarousel(200);
-                updateArrowsVisibility();
-            };
-            container.appendChild(leftArrow);
-            container.appendChild(rightArrow);
-            function updateArrowsVisibility() {
-                if (carousel.scrollLeft === 0) {
-                    leftArrow.style.display = 'block';
-                    rightArrow.style.display = 'none';
-                } else if (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth) {
-                    leftArrow.style.display = 'none';
-                    rightArrow.style.display = 'block';
-                } else {
-                    leftArrow.style.display = 'block';
-                    rightArrow.style.display = 'block';
-                }
-            }
-            carousel.addEventListener('scroll', debounce(updateArrowsVisibility, 100));
-            updateArrowsVisibility();
-        }
-        function scrollCarousel(scrollAmount) {
-            const carousel = document.querySelector('.carousel');
-            carousel.scrollBy({
-                left: scrollAmount,
-                behavior: 'smooth'
-            });
-        }
-        function debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        }
-        document.addEventListener('DOMContentLoaded', function() {
-            shuffleCarouselItems(); // ترتيب المنتجات عشوائياً عند تحميل الصفحة
-            createArrows();
-            const images = document.querySelectorAll('img[loading="lazy"]');
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const img = entry.target;
-                        img.src = img.getAttribute('src');
-                        observer.unobserve(img);
-                    }
-                });
-            }, { rootMargin: '0px 0px 100px 0px' });
-            images.forEach(img => observer.observe(img));
-        });
-    </script>
+        slider.addEventListener('scroll', updateArrowsVisibility);
+        setTimeout(updateArrowsVisibility, 1000); 
+    }
+
+    function scrollSlider(scrollAmount) {
+        document.querySelector('.carousel').scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+
+    createArrows();
+</script>
+
 </body>
 </html>
-
-
     <div class="line" style="margin-top: 25px;"></div>
 
 
@@ -1514,7 +1352,6 @@
                 right: 0;
                 height: 48px;
                 background-color: white;
-                box-shadow: 0 3px 1px -2px rgba(37, 37, 37, 0.1);
                 text-shadow: none;
                 z-index: 999;
                 display: flex;
@@ -2814,8 +2651,7 @@
 <body>
     <!-- هذا الجزء من الكود لا يحتاج إلى تعديل، لكنني أضعه للتوضيح -->
     <!-- <div class="menu-icon" onclick="toggleMenu()"> ... </div> -->
-
-    <!-- الخلفية العلوية -->
+<!-- الخلفية العلوية -->
     <div class="top-background"></div>
 
     <!-- الخلفية البيضاء الجديدة -->
@@ -2925,8 +2761,7 @@
             يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى.
         </p>
     </div>
-
- <script type="module">
+<script type="module">
       import { createClient } from "https://esm.sh/@supabase/supabase-js@2.38.5";
         const supabase = createClient(
             'https://aagsmtkuygnlgeyboarg.supabase.co',
@@ -2948,8 +2783,7 @@
             'أجهزة منزلية': ['أجهزة منزلية', 'جهاز منزلي', 'مطبخ', 'ثلاجة', 'غسالة']
         };
 
-        // --- دوال النافذة الجانبية من الكود المحفوظ ---
-        // دالة لإظهار أو إخفاء القائمة الجانبية
+        // --- دوال النافذة الجانبية ---
         window.toggleMenu = function() {
             const menuPopup = document.getElementById('menuPopup');
             if (menuPopup.classList.contains('active')) {
@@ -2957,24 +2791,22 @@
                 setTimeout(() => {
                     menuPopup.classList.remove('active', 'closing');
                     menuPopup.style.display = 'none';
-                }, 300); // يتناسب مع مدة animation
+                }, 300);
             } else {
                 menuPopup.style.display = 'block';
                 menuPopup.classList.add('active');
             }
         }
         
-        // إغلاق النافذة بالنقر على الشاشة خارج النافذة
         document.body.addEventListener('click', function(event) {
             const menuPopup = document.getElementById('menuPopup');
             if (menuPopup.classList.contains('active') && 
                 !menuPopup.contains(event.target) && 
-                !event.target.closest('.menu-icon')) { // تأكد من أن لديك عنصر بهذا الكلاس أو عدل الشرط
+                !event.target.closest('.menu-icon')) {
                 toggleMenu();
             }
         });
         
-        // إغلاق النافذة أثناء التمرير من اليمين إلى اليسار
         let touchStartX = 0;
         let touchCurrentX = 0;
         let isSwiping = false;
@@ -3001,7 +2833,6 @@
         document.addEventListener('touchend', function() {
             isSwiping = false;
         });
-        // --- نهاية دوال النافذة الجانبية ---
 
         function normalizeArabic(text) {
             if (!text) return '';
@@ -3117,15 +2948,22 @@
                         searchKeywords = [...new Set([...searchKeywords, ...keywordMap[category].map(normalizeArabic)])];
                     }
                 }
+                
+                // التعبير النمطي للبحث عن "خصم [رقم] %"
+                const discountRegex = /^خصم\s*\d+\s*%/;
+
                 filteredProducts = allSupabaseProducts.filter(product => {
                     const fieldsToSearch = [
                         normalizeArabic(product.name) || '',
                         normalizeArabic(product.dataName) || '',
                         normalizeArabic(product.search_keywords) || ''
                     ];
+                    
+                    // التعديل المطلوب لزر خصومات
                     if (searchTerm === 'خصومات') {
-                        return product.old_price && product.old_price > 0;
+                        return product.discountTexts.some(text => discountRegex.test(text));
                     }
+
                     return searchKeywords.some(keyword =>
                         fieldsToSearch.some(field => field.includes(keyword))
                     );
@@ -3175,8 +3013,8 @@
                                 <div class="number" style="font-size: 20px;">${product.price.toFixed(2)}</div>
                                 <div class="letter" style="margin-right: -4px; font-size: 17px;">EGP</div>
                             </div>
-                            <div class="product1212">
-                                <h3 class="rotating-text1212" data-texts='${JSON.stringify(product.discountTexts)}'>${product.discountTexts[0] || ''}</h3>
+                            <div class="product1212" style="overflow: hidden; height: 20px; position: relative;">
+                                <h3 class="rotating-text1212" data-texts='${JSON.stringify(product.discountTexts)}' style="position: absolute; width: 100%; transition: transform 0.6s ease, opacity 0.6s ease; transform: translateY(0); opacity: 1;">${product.discountTexts[0] || ''}</h3>
                             </div>
                         </div>
                     </div>
@@ -3208,13 +3046,27 @@
                 const texts = JSON.parse(element.getAttribute("data-texts"));
                 if (!texts || texts.length < 2) return;
                 let currentIndex = 0;
+
                 const newIntervalId = setInterval(() => {
+                    element.style.transition = "transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease";
+                    element.style.transform = "translateY(100%)";
                     element.style.opacity = "0";
+
                     setTimeout(() => {
                         currentIndex = (currentIndex + 1) % texts.length;
                         element.textContent = texts[currentIndex];
-                        element.style.opacity = "1";
-                    }, 500);
+                        
+                        element.style.transition = "none";
+                        element.style.transform = "translateY(100%)";
+
+                        requestAnimationFrame(() => {
+                            setTimeout(() => {
+                                element.style.transition = "transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease";
+                                element.style.transform = "translateY(0)";
+                                element.style.opacity = "1";
+                            }, 50);
+                        });
+                    }, 600);
                 }, 5000);
                 element.setAttribute('data-interval-id', newIntervalId);
             });
@@ -3309,18 +3161,6 @@
         window.onload = initializeApp;
 
     </script>
-</body>
-</html>
-
-
-
-
-
-
-
-
-
-
 
 
 

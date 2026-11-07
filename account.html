@@ -4,44 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adger</title>
-    <link rel="icon" href="logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="style.css">
-
-    <!-- بيانات Open Graph -->
-    <meta property="og:title" content="Adger - التسوق الإلكتروني">
-    <meta property="og:description" content="مرحبًا بك في أدجر، وجهتك الأولى للتسوق الإلكتروني حيث تجد كل ما تبحث عنه بأسعار تنافسية وجودة عالية.">
-    <meta property="og:image" content="https://i.postimg.cc/bYk5FR3Q/2024-10-24-13-27-28-da2d3af5.jpg">
-    <meta property="og:url" content="https://adger-saifeddine.github.io/adger/">
-    <meta property="og:type" content="website">
-
-    <!-- بيانات منظمة Schema.org -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Adger",
-      "url": "https://adger-saifeddine.github.io/adger/",
-      "logo": "https://i.postimg.cc/bYk5FR3Q/2024-10-24-13-27-28-da2d3af5.jpg"
-    }
-    </script>
-
-    <!-- نص برمجي لتغيير الفيكون بناءً على نوع الجهاز -->
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        function isDesktop() {
-            var userAgent = navigator.userAgent.toLowerCase();
-            return userAgent.includes('windows') || userAgent.includes('macintosh') || userAgent.includes('linux') && !userAgent.includes('android');
-        }
-        if (isDesktop()) {
-            document.querySelector('link[rel="icon"]').href = 'logo2.png';
-        }
-    });
-    </script>
+    <title>أدجر-الحساب</title>
+    <link rel="icon" href="logo2.png" type="image/x-icon">
 </head>
-<body>
+</html>
 
+    <link rel="stylesheet" href="style.css">
+    
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -823,6 +794,12 @@
                 margin-left: 20px;
                 justify-content: center;
             }
+                     /* التنسيق الخاص بالشاشات من 767px إلى 867px */
+@media screen and (min-width: 767px) and (max-width: 867px) {
+    .user-icon {
+        margin-right: -8px; /* يمكنك تغيير px إلى rem أو % حسب احتياجك */
+    }
+}
     
             .user-icon svg {
                 width: 24px;
@@ -1089,19 +1066,19 @@
                     <svg onclick="history.back()" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/>
                     </svg>
-                    <h2 class="adger" onclick="window.location.href='index.html';">Adger</h2>
+                    <h2 class="adger" onclick="window.location.href='index.html';">أدجر</h2>
                 </div>
     
                 <style>
                     /* إخفاء العنصر على الهواتف */
-                    @media only screen and (max-width: 767px) {
+                    @media only screen and (max-width: 867px) {
                         .element-to-hide {
                             display: none;
                         }
                     }
                 </style>
                 <div class="element-to-hide" style="font-family: Cairo, sans-serif;">
-                    اللغه / <span style="color: red;">ar</span>
+                    اللغه / <span style="color: red;">ع</span>
                 </div>
                 <style>
                     /* إخفاء العنصر على الهواتف */
@@ -1172,13 +1149,13 @@
     
                     /* إضافة مسافة بين العنصر والزر */
                     .country-code {
-                        margin-right: 20px;
+                        margin-right: 2px;
                     }
                 </style>
                 <div class="container22">
                     <div class="country-code hide-on-mobile">
                         <span>البلد / </span>
-                        <span style="color: #000000; width: 44px;">EGP</span>
+                        <span style="color: #000000; width: 44px;">مصر</span>
                         <img class="flag" src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Flag_of_Egypt.svg" alt="علم مصر">
                     </div>
                 </div>
@@ -1330,28 +1307,31 @@
 
     // --- الدوال الوظيفية ---
 
-    /**
-     * الدالة الرئيسية التي تلبي طلبك:
-     * تحديث رسالة الترحيب بناءً على حالة تسجيل دخول المستخدم.
-     */
-    function updateWelcomeMessage() {
-        // استرجاع اسم المستخدم من الذاكرة المحلية
-        const username = localStorage.getItem('username');
-        // الحصول على عنصر رسالة الترحيب
-        const welcomeMessage = document.getElementById('welcomeMessage');
-        
-        // التحقق من وجود العنصر قبل التعامل معه
-        if (welcomeMessage) {
-            // إذا كان المستخدم قد سجل دخوله (يوجد اسم مستخدم)
-            if (username) {
-                // عرض رسالة "أهلاً" مع اسم المستخدم المقصر
-                welcomeMessage.innerHTML = `أهلاً <span>${truncateUsername(username)}</span>`;
-            } else {
-                // إذا لم يكن المستخدم مسجلاً، اعرض رسالة لتسجيل الدخول
-                welcomeMessage.innerHTML = 'أهلاً، <span style="color: black; cursor: pointer;" onclick="window.location.href=\'account.html\'">سجل دخولك</span>';
-            }
+  /**
+ * الدالة الرئيسية التي تلبي طلبك:
+ * تحديث رسالة الترحيب بناءً على حالة تسجيل دخول المستخدم.
+ */
+function updateWelcomeMessage() {
+    // استرجاع اسم المستخدم من الذاكرة المحلية
+    const username = localStorage.getItem('username');
+    // الحصول على عنصر رسالة الترحيب
+    const welcomeMessage = document.getElementById('welcomeMessage');
+    
+    // التحقق من وجود العنصر قبل التعامل معه
+    if (welcomeMessage) {
+        // منع النص من الانفصال أو النزول لسطر جديد
+        welcomeMessage.style.whiteSpace = 'nowrap';
+
+        // إذا كان المستخدم قد سجل دخوله (يوجد اسم مستخدم)
+        if (username) {
+            // إضافة الفاصلة "،" بعد كلمة أهلاً هنا 👇
+            welcomeMessage.innerHTML = `أهلاً، <span>${truncateUsername(username)}</span>`;
+        } else {
+            // إذا لم يكن المستخدم مسجلاً، اعرض رسالة لتسجيل الدخول
+            welcomeMessage.innerHTML = 'أهلاً، <span style="color: black; cursor: pointer;" onclick="window.location.href=\'account.html\'">سجل دخولك</span>';
         }
     }
+}
     
     // دالة لإظهار أو إخفاء القائمة الجانبية
     function toggleMenu() {

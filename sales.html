@@ -3,8 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adger</title>
-    <link rel="icon" href="sales.jpg" type="image/x-icon">
+    
+    <!-- اسم الموقع -->
+    <title>أدجر-قسم المبيعات</title>
+
+    <!-- أيقونة الموقع الافتراضية (تظهر في الهواتف) -->
+    <link rel="icon" href="adger-sales.png" type="image/x-icon">
+
+    <!-- نص برمجي لتغيير الأيقونة إلى (logo2.png) في حال كان الجهاز حاسوباً -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        function isDesktop() {
+            var userAgent = navigator.userAgent.toLowerCase();
+            return userAgent.includes('windows') || userAgent.includes('macintosh') || (userAgent.includes('linux') && !userAgent.includes('android'));
+        }
+        if (isDesktop()) {
+            document.querySelector('link[rel="icon"]').href = 'adger-sales2.png';
+        }
+    });
+    </script>
+</head>
+</html>
+
+
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>

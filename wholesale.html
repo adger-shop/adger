@@ -3,11 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Adger لتجارة الجملة | أزياء عصرية</title>
+<title>أدجر | لتجارة الجملة</title>
 <link rel="icon" href="https://i.postimg.cc/qMDQX3CH/whosale4.png" type="image/x-icon">
+</head>
+</html>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Cinzel+Decorative:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&family=Cinzel+Decorative:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
@@ -62,20 +65,30 @@ h1, h2, h3, h4 { font-family: var(--font-display); color: var(--color-primary); 
 /* --- Header --- */
 .header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 0 14px !important; height: var(--header-height); position: fixed; top: 0; width: 100%; z-index: 1000; border-bottom: 1px solid var(--color-border); display: flex; align-items: center; }
 .header .container { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-.logo { transition: max-width 0.4s ease, opacity 0.3s ease; overflow: hidden; white-space: nowrap; }
-.logo a { text-decoration: none; color: inherit; }
-.logo h1 {
-    font-family: var(--font-logo);
-    font-size: 2rem;
-    font-weight: 700;
-    transition: font-size 0.3s ease;
-    display: flex;
-    align-items: center;
-    direction: ltr;
+.logo { transition: max-width 0.4s ease, opacity 0.3s ease; overflow: hidden; white-space: nowrap; display: flex; align-items: center; }
+.logo a { text-decoration: none; color: inherit; display: inline-flex; align-items: center; -webkit-tap-highlight-color: transparent; }
+.brand-title {
+    font-family: 'Cairo', sans-serif;
+    font-size: 1.65rem;
+    font-weight: 800;
+    line-height: 1.4;
+    padding: 6px 2px;
+    display: inline-block;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #0056b3 0%, #1a1a1a 50%, #004494 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    transition: filter 0.2s ease, opacity 0.2s ease;
+    user-select: none;
+    transform: none !important;
 }
-.logo-adger { background: linear-gradient(45deg, var(--color-primary), var(--color-secondary)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.logo-trade { font-family: var(--font-primary); font-size: 1.5rem; font-weight: 600;  background: linear-gradient(90deg, #0056b3, #333, #0056b3); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; color: transparent; animation: animate-gradient-text 6s linear infinite; }
-@keyframes animate-gradient-text { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+.brand-title:hover {
+    filter: brightness(1.15);
+}
+.brand-title:active {
+    opacity: 0.85;
+}
 .header-right { display: flex; align-items: center; gap: 1rem; transition: gap 0.4s ease; }
 .nav { display: none; }
 .nav a { color: var(--color-text); text-decoration: none; font-weight: 600; transition: color 0.3s ease; position: relative; padding: 5px 0; }
@@ -219,7 +232,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); color: var(--color-primary); 
 /* --- CONTACT SECTION STYLES (UPDATED) --- */
 .contact-section { 
     padding-top: 6rem; 
-    padding-bottom: 6rem; /* Ensures balanced vertical spacing */
+    padding-bottom: 6rem;
 }
 .contact-grid { 
     display: grid; 
@@ -232,12 +245,9 @@ h1, h2, h3, h4 { font-family: var(--font-display); color: var(--color-primary); 
     transition: transform 0.3s ease;
 }
 @media (min-width: 1468px) {
-/* الحركة الناعمة للعنصر */
 .contact-card {
     transition: transform 0.3s ease;
 }
-
-/* التأثير عند مرور الماوس (رفع البطاقة للأعلى) */
 .contact-card:hover {
     transform: translateY(-5px);
 }}
@@ -332,7 +342,6 @@ h1, h2, h3, h4 { font-family: var(--font-display); color: var(--color-primary); 
 .product-specs-table td { text-align: right; padding: 12px 15px; color: var(--color-primary); font-weight: 500; }
 .product-specs-table tr.hidden-row { display: none; }
 
-
 #quoteRequestModal .modal-content{max-width:550px}
 .quote-request-form{padding:2.5rem}
 .quote-request-form .modal-header h2{font-family:var(--font-display);font-size:1.8rem;margin:0}
@@ -364,17 +373,9 @@ h1, h2, h3, h4 { font-family: var(--font-display); color: var(--color-primary); 
     }
     
     .quote-request-form .form-group { margin-bottom: 0; }
-
-    /* Company Name: Full Width (Alone on Right/Top) */
     #companyNameWrapper { grid-column: 1 / -1; }
-    
-    /* Customer Name: Next to Phone (Right side in RTL grid flow) */
     #customerNameWrapper { grid-column: auto; }
-    
-    /* Phone: Next to Name (Left side in RTL grid flow) */
     #customerPhoneWrapper { grid-column: auto; }
-
-    /* Textareas: Full Width */
     #customerLocationWrapper { grid-column: 1 / -1; }
     #customerNotesWrapper { grid-column: 1 / -1; }
 }
@@ -388,7 +389,6 @@ h1, h2, h3, h4 { font-family: var(--font-display); color: var(--color-primary); 
     text-align: right;
     direction: rtl;
 }
-
 
 #accountModal .modal-content,#ordersModal .modal-content,#editAccountModal .modal-content{max-width:650px}.account-modal-body,.orders-modal-body{padding:2rem 2.5rem}#accountModalTitle{font-family:var(--font-display);font-size:1.8rem;color:var(--color-primary)}#accountFormContainer .profile-pic-container{position:relative;width:120px;height:120px;margin:0 auto 1.5rem}#profilePicPreview{width:100%;height:100%;border-radius:50%;object-fit:cover;border:4px solid var(--color-border);background-color:var(--color-light-gray)}.change-pic-label{position:absolute;bottom:5px;right:5px;width:32px;height:32px;background:var(--color-primary);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid #fff;transition:transform .3s ease}.change-pic-label:hover{transform:scale(1.1)}.account-form{text-align:right}.account-form .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}.account-form .form-group{margin-bottom:.5rem}.account-form .form-group.full-width{grid-column:1 / -1}.account-form label{display:block;margin-bottom:.5rem;font-weight:600;font-size:.9rem}.account-form .input-wrapper{position:relative}.account-form .input-wrapper svg{position:absolute;top:50%;right:15px;transform:translateY(-50%);color:var(--color-input-icon);width:18px;height:18px;pointer-events:none;transition:color .3s ease}.account-form .input-wrapper:focus-within svg{color:var(--color-secondary)}.account-form input,.account-form textarea{width:100%;padding:.8rem 45px .8rem 1rem;border:1px solid var(--color-border);border-radius:8px;font-size:1rem;font-family:var(--font-primary);transition:border-color .3s ease,box-shadow .3s ease}.account-form input:focus,.account-form textarea:focus{outline:0;border-color:var(--color-secondary);box-shadow:0 0 0 3px rgba(0, 86, 179, .2)}.account-form textarea{resize:vertical;min-height:80px}.account-form .input-wrapper textarea+svg{top:1.2rem;transform:translateY(0)}.account-actions{margin-top:2rem;display:flex;flex-direction:column;gap:1rem}#accountDetailsContainer{display:none;flex-direction:column;align-items:center;text-align:center;width:100%}#detailsProfilePic{width:110px;height:110px;border-radius:50%;object-fit:cover;margin-bottom:1rem;border:4px solid var(--color-secondary);padding:4px;background-color:#fff;box-shadow:var(--shadow-sm)}#detailsUserName{font-size:2rem;font-family:var(--font-display);color:var(--color-primary);margin-bottom:1.5rem}#detailsInfoList{list-style:none;padding:0;margin:0 0 1.5rem;text-align:right;width:100%;max-width:400px;border-top:1px solid var(--color-border);padding-top:1.5rem}#detailsInfoList li{display:flex;align-items:center;gap:1rem;font-size:1rem;margin-bottom:1rem;color:var(--color-text)}#detailsInfoList li svg{width:20px;height:20px;color:var(--color-secondary);flex-shrink:0}.details-address-block{text-align:right;width:100%;max-width:400px;margin-bottom:2rem}.details-address-block h4{display:flex;align-items:center;gap:.75rem;font-family:var(--font-primary);font-size:1.1rem;font-weight:600;margin-bottom:.5rem}#detailsUserAddress{font-size:.95rem;color:#6c757d;line-height:1.6;padding-right:32px}#logoutBtn{background:0 0;color:var(--color-danger);border:2px solid var(--color-danger)}#logoutBtn:hover{background:var(--color-danger);color:#fff}.orders-modal-body h3{margin-bottom:1.5rem}
 .order-item{display:flex;align-items:center;gap:1.5rem;padding:1rem;border:1px solid var(--color-border);border-radius:8px;margin-bottom:1rem;text-align:right;cursor:pointer;transition:all .3s ease; will-change: transform; transform: translateZ(0);}
@@ -434,7 +434,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); color: var(--color-primary); 
 
 /* --- Responsive Design --- */
 @media (min-width:769px) { .nav { display: flex; } .nav ul { display: flex; list-style: none; gap: 2.5rem; } .mobile-menu-toggle { display: none; } .header-right { gap: 2rem; } }
-@media (max-width:950px) { .logo h1 { font-size: 1.5rem; } }
+@media (max-width:950px) { .brand-title { font-size: 1.4rem; } }
 
 /* --- START: GRID & PADDING ADJUSTMENTS --- */
 @media (min-width: 1500px) { 
@@ -443,7 +443,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); color: var(--color-primary); 
 @media (min-width: 1200px) { 
     .products-grid { grid-template-columns: repeat(4, 1fr); }
     #productModal .modal-content { max-width: 1100px; } 
-    #products .container { padding-right: 10px; padding-left: 10px; } /* Reduced padding */
+    #products .container { padding-right: 10px; padding-left: 10px; }
 }
 @media (min-width: 992px) and (max-width: 1199px) {
     .products-grid { grid-template-columns: repeat(3, 1fr); }
@@ -462,10 +462,8 @@ h1, h2, h3, h4 { font-family: var(--font-display); color: var(--color-primary); 
     .header { padding: 0 !important; }
     .header .container { padding: 0 1rem; }
     .header-right { gap: .7rem; }
-    .logo h1 { font-size: 1.5rem; }
+    .brand-title { font-size: 1.35rem; }
     
-    /* --- Modal Full Screen Logic Fix --- */
-    /* This forces the modal to be 100% width AND height on mobile, overriding any ID-based max-width */
     #quoteRequestModal .modal-content,
     #productModal .modal-content,
     #accountModal .modal-content,
@@ -487,7 +485,6 @@ h1, h2, h3, h4 { font-family: var(--font-display); color: var(--color-primary); 
     #productModal .modal-images { height: 60vh; width: 100%; border-radius: 0; max-width: 100%; margin: 0; border: none; box-shadow: none; }
     #productModal .modal-details { padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem; }
     #productModal .modal-details > * { margin: 0; }
-    /* Confirm modal might still want to be small, but if it hits limits, it expands */
     #confirmModal .modal-content { height: auto !important; max-height: auto !important; width: 90% !important; border-radius: 12px !important; margin: auto !important; }
 
     .product-features-banner { flex-wrap: wrap; gap: 1.5rem; padding: 0.75rem; }
@@ -519,10 +516,9 @@ h1, h2, h3, h4 { font-family: var(--font-display); color: var(--color-primary); 
     .quantity-options-wrapper { margin: 0 -1.5rem; }
     .quantity-options::before, .quantity-options::after { width: 10px; }
     
-    /* --- Mobile Contact Section Updates --- */
     #contact.section-tight { 
         padding-top: 4rem; 
-        padding-bottom: 4rem; /* Perfectly equal to top */
+        padding-bottom: 4rem;
     }
     #contact .section-title { 
         margin-bottom: 3rem; 
@@ -542,7 +538,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); color: var(--color-primary); 
     }
 }
 @media (max-width:480px) {
-    .logo h1 { font-size: 1.3rem; }
+    .brand-title { font-size: 1.25rem; }
     #productModal .modal-details .price { font-size: 1.2rem; }
     #productModal .buy-now-btn { font-size: 1rem; padding: .8rem; }
     .quote-request-form { padding: 1.5rem; }
@@ -553,22 +549,18 @@ h1, h2, h3, h4 { font-family: var(--font-display); color: var(--color-primary); 
 </style>
 </head>
 <body>
-
 <header class="header">
     <div class="container">
         <div class="logo">
-            <a href="#home">
-                <h1>
-                    <span class="logo-adger">Adger</span>&nbsp;
-                    <span class="logo-trade">للتجارة</span>
-                </h1>
+            <a href="javascript:void(0);" onclick="if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; } window.scrollTo(0, 0); window.location.reload();" title="إعادة تحميل الصفحة">
+                <h1 class="brand-title">أدجر للتجارة</h1>
             </a>
         </div>
         <div class="header-right">
             <nav class="nav" id="desktopNav">
                 <ul>
                     <li><a href="#home" class="nav-link active">الرئيسية</a></li>
-                    <li><a href="#products" class="nav-link">كتالوج الجملة</a></li>
+                    <li><a href="#products" class="nav-link">منتجات الجملة</a></li>
                     <li><a href="#contact" class="nav-link">تواصل معنا</a></li>
                 </ul>
             </nav>
@@ -590,21 +582,21 @@ h1, h2, h3, h4 { font-family: var(--font-display); color: var(--color-primary); 
 <nav class="mobile-nav" id="mobileNav">
     <ul>
         <li><a href="#home">الرئيسية</a></li>
-        <li><a href="#products">كتالوج الجملة</a></li>
+        <li><a href="#products">منتجات الجملة</a></li>
         <li><a href="#contact">تواصل معنا</a></li>
     </ul>
 </nav>
 <section id="home" class="hero-section section">
     <div class="hero-content">
-        <h1>Adger لتجارة الجملة</h1>
+        <h1>أدجر لتجارة الجملة</h1>
         <p>شريككم الموثوق لتوفير أحدث تشكيلات الأزياء بأسعار تنافسية وجودة لا تضاهى لتجار الجملة والمحلات التجارية.</p>
-        <a href="#products" class="cta-btn">تصفح الكتالوج</a>
+        <a href="#products" class="cta-btn">تصفح المنتجات</a>
     </div>
 </section>
 <section id="products" class="section section-bg section-tight">
     <div class="container">
         <div class="section-title">
-            <h2 id="productsTitle">كتالوج الجملة</h2>
+            <h2 id="productsTitle">منتجات الجملة</h2>
         </div>
         <div id="searchResultsInfo"></div>
         <div class="products-grid" id="productsGrid">
@@ -640,18 +632,18 @@ h1, h2, h3, h4 { font-family: var(--font-display); color: var(--color-primary); 
     <div class="container">
         <div class="footer-content">
             <div class="footer-section">
-                <h4>Adger لتجارة الجملة</h4>
-                <p>وجهتكم الأولى لتجارة الأزياء بالجملة. شركاء نجاحكم في توفير أحدث الموديلات.</p>
+                <h4>أدجر لتجارة الجملة</h4>
+                <p>وجهتكم الأولى لتجارة المنتجات بالجملة. شركاء نجاحكم في توفير أحدث المنتجات.</p>
               <div class="social-links">
                     <a href="#" class="social-link"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
                     <a href="#" class="social-link"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
                     <a href="https://youtube.com/your-channel-link" target="_blank" class="social-link"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2A29 29 0 0 0 23 11.75a29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg></a>
                     <a href="https://tiktok.com/@your-profile-link" target="_blank" class="social-link"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M16.6 5.82s.51.5 0 0A4.278 4.278 0 0 1 15.54 3h-3.09v12.4a2.592 2.592 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6c0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.6c0 3.33 2.76 5.7 5.69 5.7c3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48z"/></svg></a>
-                </div>
+              </div>
             </div>
             <div class="footer-section">
                 <h4>روابط سريعة</h4>
-                <ul><li><a href="#home">الرئيسية</a></li><li><a href="#products">كتالوج الجملة</a></li><li><a href="#contact">تواصل معنا</a></li></ul>
+                <ul><li><a href="#home">الرئيسية</a></li><li><a href="#products">منتجات الجملة</a></li><li><a href="#contact">تواصل معنا</a></li></ul>
             </div>
             <div class="footer-section">
                 <h4>خدمة التجار</h4>
@@ -664,7 +656,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); color: var(--color-primary); 
 <div id="productModal" class="modal">
      <div class="modal-content">
         <div class="modal-header">
-            <div class="modal-logo"><h3><span class="logo-adger">Adger</span><span class="logo-trade">للتجارة</span></h3></div>
+            <div class="modal-logo"><h3 class="brand-title" style="font-size: 1.4rem;">أدجر للتجارة</h3></div>
             <span class="close">&times;</span>
         </div>
         <div class="modal-body">
@@ -826,6 +818,8 @@ h1, h2, h3, h4 { font-family: var(--font-display); color: var(--color-primary); 
     const database = firebase.database();
     
     function initializeAdgerWholesale() {
+        const defaultAvatar = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect width='120' height='120' fill='%23f1f3f5'/%3E%3Ccircle cx='60' cy='45' r='22' fill='%23b0b8c1'/%3E%3Cpath d='M25 105c0-19.33 15.67-35 35-35s35 15.67 35 35' fill='%23b0b8c1'/%3E%3C/svg%3E";
+        
         const manualProducts = [
             {
                 id: 1,
@@ -938,16 +932,13 @@ h1, h2, h3, h4 { font-family: var(--font-display); color: var(--color-primary); 
                     "الأكمام": "أكمام طويلة بأساور"
                 }
             }
-            // Add more products here manually...
         ];
         
-        // --- START: Performance Optimization Variables & Functions ---
         let allProducts = [];
         let filteredProducts = [];
         const itemsPerLoad = 20;
         let loadedItems = 0;
         let isLoading = false;
-        // --- END: Performance Optimization Variables & Functions ---
         
         let scrollbarWidth = 0;
         const quantityScrollPositions = {};
@@ -964,7 +955,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); color: var(--color-primary); 
         }
         
         const dom = {
-            body: document.body, productsGrid: document.getElementById('productsGrid'), productModal: document.getElementById('productModal'), quoteRequestModal: document.getElementById('quoteRequestModal'), accountModal: document.getElementById('accountModal'), ordersModal: document.getElementById('ordersModal'), editAccountModal: document.getElementById('editAccountModal'), confirmModal: document.getElementById('confirmModal'), header: document.querySelector('.header'), searchContainer: document.getElementById('searchContainer'), searchIcon: document.getElementById('searchIcon'), searchInput: document.getElementById('headerSearchInput'), searchResultsInfo: document.getElementById('searchResultsInfo'), mobileMenuToggle: document.getElementById('mobileMenuToggle'), mobileNav: document.getElementById('mobileNav'), allNavLinks: document.querySelectorAll('.nav-link, .mobile-nav a, .cta-btn, .floating-btn, .logo a'),  floatingWidget: document.querySelector('.floating-action-widget'), imageContainer: document.querySelector('#productModal .modal-images'), imageTrack: document.getElementById('imageTrack'), accountBtn: document.getElementById('accountBtn'), accountModalBody: document.querySelector('#accountModal .modal-body'),
+            body: document.body, productsGrid: document.getElementById('productsGrid'), productModal: document.getElementById('productModal'), quoteRequestModal: document.getElementById('quoteRequestModal'), accountModal: document.getElementById('accountModal'), ordersModal: document.getElementById('ordersModal'), editAccountModal: document.getElementById('editAccountModal'), confirmModal: document.getElementById('confirmModal'), header: document.querySelector('.header'), searchContainer: document.getElementById('searchContainer'), searchIcon: document.getElementById('searchIcon'), searchInput: document.getElementById('headerSearchInput'), searchResultsInfo: document.getElementById('searchResultsInfo'), mobileMenuToggle: document.getElementById('mobileMenuToggle'), mobileNav: document.getElementById('mobileNav'), allNavLinks: document.querySelectorAll('.nav-link, .mobile-nav a, .cta-btn, .floating-btn'),  floatingWidget: document.querySelector('.floating-action-widget'), imageContainer: document.querySelector('#productModal .modal-images'), imageTrack: document.getElementById('imageTrack'), accountBtn: document.getElementById('accountBtn'), accountModalBody: document.querySelector('#accountModal .modal-body'),
         };
 
         const icons = {
@@ -1095,18 +1086,15 @@ h1, h2, h3, h4 { font-family: var(--font-display); color: var(--color-primary); 
             document.getElementById("modalProductPrice").textContent = `يبدأ من ${product.quantityTiers[0].pricePerItem} جنيه للقطعة`;
             document.getElementById("modalProductDescription").textContent = product.description;
             
-            // --- Specs Table Logic (Updated for Text -> Arrow) ---
             const specsContainer = document.getElementById('modalProductSpecsTableContainer');
             const specsToggleIcon = document.getElementById('specsToggleIcon');
             const specsHeaderRow = document.getElementById('specsHeaderRow');
             specsContainer.innerHTML = '';
             specsToggleIcon.classList.remove('visible', 'expanded');
             
-            // Remove previous listeners
             const newHeaderRow = specsHeaderRow.cloneNode(true);
             specsHeaderRow.parentNode.replaceChild(newHeaderRow, specsHeaderRow);
             
-            // Re-select elements after cloning
             const currentHeaderRow = document.getElementById('specsHeaderRow');
             const currentToggleIcon = document.getElementById('specsToggleIcon');
 
@@ -1130,7 +1118,6 @@ h1, h2, h3, h4 { font-family: var(--font-display); color: var(--color-primary); 
 
                 if (rowIndex > 5) {
                     currentToggleIcon.classList.add('visible');
-                    // Add click listener to the whole row
                     currentHeaderRow.addEventListener('click', () => {
                         const isExpanded = currentToggleIcon.classList.toggle('expanded');
                         const hiddenRows = tbody.querySelectorAll('tr:nth-child(n+6)');
@@ -1143,7 +1130,6 @@ h1, h2, h3, h4 { font-family: var(--font-display); color: var(--color-primary); 
             } else {
                  specsContainer.innerHTML = '<p style="color:#777; font-size:0.9rem;">لا توجد مواصفات إضافية.</p>';
             }
-
             
             const quantityOptionsContainer = document.getElementById('quantityOptionsContainer');
             quantityOptionsContainer.innerHTML = '';
@@ -1228,12 +1214,10 @@ h1, h2, h3, h4 { font-family: var(--font-display); color: var(--color-primary); 
         }
 
         function lockScroll() {
-            // Removed padding logic to prevent header jumping
             dom.body.classList.add('body-no-scroll');
         }
         function unlockScroll() {
-            // Removed padding logic
-            dom.body.style.paddingLeft = ''; // Cleanup just in case
+            dom.body.style.paddingLeft = '';
             dom.header.style.paddingLeft = '';
             dom.body.classList.remove('body-no-scroll');
         }
@@ -1303,8 +1287,8 @@ h1, h2, h3, h4 { font-family: var(--font-display); color: var(--color-primary); 
         function getOrders(){const e=JSON.parse(localStorage.getItem("lastOrder_wholesale"))||null,t=JSON.parse(localStorage.getItem("orderHistory_wholesale"))||[];return{lastOrder:e,orderHistory:t}}
         function saveOrder(e){let{lastOrder:t,orderHistory:o}=getOrders();t&&o.unshift(t),t=e,localStorage.setItem("lastOrder_wholesale",JSON.stringify(t)),localStorage.setItem("orderHistory_wholesale",JSON.stringify(o))}
         function openAccountModal(){renderAccountView(),dom.mobileNav.classList.contains("active")&&dom.mobileMenuToggle.click(),openModal(dom.accountModal)}
-        function renderAccountView(){const e=getUserData();if(dom.accountModalBody.innerHTML="",e){const t=e.profilePic||"https://i.postimg.cc/D0rmgDgY/adger-logo-option6.png",o=e.email?`<li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> <span>${e.email}</span></li>`:"",n=getOrders(),r=(n.lastOrder?1:0)+n.orderHistory.length;dom.accountModalBody.innerHTML=`<div id="accountDetailsContainer" style="display:flex;flex-direction:column;align-items:center;text-align:center;width:100%"><img id="detailsProfilePic" src="${t}" alt="Profile Picture"><h2 id="detailsUserName">${e.name}</h2><ul id="detailsInfoList"><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45a12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> <span>${e.phone}</span></li>${o}<li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8.11 2.79"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg> <span>${e.governorate}</span></li></ul><div class="details-address-block"><h4><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>العنوان</h4><p id="detailsUserAddress">${e.address}, ${e.city}. (أقرب معلم: ${e.landmark})</p></div><div class="account-actions"><button type="button" class="buy-now-btn" id="editAccountBtn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg><span>تعديل البيانات</span></button><button type="button" class="buy-now-btn" id="myOrdersBtn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span>طلباتي (${r})</span></button><button type="button" class="buy-now-btn" id="logoutBtn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span>تسجيل الخروج</span></button></div></div>`}else renderAccountForm(null,"إنشاء حساب وحفظ")}
-        function renderAccountForm(e=null,t="تحديث البيانات",o=dom.accountModalBody){selectedProfilePic=null;const n=e&&e.profilePic||"https://i.postimg.cc/D0rmgDgY/adger-logo-option6.png";o.innerHTML=`<div id="accountFormContainer"><div class="profile-pic-container"><img id="profilePicPreview" src="${n}" alt="Profile Picture Preview"><label for="profilePicInput" class="change-pic-label"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M15 12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1.172a3 3 0 0 0 2.12-.879l.83-.828A1 1 0 0 1 6.827 3h2.344a1 1 0 0 1 .707.293l.828.828A3 3 0 0 0 12.828 5H14a1 1 0 0 1 1 1v6zM2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828-.828A2 2 0 0 1 3.172 4H2z"/><path d="M8 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM3 6.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/></svg></label><input type="file" id="profilePicInput" accept="image/*" style="display:none"></div><form id="accountForm" class="account-form"><div class="form-grid"><div class="form-group full-width"><label for="companyName">اسم الشركة / المحل</label><div class="input-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg><input type="text" id="companyName" placeholder="اسم نشاطك التجاري" required value="${e?.companyName||""}"></div></div><div class="form-group"><label for="userName">الاسم</label><div class="input-wrapper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><input type="text" id="userName" placeholder="الاسم الكامل" required value="${e?.name||""}"></div></div><div class="form-group"><label for="userPhone">رقم الهاتف</label><div class="input-wrapper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2a19.79 19.79 0 0 1-8.63-3.07a19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72a12.84 12.84 0 0 0 .7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45a12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><input type="tel" id="userPhone" placeholder="01xxxxxxxxx" required value="${e?.phone||""}"></div></div><div class="form-group full-width"><label for="userEmail">البريد الإلكتروني (اختياري)</label><div class="input-wrapper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><input type="email" id="userEmail" placeholder="example@mail.com" value="${e?.email||""}"></div></div><div class="form-group"><label for="userGovernorate">المحافظة</label><div class="input-wrapper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><input type="text" id="userGovernorate" placeholder="مثال: القاهرة" required value="${e?.governorate||""}"></div></div><div class="form-group"><label for="userCity">المدينة / المركز</label><div class="input-wrapper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><input type="text" id="userCity" placeholder="مثال: مدينة نصر" required value="${e?.city||""}"></div></div><div class="form-group full-width"><label for="userAddress">العنوان الكامل</label><div class="input-wrapper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8.11 2.79"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg><textarea id="userAddress" rows="2" placeholder="الشارع، رقم المبنى، رقم الشقة" required>${e?.address||""}</textarea></div></div><div class="form-group full-width"><label for="userLandmark">أقرب علامة مميزة</label><div class="input-wrapper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><input type="text" id="userLandmark" placeholder="بجوار ..." required value="${e?.landmark||""}"></div></div></div><div class="account-actions"><button type="submit" class="buy-now-btn" id="accountSubmitBtn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg><span>${t}</span></button></div></form></div>`,o.querySelector("#profilePicInput").addEventListener("change",handleProfilePicChange),o.querySelector("#accountForm").addEventListener("submit",handleAccountFormSubmit)}
+        function renderAccountView(){const e=getUserData();if(dom.accountModalBody.innerHTML="",e){const t=e.profilePic||defaultAvatar,o=e.email?`<li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> <span>${e.email}</span></li>`:"",n=getOrders(),r=(n.lastOrder?1:0)+n.orderHistory.length;dom.accountModalBody.innerHTML=`<div id="accountDetailsContainer" style="display:flex;flex-direction:column;align-items:center;text-align:center;width:100%"><img id="detailsProfilePic" src="${t}" alt="Profile Picture"><h2 id="detailsUserName">${e.name}</h2><ul id="detailsInfoList"><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45a12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> <span>${e.phone}</span></li>${o}<li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8.11 2.79"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg> <span>${e.governorate}</span></li></ul><div class="details-address-block"><h4><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>العنوان</h4><p id="detailsUserAddress">${e.address}, ${e.city}. (أقرب معلم: ${e.landmark})</p></div><div class="account-actions"><button type="button" class="buy-now-btn" id="editAccountBtn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg><span>تعديل البيانات</span></button><button type="button" class="buy-now-btn" id="myOrdersBtn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span>طلباتي (${r})</span></button><button type="button" class="buy-now-btn" id="logoutBtn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span>تسجيل الخروج</span></button></div></div>`}else renderAccountForm(null,"إنشاء حساب وحفظ")}
+        function renderAccountForm(e=null,t="تحديث البيانات",o=dom.accountModalBody){selectedProfilePic=null;const n=e&&e.profilePic||defaultAvatar;o.innerHTML=`<div id="accountFormContainer"><div class="profile-pic-container"><img id="profilePicPreview" src="${n}" alt="Profile Picture Preview"><label for="profilePicInput" class="change-pic-label"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M15 12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1.172a3 3 0 0 0 2.12-.879l.83-.828A1 1 0 0 1 6.827 3h2.344a1 1 0 0 1 .707.293l.828.828A3 3 0 0 0 12.828 5H14a1 1 0 0 1 1 1v6zM2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828-.828A2 2 0 0 1 3.172 4H2z"/><path d="M8 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM3 6.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/></svg></label><input type="file" id="profilePicInput" accept="image/*" style="display:none"></div><form id="accountForm" class="account-form"><div class="form-grid"><div class="form-group full-width"><label for="companyName">اسم الشركة / المحل</label><div class="input-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg><input type="text" id="companyName" placeholder="اسم نشاطك التجاري" required value="${e?.companyName||""}"></div></div><div class="form-group"><label for="userName">الاسم</label><div class="input-wrapper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><input type="text" id="userName" placeholder="الاسم الكامل" required value="${e?.name||""}"></div></div><div class="form-group"><label for="userPhone">رقم الهاتف</label><div class="input-wrapper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2a19.79 19.79 0 0 1-8.63-3.07a19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72a12.84 12.84 0 0 0 .7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45a12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><input type="tel" id="userPhone" placeholder="01xxxxxxxxx" required value="${e?.phone||""}"></div></div><div class="form-group full-width"><label for="userEmail">البريد الإلكتروني (اختياري)</label><div class="input-wrapper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><input type="email" id="userEmail" placeholder="مثال: name@mail.com" value="${e?.email||""}"></div></div><div class="form-group"><label for="userGovernorate">المحافظة</label><div class="input-wrapper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><input type="text" id="userGovernorate" placeholder="مثال: القاهرة" required value="${e?.governorate||""}"></div></div><div class="form-group"><label for="userCity">المدينة / المركز</label><div class="input-wrapper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><input type="text" id="userCity" placeholder="مثال: مدينة نصر" required value="${e?.city||""}"></div></div><div class="form-group full-width"><label for="userAddress">العنوان الكامل</label><div class="input-wrapper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8.11 2.79"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg><textarea id="userAddress" rows="2" placeholder="الشارع، رقم المبنى، رقم الشقة" required>${e?.address||""}</textarea></div></div><div class="form-group full-width"><label for="userLandmark">أقرب علامة مميزة</label><div class="input-wrapper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><input type="text" id="userLandmark" placeholder="بجوار ..." required value="${e?.landmark||""}"></div></div></div><div class="account-actions"><button type="submit" class="buy-now-btn" id="accountSubmitBtn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg><span>${t}</span></button></div></form></div>`,o.querySelector("#profilePicInput").addEventListener("change",handleProfilePicChange),o.querySelector("#accountForm").addEventListener("submit",handleAccountFormSubmit)}
         function handleProfilePicChange(e){const t=e.target.files[0];if(!t)return;const o=new FileReader;o.onload=e=>{selectedProfilePic=e.target.result,document.getElementById("profilePicPreview").src=selectedProfilePic},o.readAsDataURL(t)}
         function handleAccountFormSubmit(e){e.preventDefault();const t=getUserData()||{},o={name:document.getElementById("userName").value,phone:document.getElementById("userPhone").value,email:document.getElementById("userEmail").value,governorate:document.getElementById("userGovernorate").value,city:document.getElementById("userCity").value,address:document.getElementById("userAddress").value,landmark:document.getElementById("userLandmark").value,companyName:document.getElementById("companyName").value,profilePic:selectedProfilePic||t.profilePic||null};saveUserData(o),alert("تم حفظ بياناتك بنجاح!"),renderAccountView(),closeModal(dom.editAccountModal),closeModal(dom.accountModal)}
         function createOrderItemHTML(order) { const product = allProducts.find(p => p.id === order.productId); if (!product) return `<p>تفاصيل المنتج غير متوفرة.</p>`; const quantityText = order.quantity ? `الكمية: ${order.quantity}` : ''; const colorText = order.color ? `اللون: ${order.color}` : ''; const sizeText = order.size ? `المقاس: ${order.size}`: ''; const details = [quantityText, sizeText, colorText].filter(Boolean).join(' | '); return `<div class="order-item" data-product-id="${order.productId}"><img src="${(product.gallery_media[0] || {url: ''}).url}" alt="${product.name}"><div class="order-details"><h4 class="order-product-name">${product.name}</h4><p class="order-product-id">${product.displayId}</p><p>${details}</p><p>تاريخ الطلب: ${new Date(order.date).toLocaleDateString("ar-EG", { year: "numeric", month: "long", day: "numeric" })}</p></div></div>`; }
@@ -1359,7 +1343,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); color: var(--color-primary); 
             const submitBtn = this.querySelector('button[type="submit"]');
             saveOrder({ productId: currentProduct.id, size: selectedSize, color: selectedColor, quantity: selectedQuantity, date: (new Date).toISOString() });
             const companyName = document.getElementById("companyName").value; const customerName = document.getElementById("customerName").value; const customerPhone = document.getElementById("customerPhone").value; const customerLocation = document.getElementById("customerLocation").value; const customerNotes = document.getElementById("customerNotes").value;
-            const messageTitle = `*طلب عرض سعر بالجملة* - Adger للتجارة`;
+            const messageTitle = `*طلب عرض سعر بالجملة* - أدجر للتجارة`;
             const messageBody = `مرحباً، أود الاستفسار عن أسعار الجملة للمنتج التالي:\n\n-- *تفاصيل المنتج المطلوب* --\n- *رقم المنتج:* ${currentProduct.displayId}\n- *اسم المنتج:* ${currentProduct.name}\n- *الكمية المطلوبة:* ${selectedQuantity} قطعة\n${selectedSize ? `- *المقاس:* ${selectedSize}\n` : ''}${selectedColor ? `- *اللون:* ${selectedColor}\n` : ''}\n-- *بيانات التواصل* --\n- *اسم الشركة/المحل:* ${companyName}\n- *الاسم المسؤول:* ${customerName}\n- *رقم الهاتف:* ${customerPhone}\n- *العنوان:* ${customerLocation}\n${customerNotes ? `\n-- *ملاحظات إضافية* --\n${customerNotes}` : ''}\n\nالرجاء تزويدي بعرض سعر نهائي شامل تكلفة الشحن. شكراً.`;
             const whatsappUrl = `https://wa.me/201001793080?text=${encodeURIComponent(messageTitle + '\n' + messageBody)}`;
             window.open(whatsappUrl, "_blank");

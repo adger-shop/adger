@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adger - الفئات</title>
+    <title>أدجر-الفئات</title>
     <link rel="icon" href="https://i.postimg.cc/8CKxL3B8/logo.jpg" type="image/x-icon">
+</head>
+</html>
+
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -565,6 +568,12 @@
             margin-left: 20px;
             justify-content: center;
         }
+                 /* التنسيق الخاص بالشاشات من 767px إلى 867px */
+@media screen and (min-width: 767px) and (max-width: 867px) {
+    .user-icon {
+        margin-right: -8px; /* يمكنك تغيير px إلى rem أو % حسب احتياجك */
+    }
+}
 
         .user-icon svg {
             width: 24px;
@@ -836,7 +845,7 @@ outline: none;
 
             <style>
                 /* إخفاء العنصر على الهواتف */
-                @media only screen and (max-width: 767px) {
+                @media only screen and (max-width: 867px) {
                     .element-to-hide {
                         display: none;
                     }
@@ -914,7 +923,7 @@ outline: none;
 
                 /* إضافة مسافة بين العنصر والزر */
                 .country-code {
-                    margin-right: 20px;
+                    margin-right: 2px;
                 }
             </style>
             <div class="container22">
@@ -1043,22 +1052,32 @@ outline: none;
     </div>
 
     <script>
-        // استرجاع بيانات المستخدم من localStorage
-        const username = localStorage.getItem('username');
-        
-        // عرض "أهلاً" مع اسم المستخدم أو نص بديل
-        const welcomeMessage = document.getElementById('welcomeMessage');
+    // استرجاع بيانات المستخدم من localStorage
+const username = localStorage.getItem('username');
+
+// عرض الرسالة
+const welcomeMessage = document.getElementById('welcomeMessage');
+
+// منع النص من الانفصال أو النزول لسطر جديد
+if (welcomeMessage) {
+    welcomeMessage.style.whiteSpace = 'nowrap';
+}
+
+if (username) {
+    // 1. عرض "أهلاً، " مع اسم المستخدم داخل welcomeMessage
+    welcomeMessage.innerHTML = `أهلاً، <span id="usernameDisplay">${truncateUsername(username)}</span>`;
+    
+    // 2. تحديث الاسم عند تغيير حجم الشاشة
+    window.addEventListener('resize', () => {
         const usernameDisplay = document.getElementById('usernameDisplay');
-        
-        if (username) {
+        if (usernameDisplay) {
             usernameDisplay.textContent = truncateUsername(username);
-            window.addEventListener('resize', () => {
-                usernameDisplay.textContent = truncateUsername(username);
-            });
-        } else {
-            welcomeMessage.innerHTML = 'أهلاً، <span style="color: black; cursor: pointer;" onclick="window.location.href=\'account.html\'">سجل دخولك</span>';
         }
-        
+    });
+} else {
+    // عرض "أهلاً، " مع خيار تسجيل الدخول
+    welcomeMessage.innerHTML = 'أهلاً، <span style="color: black; cursor: pointer;" onclick="window.location.href=\'account.html\'">سجل دخولك</span>';
+}
         // دالة للتحقق من النصوص العربية
         function isArabic(text) {
             return /[\u0600-\u06FF]/.test(text);

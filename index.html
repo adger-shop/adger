@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adger</title>
+    <title>أدجر</title>
     <link rel="icon" href="logo.png" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
 
@@ -38,9 +38,6 @@
     });
     </script>
 </head>
-<body>
-
-</body>
 </html>
 
 
@@ -220,7 +217,7 @@
                 margin-top: 119px;
                 width: 100%; /* عرض الشاشة بالكامل */
                 height: 350px; /* ارتفاع 350 بكسل */
-                background-color: #f1f1f1;
+                background-color: #e9e9e9e0;
                 background-image: url('your-image-url.jpg'); /* رابط الصورة الخلفية */
                 background-size: cover; /* تغطية الخلفية بالكامل */
                 background-position: center; /* تمركز الخلفية */
@@ -479,145 +476,331 @@
 
 
 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slideshow</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overscroll-behavior-x: none;
+        }
 
+        .white-bar {
+            height: 94px;
+            background-color: white;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 768px) {
+            .white-bar {
+                height: 73px;
+            }
+        }
 
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;   
+            top: -6px;   
+            margin-bottom: -22px;
+        }
+        @media (min-width: 1569px) {
+            .content {
+                display: none;
+            }
+        }
 
+        .slideshow-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 9px;
+            height: 199px;
+            cursor: grab;
+            touch-action: pan-y;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .slideshow-container:active {
+            cursor: grabbing;
+        }
 
+        @media (max-width: 768px) {
+            .slideshow-container {
+                height: 150px;
+            }
+        }
 
+        .image-track {
+            display: flex;
+            height: 100%;
+            will-change: transform;
+            transform: translateX(0px);
+        }
+        .image-track.transitioning {
+            transition: transform 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
 
+        .slide {
+            flex: 0 0 100%;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
 
-        <!DOCTYPE html>
-        <html lang="ar">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Slideshow</title>
-            <style>
-                .white-bar {
-                    height: 94px;
-                    background-color: white;
-                    text-align: center;
-                    margin-bottom: 20px;
-                }
-                @media (max-width: 769px) {
-                    .white-bar {
-                        height: 73px;
-                    }
-                }
-        
-                .content {
-                    max-width: 800px;
-                    margin: 0 auto;
-                    padding: 20px;
-                    position: relative;   
-                    top: -6px;   
-                    margin-bottom: -22px;
-                }
-                @media (min-width: 1569px) {
-                    .content {
-                        display: none;
-                    }
-                }
-        
-                .slideshow-container {
-                    position: relative;
-                    overflow: hidden;
-                }
-        
-                .slides {
-                    width: 100%;
-                    height: 199px;
-                    display: none;
-                    border-radius: 9px;
-                    clip-path: inset(0 0 100% 0); /* في البداية، تظهر الصورة من الأعلى فقط */
-                }
-        
-                @media (max-width: 768px) {
-                    .slides {
-                        height: 150px;
-                    }
-                }
-        
-                .slides.active {
-                    display: block;
-                }
-            </style>
-        </head>
-        <body>
-            <div class="white-bar"></div>
-            <div class="content" id="content">
-                <!-- عرض الصور -->
-                <div class="slideshow-container" id="slideshow-container">
-                    <img class="slides active" id="slide1" src="i1.jpg" alt="صورة 1">
-                    <img class="slides" id="slide2" src="i2.jpg" alt="صورة 2">
-                    <img class="slides" id="slide3" src="i3.jpg" alt="صورة 3">
-                    <a href="https://median.co/share/wwarzl">
-                        <img class="slides" id="slide4" src="i4.jpg" alt="تطبيق أدجر">
+        /* مطابقة كودك الأصلي تماماً في حشوة ووضع وحجم الصور بدون قص */
+        .slide img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            border-radius: 9px;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .slide a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="white-bar"></div>
+    <div class="content" id="content">
+        <!-- عرض الصور بنفس حجم وحشوة وحيز كودك الأصلي -->
+        <div class="slideshow-container" id="slideshowContainer">
+            <div class="image-track" id="imageTrack">
+                <div class="slide">
+                    <img id="slide1" src="i1.jpg" alt="صورة 1">
+                </div>
+                <div class="slide">
+                    <img id="slide2" src="i2.jpg" alt="صورة 2">
+                </div>
+                <div class="slide">
+                    <img id="slide3" src="i3.jpg" alt="صورة 3">
+                </div>
+                <div class="slide">
+                    <a href="https://median.co/share/wwarzl" id="slideLink">
+                        <img id="slide4" src="i4.jpg" alt="تطبيق أدجر">
                     </a>
                 </div>
             </div>
-        
-            <script src="https://hammerjs.github.io/dist/hammer.min.js"></script>
-            <script>
-                let slideIndex = 0;
-                let slides = document.getElementsByClassName("slides");
-                let slideshowContainer = document.getElementById("slideshow-container");
-        
-                // دالة لتطبيق التأثير التدريجي السريع أثناء تحميل الصورة الأولى
-                function applyLoadingEffect(slide) {
-                    let progress = 100; // النسبة المئوية للتحميل
-                    slide.style.clipPath = `inset(0 0 ${progress}% 0)`; // البداية من الأعلى
-        
-                    // بدء التأثير التدريجي السريع عند تحميل الصورة
-                    slide.onload = () => {
-                        const interval = setInterval(() => {
-                            progress -= 10; // تقليل النسبة بمقدار 10% (سريع)
-                            if (progress <= 0) {
-                                progress = 0;
-                                clearInterval(interval); // إيقاف المؤقت
-                                slide.style.clipPath = `inset(0 0 0 0)`; // الصورة كاملة
-                            } else {
-                                slide.style.clipPath = `inset(0 0 ${progress}% 0)`; // تحديث التأثير
-                            }
-                        }, 10); // التحديث كل 10 مللي ثانية (سريع جدًا)
-                    };
-        
-                    // إذا كانت الصورة محملة بالفعل من الذاكرة المؤقتة، نشغل التأثير فورًا
-                    if (slide.complete) {
-                        slide.onload();
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('slideshowContainer');
+            const track = document.getElementById('imageTrack');
+            const slides = track.querySelectorAll('.slide');
+            const realSlidesCount = slides.length;
+
+            let autoSlideTimer = null;
+            let wasDragged = false;
+            let isTransitioning = false;
+
+            // استنساخ الشريحة الأولى والأخيرة لمنع الرجوع العكسي والسماح بانتقال دائري سلس
+            const firstClone = slides[0].cloneNode(true);
+            const lastClone = slides[realSlidesCount - 1].cloneNode(true);
+
+            track.appendChild(firstClone);
+            track.insertBefore(lastClone, slides[0]);
+
+            const totalSlides = track.querySelectorAll('.slide').length;
+
+            const state = {
+                isDragging: false,
+                startPos: 0,
+                startY: 0,
+                currentTranslate: 0,
+                prevTranslate: 0,
+                currentIndex: 1, // البداية من الشريحة الأولى الحقيقية
+                startTime: 0,
+                dragDirection: null
+            };
+
+            const getPositionX = (e) => e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+            const getPositionY = (e) => e.type.includes('mouse') ? e.pageY : e.touches[0].clientY;
+
+            // تطبيق تأثير التحميل التدريجي للشريحة الأولى مثل الكود الأصلي
+            const applyLoadingEffect = (imgEl) => {
+                let progress = 100;
+                imgEl.style.clipPath = `inset(0 0 ${progress}% 0)`;
+                const runEffect = () => {
+                    const interval = setInterval(() => {
+                        progress -= 10;
+                        if (progress <= 0) {
+                            progress = 0;
+                            clearInterval(interval);
+                            imgEl.style.clipPath = `inset(0 0 0 0)`;
+                        } else {
+                            imgEl.style.clipPath = `inset(0 0 ${progress}% 0)`;
+                        }
+                    }, 10);
+                };
+
+                if (imgEl.complete) {
+                    runEffect();
+                } else {
+                    imgEl.onload = runEffect;
+                }
+            };
+
+            const firstImg = slides[0].querySelector('img');
+            if (firstImg) applyLoadingEffect(firstImg);
+
+            // بدء السحب
+            const dragStart = (e) => {
+                if (isTransitioning) return;
+                state.dragDirection = null;
+                state.isDragging = true;
+                wasDragged = false;
+                state.startTime = Date.now();
+                state.startPos = getPositionX(e);
+                state.startY = getPositionY(e);
+                state.prevTranslate = state.currentIndex * container.clientWidth;
+                track.classList.remove('transitioning');
+                stopAutoSlideTimer();
+            };
+
+            // حركة السحب
+            const dragMove = (e) => {
+                if (!state.isDragging) return;
+
+                const currentX = getPositionX(e);
+                const currentY = getPositionY(e);
+                const diffX = currentX - state.startPos;
+                const diffY = currentY - state.startY;
+
+                if (state.dragDirection === null) {
+                    if (Math.abs(diffY) > Math.abs(diffX)) {
+                        state.dragDirection = 'vertical';
+                    } else {
+                        state.dragDirection = 'horizontal';
                     }
                 }
-        
-                // دالة لإظهار الصورة بشكل كامل (للشرائح الأخرى)
-                function showFullImage(slide) {
-                    slide.style.clipPath = `inset(0 0 0 0)`; // إظهار الصورة بالكامل فورًا
+
+                if (state.dragDirection === 'horizontal') {
+                    if (Math.abs(diffX) > 5) {
+                        wasDragged = true;
+                    }
+
+                    state.currentTranslate = state.prevTranslate + diffX;
+                    setSliderPosition();
                 }
-        
-                // تطبيق التأثير على الصورة الأولى أثناء تحميل الصفحة
-                slides[slideIndex].style.display = "block";
-                slides[slideIndex].classList.add("active");
-                applyLoadingEffect(slides[slideIndex]);
-        
-                // دالة لتغيير الشريحة دون التأثير التدريجي
-                function changeSlide(n) {
-                    slides[slideIndex].style.display = "none";
-                    slides[slideIndex].classList.remove("active");
-                    slideIndex = (slideIndex + n + slides.length) % slides.length;
-                    slides[slideIndex].style.display = "block";
-                    slides[slideIndex].classList.add("active");
-                    showFullImage(slides[slideIndex]); // إظهار الصورة الجديدة بالكامل فورًا
+            };
+
+            // إنهاء السحب
+            const dragEnd = () => {
+                if (!state.isDragging) return;
+                state.isDragging = false;
+
+                if (state.dragDirection === 'vertical') {
+                    state.dragDirection = null;
+                    startAutoSlideTimer();
+                    return;
                 }
-        
-                // تشغيل عرض الصور تلقائيًا كل 7 ثوانٍ
-                setInterval(() => changeSlide(1), 7000);
-        
-                // استخدام Hammer.js للسحب
-                const hammertime = new Hammer(slideshowContainer);
-                hammertime.on("swipeleft", () => changeSlide(1));
-                hammertime.on("swiperight", () => changeSlide(-1));
-            </script>
-        </body>
-        </html>
+
+                const dragOffset = state.currentTranslate - state.prevTranslate;
+                const dragDuration = Date.now() - state.startTime;
+
+                // التمرير لليمين (dragOffset > 0) ينقل للصورة التالية
+                if (Math.abs(dragOffset) > 10 || dragDuration < 200) {
+                    if (dragOffset > 1) {
+                        state.currentIndex++;
+                    } else if (dragOffset < -1) {
+                        state.currentIndex--;
+                    }
+                }
+
+                setActiveSlide(state.currentIndex, true);
+                state.dragDirection = null;
+            };
+
+            const setSliderPosition = () => {
+                track.style.transform = `translateX(${state.currentTranslate}px)`;
+            };
+
+            const setActiveSlide = (index, withTransition = true) => {
+                state.currentIndex = index;
+                state.currentTranslate = state.currentIndex * container.clientWidth;
+
+                if (withTransition) {
+                    isTransitioning = true;
+                    track.classList.add('transitioning');
+                } else {
+                    track.classList.remove('transitioning');
+                }
+
+                setSliderPosition();
+                restartAutoSlideTimer();
+            };
+
+            // عند انتهاء الانتقال تلقائياً، القفز السلس وغير المرئي للشريحة الحقيقية
+            track.addEventListener('transitionend', () => {
+                isTransitioning = false;
+
+                if (state.currentIndex === totalSlides - 1) {
+                    track.classList.remove('transitioning');
+                    state.currentIndex = 1; // قفز خفي للشريحة الأولى الحقيقية
+                    state.currentTranslate = state.currentIndex * container.clientWidth;
+                    setSliderPosition();
+                } else if (state.currentIndex === 0) {
+                    track.classList.remove('transitioning');
+                    state.currentIndex = realSlidesCount; // قفز خفي للشريحة الأخيرة الحقيقية
+                    state.currentTranslate = state.currentIndex * container.clientWidth;
+                    setSliderPosition();
+                }
+            });
+
+            const nextSlide = () => {
+                if (isTransitioning) return;
+                setActiveSlide(state.currentIndex + 1, true);
+            };
+
+            const startAutoSlideTimer = () => {
+                stopAutoSlideTimer();
+                autoSlideTimer = setInterval(nextSlide, 7000);
+            };
+
+            const stopAutoSlideTimer = () => {
+                if (autoSlideTimer) {
+                    clearInterval(autoSlideTimer);
+                    autoSlideTimer = null;
+                }
+            };
+
+            const restartAutoSlideTimer = () => {
+                startAutoSlideTimer();
+            };
+
+            track.addEventListener('click', (e) => {
+                const link = e.target.closest('a');
+                if (link && wasDragged) {
+                    e.preventDefault();
+                }
+            });
+
+            ['mousedown', 'touchstart'].forEach(evt => container.addEventListener(evt, dragStart, { passive: true }));
+            ['mousemove', 'touchmove'].forEach(evt => container.addEventListener(evt, dragMove, { passive: true }));
+            ['mouseup', 'mouseleave', 'touchend'].forEach(evt => document.addEventListener(evt, dragEnd));
+
+            window.addEventListener('resize', () => {
+                setActiveSlide(state.currentIndex, false);
+            });
+
+            setActiveSlide(1, false);
+        });
+    </script>
+</body>
+</html>
     
 
 
@@ -721,7 +904,7 @@
                 <a href="adgerfashion.html" class="image-box">
                     <img src="e3.jpg" alt="جوائز">
                 </a>
-                <h3 class="write">أدجر فاشون</h3>
+                <h3 class="write">أدجر أزياء</h3>
             </div>
     
             <div class="box">
@@ -1742,7 +1925,7 @@
                 </style>
                 
                 <div class="adger-container">
-                    <h2 class="adger" onclick="window.location.href='index.html';">Adger</h2>
+                    <h2 class="adger" onclick="window.location.href='index.html';">أدجر</h2>
                 </div>
                 
                 <style>
@@ -1754,7 +1937,7 @@
                     }
                 </style>
                 <div class="element-to-hide" style="font-family: Cairo, sans-serif;">
-                    اللغه / <span style="color: red;">ar</span>
+                    اللغة / <span style="color: red;">ع</span>
                 </div>
                 <style>
                     /* إخفاء العنصر على الهواتف */
@@ -1825,13 +2008,13 @@
     
                     /* إضافة مسافة بين العنصر والزر */
                     .country-code {
-                        margin-right: 20px;
+                        margin-right: 2px;
                     }
                 </style>
                 <div class="container22">
                     <div class="country-code hide-on-mobile">
                         <span>البلد / </span>
-                        <span style="color: #000000; width: 44px;">EGP</span>
+                        <span style="color: #000000; width: 44px;">مصر</span>
                         <img class="flag" src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Flag_of_Egypt.svg" alt="علم مصر">
                     </div>
                 </div>
@@ -2255,7 +2438,7 @@
                 padding-bottom: 12px;
             }
         }
-        @media (max-width: 769px) { /* للهواتف */
+        @media (max-width: 768px) { /* للهواتف */
             .sub-header {
                 top: 56px;
             }
@@ -2708,7 +2891,7 @@
             <span style="pointer-events: none;">مكتبة أدجر</span>
         </p>
         <p onclick="window.location.href='adgerfashion.html'" style="font-family: Cairo, sans-serif; user-select: none; cursor: pointer; -webkit-tap-highlight-color: transparent; color: black;" onmouseover="this.style.color='#888'" onmouseout="this.style.color='black'" ontouchstart="this.style.color='#888'" ontouchend="setTimeout(() => this.style.color='black', 300)">
-            <span style="pointer-events: none;">أدجر فاشون</span>
+            <span style="pointer-events: none;">أزياء أدجر</span>
         </p>
         <p onclick="window.location.href='deals.html'" style="font-family: Cairo, sans-serif; user-select: none; cursor: pointer; -webkit-tap-highlight-color: transparent; color: black;" onmouseover="this.style.color='#888'" onmouseout="this.style.color='black'" ontouchstart="this.style.color='#888'" ontouchend="setTimeout(() => this.style.color='black', 300)">
             <span style="pointer-events: none;">صفقة رابحة</span>
@@ -2722,8 +2905,8 @@
         <p onclick="window.location.href='categories.html'" style="font-family: Cairo, sans-serif; user-select: none; cursor: pointer; -webkit-tap-highlight-color: transparent; color: black;" onmouseover="this.style.color='#888'" onmouseout="this.style.color='black'" ontouchstart="this.style.color='#888'" ontouchend="setTimeout(() => this.style.color='black', 300)">
             <span style="pointer-events: none;">الفئات</span>
         </p>
-        <p onclick="window.location.href='clipcraft.html'" style="font-family: Cairo, sans-serif; user-select: none; cursor: pointer; -webkit-tap-highlight-color: transparent; color: black;" onmouseover="this.style.color='#888'" onmouseout="this.style.color='black'" ontouchstart="this.style.color='#888'" ontouchend="setTimeout(() => this.style.color='black', 300)">
-            <span style="pointer-events: none;">أنشئ تصميمك & clipcraft</span>
+        <p onclick="window.location.href='digitalproducts.html'" style="font-family: Cairo, sans-serif; user-select: none; cursor: pointer; -webkit-tap-highlight-color: transparent; color: black;" onmouseover="this.style.color='#888'" onmouseout="this.style.color='black'" ontouchstart="this.style.color='#888'" ontouchend="setTimeout(() => this.style.color='black', 300)">
+            <span style="pointer-events: none;">أنشئ تصميمك & أدجر</span>
         </p>
     </div>
     
@@ -3169,7 +3352,7 @@
 
 
 
-
+<!DOCTYPE html>
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
@@ -3178,7 +3361,7 @@
     <style>
         .footer {
             background-color: #f0f0f0f3;
-            color: #000000;
+            color: #0f0f0f;
             padding: 50px 20px;
             font-family: 'Cairo', sans-serif;
             direction: rtl;
@@ -3247,9 +3430,29 @@
             height: auto;
         }
 
-        .app-links img {
-            width: 100px;
-            margin: 5px;
+        .app-links .apk-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #f39c12;
+            color: #ffffff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .app-links .apk-btn:hover {
+            background-color: #ff9900;
+            color: #ffffff;
+        }
+
+        .app-links .apk-btn img {
+            width: 24px;
+            height: auto;
+            margin: 0;
         }
 
         .payment-methods {
@@ -3262,10 +3465,11 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
+            font-weight: bold;
         }
 
         .payment-methods img {
-            width: 50px;
+            width: 38px;
             height: auto;
         }
 
@@ -3338,7 +3542,7 @@
                     <a href="https://www.instagram.com/adgershop?igsh=YWJkYmR5OXc1bm00">
                         <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram">
                     </a>
-                    <a href="https://www.youtube.com/channel/UCkAzSiKts8y92g2UTT6rimQ">
+                    <a href="#">
                         <img src="https://cdn-icons-png.flaticon.com/512/3938/3938026.png" alt="YouTube">
                     </a>
                     <a href="https://x.com/saif__eddine?t=EUrak3O7SNZD7BIFgjiltQ&s=09">
@@ -3351,13 +3555,10 @@
             <div class="footer-column app-links">
                 <h3>حمل التطبيق</h3>
                 <div>
-                    <a href="https://median.co/share/wwarzl" target="_blank">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play">
+                    <a href="https://median.co/share/wwarzl" target="_blank" class="apk-btn">
+                        <img src="https://cdn-icons-png.flaticon.com/512/226/226770.png" alt="APK Icon">
+                        تحميل التطبيق APK
                     </a>
-                    
-                    <a href="https://median.co/share/wwarzl" target="_blank">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg" alt="App Store">
-                    </a>                    
                 </div>
             </div>
 
@@ -3372,7 +3573,8 @@
         <div class="payment-methods">
             <h3 style="color: #f39c12;">طرق الدفع</h3>
             <div>
-                <img src="https://cdn-icons-png.flaticon.com/512/6124/6124996.png" alt="Cash on Delivery">
+                <!-- صورة شاحنة توصيل ملونة -->
+                <img src="https://cdn-icons-png.flaticon.com/512/2830/2830312.png" alt="الدفع عند الاستلام">
                 <span>الدفع نقدًا عند الاستلام</span>
             </div>
         </div>

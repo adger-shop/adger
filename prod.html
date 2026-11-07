@@ -3,45 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adger</title>
-    <link rel="icon" href="logo.png" type="image/x-icon">
+    <title>أدجر-المنتج</title>
+    <link rel="icon" href="logo2.png" type="image/x-icon">
+</head>
+</html>
+
     <link rel="stylesheet" href="style.css">
 
-    <!-- بيانات Open Graph -->
-    <meta property="og:title" content="Adger - التسوق الإلكتروني">
-    <meta property="og:description" content="مرحبًا بك في أدجر، وجهتك الأولى للتسوق الإلكتروني حيث تجد كل ما تبحث عنه بأسعار تنافسية وجودة عالية.">
-    <meta property="og:image" content="https://i.postimg.cc/bYk5FR3Q/2024-10-24-13-27-28-da2d3af5.jpg">
-    <meta property="og:url" content="https://adger-saifeddine.github.io/adger/">
-    <meta property="og:type" content="website">
-
-    <!-- بيانات منظمة Schema.org -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Adger",
-      "url": "https://adger-saifeddine.github.io/adger/",
-      "logo": "https://i.postimg.cc/bYk5FR3Q/2024-10-24-13-27-28-da2d3af5.jpg"
-    }
-    </script>
-
-    <!-- نص برمجي لتغيير الفيكون بناءً على نوع الجهاز -->
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        function isDesktop() {
-            var userAgent = navigator.userAgent.toLowerCase();
-            return userAgent.includes('windows') || userAgent.includes('macintosh') || userAgent.includes('linux') && !userAgent.includes('android');
-        }
-        if (isDesktop()) {
-            document.querySelector('link[rel="icon"]').href = 'logo2.png';
-        }
-    });
-    </script>
-</head>
-<body>
-
-</body>
-</html>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -2993,6 +2961,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 margin-left: 20px;
                 justify-content: center;
             }
+                     /* التنسيق الخاص بالشاشات من 767px إلى 867px */
+@media screen and (min-width: 767px) and (max-width: 867px) {
+    .user-icon {
+        margin-right: -8px; /* يمكنك تغيير px إلى rem أو % حسب احتياجك */
+    }
+}
     
             .user-icon svg {
                 width: 24px;
@@ -3259,19 +3233,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     <svg onclick="history.back()" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/>
                     </svg>
-                    <h2 class="adger" onclick="window.location.href='index.html';">Adger</h2>
+                    <h2 class="adger" onclick="window.location.href='index.html';">أدجر</h2>
                 </div>
     
                 <style>
                     /* إخفاء العنصر على الهواتف */
-                    @media only screen and (max-width: 767px) {
+                    @media only screen and (max-width: 867px) {
                         .element-to-hide {
                             display: none;
                         }
                     }
                 </style>
                 <div class="element-to-hide" style="font-family: Cairo, sans-serif;">
-                    اللغه / <span style="color: red;">ar</span>
+                    اللغة / <span style="color: red;">ع</span>
                 </div>
                 <style>
                     /* إخفاء العنصر على الهواتف */
@@ -3342,13 +3316,13 @@ document.addEventListener('DOMContentLoaded', () => {
     
                     /* إضافة مسافة بين العنصر والزر */
                     .country-code {
-                        margin-right: 20px;
+                        margin-right: 2px;
                     }
                 </style>
                 <div class="container22">
                     <div class="country-code hide-on-mobile">
                         <span>البلد / </span>
-                        <span style="color: #000000; width: 44px;">EGP</span>
+                        <span style="color: #000000; width: 44px;">مصر</span>
                         <img class="flag" src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Flag_of_Egypt.svg" alt="علم مصر">
                     </div>
                 </div>
@@ -3471,22 +3445,32 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
     
         <script>
-            // استرجاع بيانات المستخدم من localStorage
-            const username = localStorage.getItem('username');
-            
-            // عرض "أهلاً" مع اسم المستخدم أو نص بديل
-            const welcomeMessage = document.getElementById('welcomeMessage');
-            const usernameDisplay = document.getElementById('usernameDisplay');
-            
-            if (username) {
-                usernameDisplay.textContent = truncateUsername(username);
-                window.addEventListener('resize', () => {
-                    usernameDisplay.textContent = truncateUsername(username);
-                });
-            } else {
-                welcomeMessage.innerHTML = 'أهلاً، <span style="color: black; cursor: pointer;" onclick="window.location.href=\'account.html\'">سجل دخولك</span>';
-            }
-            
+    // استرجاع بيانات المستخدم من localStorage
+const username = localStorage.getItem('username');
+
+// عرض الرسالة
+const welcomeMessage = document.getElementById('welcomeMessage');
+
+// إضافة التعديل لمنع النص من الانفصال أو النزول لسطر جديد
+if (welcomeMessage) {
+    welcomeMessage.style.whiteSpace = 'nowrap';
+}
+
+if (username) {
+    // 1. عرض "أهلاً، " مع اسم المستخدم داخل welcomeMessage
+    welcomeMessage.innerHTML = `أهلاً، <span id="usernameDisplay">${truncateUsername(username)}</span>`;
+    
+    // 2. تحديث الاسم عند تغيير حجم الشاشة
+    window.addEventListener('resize', () => {
+        const usernameDisplay = document.getElementById('usernameDisplay');
+        if (usernameDisplay) {
+            usernameDisplay.textContent = truncateUsername(username);
+        }
+    });
+} else {
+    // عرض "أهلاً، " مع خيار تسجيل الدخول
+    welcomeMessage.innerHTML = 'أهلاً، <span style="color: black; cursor: pointer;" onclick="window.location.href=\'account.html\'">سجل دخولك</span>';
+}
             // دالة للتحقق من النصوص العربية
             function isArabic(text) {
                 return /[\u0600-\u06FF]/.test(text);

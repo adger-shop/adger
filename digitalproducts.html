@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<!-- سيتم تعديل اللغة والاتجاه عبر JavaScript -->
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> أدجر ∞ منتجات رقمية</title>
+    <link rel="icon" href="https://i.postimg.cc/HLhDwZXj/2025-07-11-18-26-52-c789ad91-removebg-preview.png" type="image/x-icon">
+    </head>
+    </html>
+
+    <!-- مكتبة حقل الهاتف الدولي -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.15/css/intlTelInput.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.15/js/intlTelInput.min.js"></script>
+
+    <style>
+        :root {
+            --primary-accent: #00e5ff;
+            --secondary-accent: #ff00c1;
+            --bg-color-deep: #0f002a;
+            --text-color-light: #f0f0f0;
+            --text-color-dark: #cccccc;
+            --glass-bg: rgba(20, 10, 40, 0.55);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --shadow: 0 7px 20px rgba(0, 0, 0, 0.15);
+            --border-radius: 16px;
+        }
+
+        /* 3D Aurora background - lighter version for mobile */
+        @keyframes aurora-light {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--bg-color-deep);
+            color: var(--text-color-light);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before, body::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            background-size: 250% 250%;
+            animation: aurora-light 30s ease-in-out infinite;
+            z-index: -1;
+            filter: blur(65px);
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        body::before {
+            background-image:
+                radial-gradient(circle at 12% 23%, var(--primary-accent) 0%, transparent 55%),
+                radial-gradient(circle at 82% 22%, var(--secondary-accent) 0%, transparent 55%);
+        }
+        body::after {
+            background-image:
+                radial-gradient(circle at 85% 85%, #4f0080 0%, transparent 55%),
+                radial-gradient(circle at 20% 90%, #00e5ff75 0%, transparent 55%);
+            animation-delay: -7s;
+        }
+
+        /* Reduce blur and opacity for mobile for lighter effect */
+        @media (max-width: 900px) {
+            body::before, body::after {
+                filter: blur(30px);
+                opacity: 0.5;
+                background-size: 180% 180%;
+            }
+        }
+        @media (max-width: 600px) {
+            body::before, body::after {
+                filter: blur(16px);
+                opacity: 0.3;
+                background-size: 130% 130%;
+            }
+        }
+
+        .container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(13px);
+            -webkit-backdrop-filter: blur(13px);
+            border: 1px solid var(--glass-border);
+            padding: 30px 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            max-width: 650px;
+            width: 100%;
+            margin: 40px 0;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #ffffff;
+            font-weight: 700;
+            text-shadow: 0 0 15px rgba(0, 229, 255, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .infinity-symbol {
+            background: linear-gradient(45deg, var(--primary-accent), var(--secondary-accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 1.2em;
+            margin: 0 10px;
+        }
+
+        .header p {
+            color: var(--text-color-dark);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        #wish-form {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: var(--text-color-light);
+        }
+
+        input[type="text"],
+        input[type="tel"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: 'Tajawal', sans-serif;
+            box-sizing: border-box;
+            transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-color-light);
+        }
+        ::placeholder {
+            color: rgba(240, 240, 240, 0.6);
+            opacity: 1;
+        }
+        select {
+            -webkit-appearance: none; -moz-appearance: none; appearance: none;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23cccccc%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22/%3E%3C/svg%3E');
+            background-repeat: no-repeat;
+            background-size: .7em;
+        }
+        html[dir="rtl"] select { padding-left: 35px; background-position: left 15px center; }
+        html[dir="ltr"] select { padding-right: 35px; background-position: right 15px center; }
+        select option { background-color: #2a1a47; color: var(--text-color-light); }
+
+        .iti { width: 100%; }
+        .iti .iti__arrow { border-top-color: white; }
+        .iti.iti--allow-dropdown.iti--separate-dial-code .iti__arrow--up { border-bottom-color: white; }
+        .iti .iti__country-list { background-color: #1a0f30; border-color: var(--glass-border); }
+        .iti .iti__country:hover, .iti .iti__active { background-color: rgba(0, 229, 255, 0.1); }
+        .iti .iti__dial-code { color: var(--text-color-dark); }
+        html[dir="rtl"] .iti__arrow { margin-right: 8px; margin-left: 2px; }
+
+        textarea { min-height: 120px; resize: vertical; }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.12);
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
+        }
+
+        #dimension-group { display: none; }
+        .dimension-options-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin-top: 10px; }
+        .dimension-option input[type="radio"] { display: none; }
+        .dimension-option label {
+            display: flex; flex-direction: column; align-items: center;
+            padding: 15px 10px; border: 2px solid var(--glass-border);
+            border-radius: var(--border-radius); cursor: pointer;
+            transition: all 0.3s; text-align: center; font-weight: 500;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(4px);
+        }
+        .dimension-preview {
+            width: 60px; height: 60px; border: 2px solid #555;
+            background-color: rgba(0,0,0,0.18); border-radius: 5px; margin-bottom: 10px;
+            display: flex; justify-content: center; align-items: center; overflow: hidden;
+            transition: all 0.3s;
+        }
+        .dimension-shape { background-color: #888; transition: all 0.3s; }
+        #dim-story .dimension-shape   { width: 56.25%; height: 100%; }
+        #dim-square .dimension-shape  { width: 100%; height: 100%; }
+        #dim-post .dimension-shape    { width: 80%; height: 100%; }
+        #dim-landscape .dimension-shape { width: 100%; height: 56.25%; }
+        .dimension-option:hover label {
+            transform: translateY(-5px);
+            border-color: rgba(0, 229, 255, 0.5);
+        }
+        .dimension-option input[type="radio"]:checked + label {
+            border-color: var(--primary-accent);
+            background-color: rgba(0, 229, 255, 0.09);
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.17);
+            font-weight: 700; color: var(--primary-accent);
+            transform: scale(1.04);
+        }
+        .dimension-option input[type="radio"]:checked + label .dimension-preview { border-color: var(--primary-accent); }
+        .dimension-option input[type="radio"]:checked + label .dimension-shape { background-color: var(--primary-accent); }
+        
+        #price-banner {
+            width: 100%;
+            background: rgba(0, 229, 255, 0.07); 
+            border: 1px solid rgba(0, 229, 255, 0.16);
+            border-radius: 10px;
+            padding: 15px;
+            box-sizing: border-box;
+            text-align: center;
+            color: var(--text-color-light);
+            font-size: 1.1rem;
+            font-weight: 500;
+            align-items: center;
+            gap: 8px;
+            display: none;
+            justify-content: center;
+        }
+        #final-price {
+            font-weight: 700;
+            color: var(--primary-accent);
+            text-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
+        }
+        #whatsapp-note {
+            display: none;
+            background-color: rgba(255, 235, 59, 0.09);
+            border: 1px solid rgba(255, 235, 59, 0.24);
+            color: #fff1a8; padding: 15px; border-radius: 10px;
+            text-align: center; font-size: 0.95rem; line-height: 1.7;
+        }
+        .submit-btn {
+            background: linear-gradient(45deg, var(--primary-accent), var(--secondary-accent));
+            color: white; padding: 15px; border: none; border-radius: 10px;
+            font-size: 1.2rem; font-weight: 700; font-family: 'Tajawal', sans-serif;
+            cursor: pointer; transition: all 0.3s;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        .submit-btn:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0, 229, 255, 0.24);
+        }
+        @media (max-width: 600px) {
+            body { padding: 10px; align-items: center; }
+            .container { padding: 20px; margin: 20px 0; }
+            .header h1 { font-size: 1.7rem; }
+            .dimension-options-container { grid-template-columns: repeat(2, 1fr); }
+            #price-banner { font-size: 1rem; padding: 12px; }
+        }
+        @media (max-width: 900px) {
+            .iti__country-list {
+                position: fixed !important; 
+                top: 50% !important; 
+                left: 50% !important;
+                transform: translate(-50%, -50%) !important;
+                z-index: 9999;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>أدجر<span class="infinity-symbol">∞</span>منتجات رقمية</h1>
+            <p data-translate-key="headerSubtitle">حوّل أفكارك إلى واقع. اطلب مونتاج فيديو احترافي، تعديل صور، أو تصميم إعلانات مبتكرة.</p>
+        </div>
+
+        <form id="wish-form">
+            <div class="form-group">
+                <label for="name" data-translate-key="nameLabel">الاسم</label>
+                <input type="text" id="name" name="name" data-translate-key-placeholder="namePlaceholder" placeholder="اكتب اسمك هنا" required>
+            </div>
+            <div class="form-group">
+                <label for="phone" data-translate-key="phoneLabel">رقم الهاتف</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+            <div class="form-group">
+                <label for="service-type" data-translate-key="serviceLabel">اختر نوع الخدمة</label>
+                <select id="service-type" name="service-type" required>
+                    <option value="" disabled selected data-translate-key="serviceOptionDefault">-- حدد نوع العمل المطلوب --</option>
+                    <option value="مونتاج فيديو" data-translate-key="serviceOptionVideo">🎬 مونتاج فيديو</option>
+                    <option value="تعديل صورة" data-translate-key="serviceOptionPhoto">🖼️ تعديل صورة</option>
+                    <option value="تصميم إعلان" data-translate-key="serviceOptionAd">📢 تصميم إعلان (فيديو أو صورة)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="file-option" data-translate-key="fileOptionLabel">هل الطلب يتضمن رفع ملفات؟</label>
+                <select id="file-option" name="file-option" required>
+                    <option value="" disabled selected data-translate-key="fileOptionDefault">-- اختر من فضلك --</option>
+                    <option value="with-files" data-translate-key="fileOptionYes">نعم، سأقوم برفع ملفات (صور أو فيديوهات)</option>
+                    <option value="without-files" data-translate-key="fileOptionNo">لا، الطلب لا يحتاج رفع ملفات (مثلاً: تصميم من الصفر)</option>
+                </select>
+            </div>
+            
+            <div class="form-group" id="dimension-group">
+                <label data-translate-key="dimensionLabel">اختر أبعاد العمل (مقاس الفيديو أو الصورة)</label>
+                <div class="dimension-options-container">
+                    <div class="dimension-option" id="dim-story">
+                        <input type="radio" id="dimension-story" name="dimension" value="طولي (9:16)" checked>
+                        <label for="dimension-story">
+                            <div class="dimension-preview"><div class="dimension-shape"></div></div>
+                            <span data-translate-key="dimStory">طولي (9:16)</span>
+                        </label>
+                    </div>
+                    <div class="dimension-option" id="dim-square">
+                        <input type="radio" id="dimension-square" name="dimension" value="مربع (1:1)">
+                        <label for="dimension-square">
+                            <div class="dimension-preview"><div class="dimension-shape"></div></div>
+                            <span data-translate-key="dimSquare">مربع (1:1)</span>
+                        </label>
+                    </div>
+                    <div class="dimension-option" id="dim-post">
+                        <input type="radio" id="dimension-post" name="dimension" value="بوست (4:5)">
+                        <label for="dimension-post">
+                            <div class="dimension-preview"><div class="dimension-shape"></div></div>
+                            <span data-translate-key="dimPost">بوست (4:5)</span>
+                        </label>
+                    </div>
+                    <div class="dimension-option" id="dim-landscape">
+                        <input type="radio" id="dimension-landscape" name="dimension" value="عرضي (16:9)">
+                        <label for="dimension-landscape">
+                            <div class="dimension-preview"><div class="dimension-shape"></div></div>
+                            <span data-translate-key="dimLandscape">عرضي (16:9)</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="details" data-translate-key="detailsLabel">الموضوع (اشرح طلبك بالتفصيل)</label>
+                <textarea id="details" name="details" rows="5" data-translate-key-placeholder="detailsPlaceholder" placeholder="اكتب هنا تفاصيل طلبك..." required></textarea>
+            </div>
+            <div id="price-banner">
+                <span data-translate-key="priceLabel">السعر النهائي:</span>
+                <span id="final-price"></span>
+            </div>
+            <div id="whatsapp-note">
+                <strong data-translate-key="noteTitle">⚠️ ملاحظة هامة جداً</strong>
+                <span data-translate-key="noteBody">لإكمال طلبك، يرجى إرسال جميع الملفات المطلوبة...</span>
+            </div>
+            <button type="submit" class="submit-btn">
+                <span data-translate-key="submitButton">موافق وإرسال عبر واتساب</span>
+                <span>✅</span>
+            </button>
+        </form>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- START: SCRIPT SETUP ---
+        const translations = {
+            'ar': {
+                headerSubtitle: 'حوّل أفكارك إلى واقع. اطلب مونتاج فيديو احترافي، تعديل صور، أو تصميم إعلانات مبتكرة.',
+                nameLabel: 'الاسم', namePlaceholder: 'اكتب اسمك هنا',
+                phoneLabel: 'رقم الهاتف',
+                serviceLabel: 'اختر نوع الخدمة',
+                serviceOptionDefault: '-- حدد نوع العمل المطلوب --',
+                serviceOptionVideo: '🎬 مونتاج فيديو', serviceOptionPhoto: '🖼️ تعديل صورة', serviceOptionAd: '📢 تصميم إعلان (فيديو أو صورة)',
+                fileOptionLabel: 'هل الطلب يتضمن رفع ملفات؟',
+                fileOptionDefault: '-- اختر من فضلك --',
+                fileOptionYes: 'نعم، سأقوم برفع ملفات (صور أو فيديوهات)', fileOptionNo: 'لا، الطلب لا يحتاج رفع ملفات (مثلاً: تصميم من الصفر)',
+                dimensionLabel: 'اختر أبعاد العمل (مقاس الفيديو أو الصورة)',
+                dimStory: 'طولي (9:16)', dimSquare: 'مربع (1:1)', dimPost: 'بوست (4:5)', dimLandscape: 'عرضي (16:9)',
+                detailsLabel: 'الموضوع (اشرح طلبك بالتفصيل)',
+                detailsPlaceholder: 'اكتب هنا تفاصيل طلبك، مثل الألوان المفضلة، النصوص المطلوبة، الأسلوب المرغوب، إلخ...',
+                noteTitle: '⚠️ ملاحظة هامة جداً',
+                noteBody: 'لإكمال طلبك، يرجى إرسال جميع الملفات المطلوبة (الصور أو الفيديوهات) مباشرة في محادثة الواتساب بعد الضغط على زر الإرسال.',
+                submitButton: 'موافق وإرسال عبر واتساب',
+                priceLabel: 'السعر النهائي:',
+                whatsappTitle: '*✨ طلب خدمة جديد ✨*', whatsappName: '*الاسم:*', whatsappPhone: '*رقم الهاتف:*', whatsappService: '*نوع الخدمة المطلوبة:*',
+                whatsappDimensions: '*أبعاد العمل:*', whatsappFilesStatus: '*حالة الملفات:*', whatsappFilesAttached: 'سيتم إرفاق الملفات في المحادثة.',
+                whatsappFilesNone: 'الطلب لا يتضمن رفع ملفات.', whatsappDetails: '*تفاصيل الطلب:*', whatsappNote: '*⚠️ ملاحظة:* سأقوم الآن بإرسال الملفات اللازمة للبدء في العمل.',
+                whatsappPrice: '*السعر النهائي:*'
+            },
+            'en': {
+                headerSubtitle: 'Turn your ideas into reality. Order professional video editing, photo retouching, or creative ad designs.',
+                nameLabel: 'Full Name', namePlaceholder: 'Enter your name here',
+                phoneLabel: 'Phone Number',
+                serviceLabel: 'Choose Service Type',
+                serviceOptionDefault: '-- Select the required service --',
+                serviceOptionVideo: '🎬 Video Editing', serviceOptionPhoto: '🖼️ Photo Editing', serviceOptionAd: '📢 Ad Design (Video or Image)',
+                fileOptionLabel: 'Does the request include uploading files?',
+                fileOptionDefault: '-- Please choose an option --',
+                fileOptionYes: 'Yes, I will upload files (images or videos)', fileOptionNo: 'No, the request does not require files (e.g., design from scratch)',
+                dimensionLabel: 'Choose Project Dimensions (Video/Image Size)',
+                dimStory: 'Vertical (9:16)', dimSquare: 'Square (1:1)', dimPost: 'Post (4:5)', dimLandscape: 'Widescreen (16:9)',
+                detailsLabel: 'Subject (Describe your request in detail)',
+                detailsPlaceholder: 'Describe your request here, such as preferred colors, required text, desired style, etc...',
+                noteTitle: '⚠️ Very Important Note',
+                noteBody: 'To complete your request, please send all required files (images or videos) directly in the WhatsApp chat after clicking the submit button.',
+                submitButton: ' Agree & Send via WhatsApp',
+                priceLabel: 'Final Price:',
+                whatsappTitle: '*✨ New Service Request ✨*', whatsappName: '*Name:*', whatsappPhone: '*Phone Number:*', whatsappService: '*Service Type:*',
+                whatsappDimensions: '*Project Dimensions:*', whatsappFilesStatus: '*Files Status:*', whatsappFilesAttached: 'Files will be attached in the chat.',
+                whatsappFilesNone: 'Request does not include file uploads.', whatsappDetails: '*Request Details:*', whatsappNote: '*⚠️ Note:* I will now send the necessary files to begin the work.',
+                whatsappPrice: '*Final Price:*'
+            }
+        };
+
+        const countryToLang = {
+            'sa': 'ar', 'eg': 'ar', 'ae': 'ar', 'kw': 'ar', 'qa': 'ar', 'bh': 'ar', 'om': 'ar', 'jo': 'ar', 'lb': 'ar', 'sy': 'ar', 'ye': 'ar', 'ps': 'ar',
+            'us': 'en', 'gb': 'en', 'ca': 'en', 'au': 'en', 'nz': 'en', 'ie': 'en'
+        };
+        
+        let currentBasePrice = 0;
+        let currentCountryCode = 'eg';
+        let currentFinalPriceText = '';
+        const finalPriceElement = document.getElementById('final-price');
+        const priceBanner = document.getElementById('price-banner');
+        const serviceTypeSelect = document.getElementById('service-type');
+        
+        const basePrices = {
+            'مونتاج فيديو': 40,
+            'تعديل صورة': 20,
+            'تصميم إعلان': 30
+        };
+
+        const currencyData = {
+            'eg': { rate: 1, symbol: 'جنيه مصري', position: 'after' },
+            'sa': { rate: 0.14, symbol: 'ريال سعودي', position: 'after' },
+            'ae': { rate: 0.13, symbol: 'درهم إماراتي', position: 'after' },
+            'qa': { rate: 0.13, symbol: 'ريال قطري', position: 'after' },
+            'kw': { rate: 0.012, symbol: 'دينار كويتي', position: 'after' },
+            'om': { rate: 0.014, symbol: 'ريال عماني', position: 'after' },
+            'bh': { rate: 0.014, symbol: 'دينار بحريني', position: 'after' },
+            'jo': { rate: 0.037, symbol: 'دينار أردني', position: 'after' },
+            'us': { rate: 0.021, symbol: '$', position: 'before' },
+            'gb': { rate: 0.017, symbol: '£', position: 'before' },
+            'eu': { rate: 0.020, symbol: '€', position: 'before' },
+            'ca': { rate: 0.029, symbol: 'CA$', position: 'before' }
+        };
+
+        function updatePrice() {
+            if (currentBasePrice <= 0) {
+                priceBanner.style.display = 'none';
+                currentFinalPriceText = '';
+                return;
+            }
+            let data = currencyData[currentCountryCode];
+            const europeanCountries = ['de', 'fr', 'it', 'es', 'nl', 'be', 'pt', 'gr', 'at', 'fi', 'ie'];
+            if (!data && europeanCountries.includes(currentCountryCode)) {
+                data = currencyData['eu'];
+            }
+            if (!data) {
+                data = currencyData['eg'];
+            }
+            const newPrice = (currentBasePrice * data.rate).toFixed(2);
+            if (data.position === 'before') {
+                finalPriceElement.innerText = `${data.symbol}${newPrice}`;
+                currentFinalPriceText = `${data.symbol}${newPrice}`;
+            } else {
+                finalPriceElement.innerText = `${newPrice} ${data.symbol}`;
+                currentFinalPriceText = `${newPrice} ${data.symbol}`;
+            }
+            priceBanner.style.display = 'flex';
+        }
+
+        serviceTypeSelect.addEventListener('change', (e) => {
+            const selectedService = e.target.value;
+            if (basePrices[selectedService]) {
+                currentBasePrice = basePrices[selectedService];
+                updatePrice();
+            } else {
+                currentBasePrice = 0;
+                priceBanner.style.display = 'none';
+                currentFinalPriceText = '';
+            }
+        });
+
+        function applyTranslation(lang) {
+            if (!translations[lang]) lang = 'ar'; 
+            const langPack = translations[lang];
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            const selects = document.querySelectorAll('select');
+            selects.forEach(select => {
+                if (document.documentElement.dir === 'rtl') {
+                    select.style.backgroundPosition = 'left 15px center';
+                    select.style.paddingLeft = '35px';
+                    select.style.paddingRight = '';
+                } else {
+                    select.style.backgroundPosition = 'right 15px center';
+                    select.style.paddingRight = '35px';
+                    select.style.paddingLeft = '';
+                }
+            });
+            document.querySelectorAll('[data-translate-key]').forEach(el => {
+                const key = el.getAttribute('data-translate-key');
+                if (langPack[key]) el.innerText = langPack[key];
+            });
+            document.querySelectorAll('[data-translate-key-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-translate-key-placeholder');
+                if (langPack[key]) el.placeholder = langPack[key];
+            });
+        }
+        
+        const wishForm = document.getElementById('wish-form');
+        const nameInput = document.getElementById('name');
+        const fileOptionSelect = document.getElementById('file-option');
+        const dimensionGroup = document.getElementById('dimension-group');
+        const whatsappNote = document.getElementById('whatsapp-note');
+        const phoneInput = document.getElementById('phone');
+        const whatsappNumber = '+201028768495';
+
+        // --- تعديل: تحميل الرقم الدولي الكامل ---
+        nameInput.value = localStorage.getItem('clipcraft_userName') || '';
+        phoneInput.value = localStorage.getItem('clipcraft_userFullPhone') || '';
+
+        const iti = window.intlTelInput(phoneInput, {
+            initialCountry: "auto",
+            geoIpLookup: callback => {
+                fetch("https://ipapi.co/json")
+                    .then(res => res.json())
+                    .then(data => {
+                        const countryCode = data.country_code.toLowerCase();
+                        currentCountryCode = countryCode;
+                        const lang = countryToLang[countryCode] || 'ar';
+                        applyTranslation(lang);
+                        callback(countryCode);
+                    })
+                    .catch(() => {
+                        applyTranslation('ar');
+                        currentCountryCode = 'eg';
+                        callback("sa");
+                    });
+            },
+            placeholderNumberType: "MOBILE",
+            preferredCountries: ['ps', 'sa', 'eg', 'ae', 'kw', 'qa'],
+            excludeCountries: ['il'],
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.15/js/utils.js",
+        });
+
+        // --- تعديل: دالة لحفظ بيانات المستخدم الصحيحة ---
+        function saveUserData() {
+            localStorage.setItem('clipcraft_userName', nameInput.value);
+            // حفظ الرقم الدولي الكامل فقط إذا كان صحيحًا
+            if (iti.isValidNumber()) {
+                localStorage.setItem('clipcraft_userFullPhone', iti.getNumber());
+            }
+        }
+        
+        // --- تعديل: أحداث حفظ البيانات ---
+        nameInput.addEventListener('input', saveUserData);
+        phoneInput.addEventListener('blur', saveUserData); // حفظ عند الخروج من الحقل
+        phoneInput.addEventListener('countrychange', saveUserData); // حفظ عند تغيير الدولة
+
+
+        function toggleFileFields() {
+            const selectedValue = fileOptionSelect.value;
+            dimensionGroup.style.display = (selectedValue === 'with-files') ? 'block' : 'none';
+            whatsappNote.style.display = (selectedValue === 'with-files') ? 'block' : 'none';
+        }
+        fileOptionSelect.addEventListener('change', toggleFileFields);
+        toggleFileFields();
+
+        wishForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (!iti.isValidNumber()) {
+                alert(document.documentElement.lang === 'ar' ? 'الرجاء إدخال رقم هاتف صحيح.' : 'Please enter a valid phone number.');
+                return;
+            }
+
+            // --- تعديل: التأكد من حفظ البيانات قبل الإرسال ---
+            saveUserData();
+
+            const currentLang = document.documentElement.lang;
+            const langPack = translations[currentLang] || translations['ar'];
+            const name = document.getElementById('name').value;
+            const phone = iti.getNumber();
+            const serviceType = document.getElementById('service-type').value;
+            const fileOption = document.getElementById('file-option').value;
+            const details = document.getElementById('details').value;
+            let messageBody = `${langPack.whatsappTitle}\n\n` +
+                              `${langPack.whatsappName} ${name}\n` +
+                              `${langPack.whatsappPhone} ${phone}\n` +
+                              `${langPack.whatsappService} ${serviceType}\n`;
+            if (fileOption === 'with-files') {
+                const selectedDimension = document.querySelector('input[name="dimension"]:checked').value;
+                messageBody += `${langPack.whatsappDimensions} ${selectedDimension}\n`;
+                messageBody += `${langPack.whatsappFilesStatus} ${langPack.whatsappFilesAttached}\n\n`;
+            } else {
+                messageBody += `${langPack.whatsappFilesStatus} ${langPack.whatsappFilesNone}\n\n`;
+            }
+            messageBody += `${langPack.whatsappDetails}\n${details}\n\n`;
+            if (currentFinalPriceText) {
+                messageBody += `${langPack.whatsappPrice} ${currentFinalPriceText}\n\n`;
+            }
+            if (fileOption === 'with-files') {
+                messageBody += `-----------------------------------\n${langPack.whatsappNote}`;
+            }
+            const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(messageBody.trim())}`;
+            window.open(whatsappURL, '_blank');
+        });
+    });
+    </script>
+</body>
+</html>

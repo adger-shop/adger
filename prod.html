@@ -3619,52 +3619,57 @@ if (username) {
 
 
 
-
-    
-
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تشغيل صوت من فيديو يوتيوب وزر الصعود للأعلى</title>
+
+    <!-- تسريع الاتصال بخوادم يوتيوب لبدء الصوت فورياً بين الصفحات -->
+    <link rel="preconnect" href="https://www.youtube.com">
+    <link rel="preconnect" href="https://www.google.com">
+
     <style>
         /* تصميم الحاوية العمودية للأزرار */
         .button-container {
             position: fixed;
-            bottom: 83px;
+            bottom: 20px;
             left: 20px;
-            width: 14px;
+            width: 18px;
             background-color: #ffffff;
             border-radius: 10px;
-            padding: 10px;
+            padding: 10px 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             display: none; /* إخفاء الأزرار حتى يتم التمرير */
             flex-direction: column; /* ترتيب العناصر عموديًا */
-            gap: 11px; /* مسافة بين العناصر */
+            gap: 10px; /* مسافة منتظمة تمنع أي تداخل نهائياً */
             justify-content: center; /* توسيط العناصر عموديًا */
             align-items: center; /* توسيط العناصر أفقيًا */
+            z-index: 2147483647; /* قيمة عالية جدًا لـ z-index */
         }
 
-        /* تصميم زر تشغيل الصوت */
+        /* تصميم حيز زر تشغيل الصوت */
         #playAudio {
             cursor: pointer;
             color: #333;
-            font-size: 24px;
             outline: none;
             -webkit-tap-highlight-color: transparent;
             user-select: none;
             display: flex;
-            align-items: center; /* محاذاة عمودية للعنصر */
-            justify-content: center; /* محاذاة أفقية للعنصر */
-            width: 100%; /* عرض كامل للحاوية */
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 24px;
+            position: relative;
+            z-index: 2;
         }
 
         #playIcon, #pauseIcon {
             font-size: 19px;
             fill: goldenrod;
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             pointer-events: none; /* منع التأثيرات */
         }
 
@@ -3672,32 +3677,48 @@ if (username) {
             display: none; /* إخفاء أيقونة الإيقاف مؤقتًا */
         }
 
-        /* تصميم زر الصعود للأعلى */
+        /* تصميم الخط الفاصل */
+        .separator {
+            width: 18px;
+            height: 1px;
+            background-color: #ccc;
+            pointer-events: none; /* عدم قبول أي نقرات */
+            margin: 0;
+        }
+
+        /* تصميم حيز زر الصعود للأعلى */
         .scroll-to-top {
             color: #333;
-            font-size: 24px;
             cursor: pointer;
-            text-align: center; /* محاذاة الأيقونة في الوسط */
-            margin-top: -4px;
+            text-align: center;
             outline: none;
             -webkit-tap-highlight-color: transparent;
             user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 24px;
+            position: relative;
+            z-index: 2;
+            text-decoration: none;
         }
 
         .scroll-to-top svg {
-            width: 21px;
-            height: 21px;
-            margin-bottom: -12px;
+            width: 20px;
+            height: 20px;
+            pointer-events: none;
         }
 
-        /* تصميم الخط الفاصل */
-        .separator {
-            width: 17px; /* عرض الخط */
-            height: 2px; /* ارتفاع أطول لضمان رؤية واضحة */
-            background-color: #ccc; /* لون الخط */
-            align-self: center; /* توسيط الخط داخل الحاوية */
-            margin-bottom: -18px;
-            margin-top: -6px;
+        /* حاوية مشغل اليوتيوب: خارج حدود الشاشة لتفادي كتم المتصفح التلقائي */
+        #ytPlayerWrapper {
+            position: fixed;
+            bottom: -9999px;
+            left: -9999px;
+            width: 200px;
+            height: 200px;
+            pointer-events: none;
+            visibility: hidden;
         }
     </style>
 </head>
@@ -3706,7 +3727,7 @@ if (username) {
     <!-- الحاوية العمودية للأزرار -->
     <div class="button-container">
         <!-- زر تشغيل الصوت -->
-        <div id="playAudio">
+        <div id="playAudio" title="تشغيل / إيقاف">
             <svg id="playIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <polygon points="6,4 20,12 6,20"/>
             </svg>
@@ -3721,21 +3742,173 @@ if (username) {
         <div class="separator"></div>
 
         <!-- زر الصعود للأعلى -->
-        <a href="#" class="scroll-to-top">
+        <a href="javascript:void(0)" class="scroll-to-top" title="الصعود للأعلى">
             <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m5 15 7-7 7 7"/>
             </svg>
         </a>
     </div>
 
-    <!-- فيديو يوتيوب مع الرابط الجديد -->
-    <iframe id="youtubeVideo" width="0" height="0" src="https://www.youtube.com/embed/YBr3ff5YCQk?enablejsapi=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <!-- مشغل يوتيوب الرسمي -->
+    <div id="ytPlayerWrapper">
+        <div id="youtubeVideo"></div>
+    </div>
+
+    <!-- تحميل مكتبة يوتيوب الرسمية -->
+    <script src="https://www.youtube.com/iframe_api"></script>
 
     <script>
-        var isPlaying = false;
-        var playAudioBtn = document.getElementById('playAudio');
+        // ================================================================
+        // 10 خطب ومحاضرات فعلية ومؤثرة للشيخ خالد الراشد
+        // ================================================================
+        var youtubeList = [
+            { id: "QX5CVUAbWjs", title: "يا أمة محمد كاملة" },
+            { id: "_N4HtB1higs", title: "مفرق الجماعات" },
+            { id: "cRchTJwesLs", title: "الملتقى الجنة" },
+            { id: "HlOplsKIhP8", title: "أحوال الغارقين" },
+            { id: "hna0EsrJYj4", title: "هكذا أخذ الله فرعون" },
+            { id: "wohfnHagFZ8", title: "ولا تقربوا الزنا" },
+            { id: "iCfkktZPlpo", title: "نبيكم يهان" },
+            { id: "Lj3S7gRyuX8", title: "أحوال الغارقات" },
+            { id: "PxnZgGVzskM", title: "الملتقى الجنة 2" },
+            { id: "ZepgudkuZfE", title: "موعظة إيمانية" }
+        ];
 
-        // إظهار الأزرار فقط بعد التمرير لأسفل بعد تحميل الصفحة
+        // 1. تحديد المقطع المشغل:
+        // إذا كان المستخدم يتصفح صفحات موقعك يحتفظ بنفس المقطع
+        // إذا كانت فتحة جديدة للموقع تماماً يختار خطبة جديدة للتنوع
+        var activeVideoId = sessionStorage.getItem('site_active_video_id');
+        if (!activeVideoId) {
+            var lastIdx = parseInt(localStorage.getItem('site_last_video_idx') || "-1");
+            var randIdx = Math.floor(Math.random() * youtubeList.length);
+            if (youtubeList.length > 1 && randIdx === lastIdx) {
+                randIdx = (randIdx + 1) % youtubeList.length;
+            }
+            activeVideoId = youtubeList[randIdx].id;
+            sessionStorage.setItem('site_active_video_id', activeVideoId);
+            localStorage.setItem('site_last_video_idx', randIdx);
+        }
+
+        // معرفة ما إذا كان الصوت قيد التشغيل في الصفحة السابقة لاستئنافه تلقائياً وفورياً
+        var shouldAutoResume = (sessionStorage.getItem('site_audio_should_play') === 'true');
+        var savedStartSec = parseFloat(localStorage.getItem('yt_pos_' + activeVideoId) || "0");
+
+        var player = null;
+        var isPlaying = shouldAutoResume; // ضبط الحالة فوراً
+        var playBtn = document.getElementById('playAudio');
+        var playIcon = document.getElementById('playIcon');
+        var pauseIcon = document.getElementById('pauseIcon');
+
+        // إذا كان الصوت يعمل في الصفحة السابقة، نجهز الأيقونة على وضع (إيقاف مؤقت) فوراً
+        if (shouldAutoResume) {
+            playIcon.style.display = 'none';
+            pauseIcon.style.display = 'block';
+        }
+
+        // تهيئة مشغل يوتيوب
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtubeVideo', {
+                height: '200',
+                width: '200',
+                videoId: activeVideoId,
+                playerVars: {
+                    'autoplay': shouldAutoResume ? 1 : 0, // يبدأ تلقائياً إذا كان يعمل بالصفحة السابقة
+                    'controls': 0,
+                    'start': Math.floor(savedStartSec),
+                    'rel': 0
+                },
+                events: {
+                    'onReady': function(e) {
+                        player.unMute();
+                        player.setVolume(100);
+
+                        // إذا كان قادماً من صفحة أخرى وهو مشغل للصوت
+                        if (shouldAutoResume) {
+                            if (savedStartSec > 0) {
+                                player.seekTo(savedStartSec, true);
+                            }
+                            player.playVideo();
+                        }
+                    },
+                    'onStateChange': function(e) {
+                        if (e.data === YT.PlayerState.PLAYING) {
+                            isPlaying = true;
+                            playIcon.style.display = 'none';
+                            pauseIcon.style.display = 'block';
+                            sessionStorage.setItem('site_audio_should_play', 'true');
+                        } else if (e.data === YT.PlayerState.PAUSED) {
+                            isPlaying = false;
+                            playIcon.style.display = 'block';
+                            pauseIcon.style.display = 'none';
+                            sessionStorage.setItem('site_audio_should_play', 'false');
+                        } else if (e.data === YT.PlayerState.ENDED) {
+                            localStorage.removeItem('yt_pos_' + activeVideoId);
+                            sessionStorage.removeItem('site_active_video_id');
+                            sessionStorage.setItem('site_audio_should_play', 'false');
+                            playIcon.style.display = 'block';
+                            pauseIcon.style.display = 'none';
+                            isPlaying = false;
+                        }
+                    }
+                }
+            });
+        }
+
+        // 2. التحكم عند النقر على زر التشغيل/الإيقاف
+        playBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            if (!isPlaying) {
+                isPlaying = true;
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = 'block';
+                sessionStorage.setItem('site_audio_should_play', 'true');
+
+                if (player && typeof player.playVideo === 'function') {
+                    player.unMute();
+                    player.setVolume(100);
+                    var curSaved = parseFloat(localStorage.getItem('yt_pos_' + activeVideoId) || "0");
+                    if (curSaved > 0 && Math.abs(player.getCurrentTime() - curSaved) > 2) {
+                        player.seekTo(curSaved, true);
+                    }
+                    player.playVideo();
+                }
+            } else {
+                isPlaying = false;
+                playIcon.style.display = 'block';
+                pauseIcon.style.display = 'none';
+                sessionStorage.setItem('site_audio_should_play', 'false');
+
+                if (player && typeof player.pauseVideo === 'function') {
+                    player.pauseVideo();
+                }
+            }
+        });
+
+        // 3. التقاط وتخزين الثواني دورياً
+        function recordCurrentTime() {
+            if (player && typeof player.getCurrentTime === 'function' && isPlaying) {
+                var sec = player.getCurrentTime();
+                if (sec > 0) {
+                    localStorage.setItem('yt_pos_' + activeVideoId, sec);
+                }
+            }
+        }
+        setInterval(recordCurrentTime, 500); // تحديث كل نصف ثانية لدقة فائقة
+
+        // ميزة الالتقاط اللحظي: فور نقر المستخدم على أي رابط للتنقل بين صفحات موقعك
+        document.addEventListener('click', function(e) {
+            var link = e.target.closest('a');
+            if (link && link.href) {
+                recordCurrentTime();
+            }
+        });
+
+        window.addEventListener('beforeunload', recordCurrentTime);
+        window.addEventListener('pagehide', recordCurrentTime);
+
+        // إظهار الأزرار بعد التمرير لأسفل (أكثر من 100 بكسل)
         window.addEventListener('scroll', function() {
             var buttonContainer = document.querySelector('.button-container');
             if (window.scrollY > 100) {
@@ -3745,39 +3918,13 @@ if (username) {
             }
         });
 
-        // تشغيل وإيقاف الفيديو من يوتيوب
-        document.getElementById('playAudio').addEventListener('click', function() {
-            var youtubeVideo = document.getElementById('youtubeVideo');
-            var playIcon = document.getElementById('playIcon');
-            var pauseIcon = document.getElementById('pauseIcon');
-
-            if (!isPlaying) {
-                youtubeVideo.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-                playIcon.style.display = 'none';
-                pauseIcon.style.display = 'block';
-            } else {
-                youtubeVideo.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-                playIcon.style.display = 'block';
-                pauseIcon.style.display = 'none';
-            }
-
-            isPlaying = !isPlaying;
-        });
-
-        // الانتقال إلى أعلى الصفحة بشكل سلس عند الضغط على زر الصعود
-        document.querySelector('.scroll-to-top').addEventListener('click', function(event) {
-            event.preventDefault();
-            window.scrollTo({top: 0, behavior: 'smooth'});
+        // زر الصعود للأعلى
+        document.querySelector('.scroll-to-top').addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-

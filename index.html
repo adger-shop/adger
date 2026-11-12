@@ -56,38 +56,40 @@
             position: fixed;
             bottom: 20px;
             left: 20px;
-            width: 14px;
+            width: 18px; /* وسعناها بكسلات بسيطة جداً لسهولة النقر ودقة اللمس */
             background-color: #ffffff;
             border-radius: 10px;
-            padding: 10px;
+            padding: 10px 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             display: none; /* إخفاء الأزرار حتى يتم التمرير */
             flex-direction: column; /* ترتيب العناصر عموديًا */
-            gap: 11px; /* مسافة بين العناصر */
+            gap: 10px; /* مسافة واضحة ومنتظمة تمنع التداخل */
             justify-content: center; /* توسيط العناصر عموديًا */
             align-items: center; /* توسيط العناصر أفقيًا */
             z-index: 2147483647; /* قيمة عالية جدًا لـ z-index */
         }
 
-        /* تصميم زر تشغيل الصوت */
+        /* تصميم حيز زر تشغيل الصوت */
         #playAudio {
             cursor: pointer;
             color: #333;
-            font-size: 24px;
             outline: none;
             -webkit-tap-highlight-color: transparent;
             user-select: none;
             display: flex;
-            align-items: center; /* محاذاة عمودية للعنصر */
-            justify-content: center; /* محاذاة أفقية للعنصر */
-            width: 100%; /* عرض كامل للحاوية */
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 24px; /* حيز مخصص لزر التشغيل لا يتداخل مع ما تحته */
+            position: relative;
+            z-index: 2;
         }
 
         #playIcon, #pauseIcon {
             font-size: 19px;
             fill: goldenrod;
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             pointer-events: none; /* منع التأثيرات */
         }
 
@@ -95,35 +97,40 @@
             display: none; /* إخفاء أيقونة الإيقاف مؤقتًا */
         }
 
-        /* تصميم زر الصعود للأعلى */
+        /* تصميم الخط الفاصل (بدون هوامش سالبة تسبب تراكب الأزرار) */
+        .separator {
+            width: 18px;
+            height: 1px;
+            background-color: #ccc;
+            pointer-events: none; /* تجاهل النقرات على الخط تماماً */
+            margin: 0;
+        }
+
+        /* تصميم حيز زر الصعود للأعلى */
         .scroll-to-top {
             color: #333;
-            font-size: 24px;
             cursor: pointer;
-            text-align: center; /* محاذاة الأيقونة في الوسط */
-            margin-top: -4px;
+            text-align: center;
             outline: none;
             -webkit-tap-highlight-color: transparent;
             user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 24px; /* حيز مخصص لزر الصعود منفصل تماماً */
+            position: relative;
+            z-index: 2;
+            text-decoration: none;
         }
 
         .scroll-to-top svg {
-            width: 21px;
-            height: 21px;
-            margin-bottom: -12px;
+            width: 20px;
+            height: 20px;
+            pointer-events: none;
         }
 
-        /* تصميم الخط الفاصل */
-        .separator {
-            width: 17px; /* عرض الخط */
-            height: 2px; /* ارتفاع أطول لضمان رؤية واضحة */
-            background-color: #ccc; /* لون الخط */
-            align-self: center; /* توسيط الخط داخل الحاوية */
-            margin-bottom: -18px;
-            margin-top: -6px;
-        }
-
-        /* حاوية مشغل اليوتيوب: خارج حدود الشاشة لتفادي كتم المتصفح التلقائي */
+        /* حاوية مشغل اليوتيوب: خارج حدود الشاشة لتفادي كتم المتصفح */
         #ytPlayerWrapper {
             position: fixed;
             bottom: -9999px;
@@ -137,10 +144,10 @@
 </head>
 <body>
 
-    <!-- الحاوية العمودية للأزرار (نفس تصميمك تماماً) -->
+    <!-- الحاوية العمودية للأزرار -->
     <div class="button-container">
-        <!-- زر تشغيل الصوت -->
-        <div id="playAudio">
+        <!-- زر تشغيل الصوت في حيزه المنفصل -->
+        <div id="playAudio" title="تشغيل / إيقاف">
             <svg id="playIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <polygon points="6,4 20,12 6,20"/>
             </svg>
@@ -154,15 +161,15 @@
         <!-- الخط الفاصل -->
         <div class="separator"></div>
 
-        <!-- زر الصعود للأعلى -->
-        <a href="#" class="scroll-to-top">
+        <!-- زر الصعود للأعلى في حيزه المنفصل -->
+        <a href="javascript:void(0)" class="scroll-to-top" title="الصعود للأعلى">
             <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m5 15 7-7 7 7"/>
             </svg>
         </a>
     </div>
 
-    <!-- مشغل يوتيوب الرسمي المخفي خارج الشاشة -->
+    <!-- مشغل يوتيوب الرسمي -->
     <div id="ytPlayerWrapper">
         <div id="youtubeVideo"></div>
     </div>
@@ -187,9 +194,7 @@
             { id: "ZepgudkuZfE", title: "موعظة إيمانية" }
         ];
 
-        // 1. إدارة التنقل بين الصفحات واختيار المقطع:
-        // إذا كان المستخدم يتصفح صفحات موقعك يحتفظ بنفس المقطع
-        // إذا فتح الموقع من جديد يختار له مقطعاً جديداً للتنوع
+        // 1. اختيار المقطع والتنقل بين صفحات الموقع:
         var activeVideoId = sessionStorage.getItem('site_active_video_id');
         if (!activeVideoId) {
             var lastIdx = parseInt(localStorage.getItem('site_last_video_idx') || "-1");
@@ -202,7 +207,7 @@
             localStorage.setItem('site_last_video_idx', randIdx);
         }
 
-        // استرجاع الثانية التي كان يستمع إليها المستخدم في هذا المقطع بالضبط
+        // استرجاع الثانية التي كان يستمع إليها المستخدم
         var savedStartSec = parseFloat(localStorage.getItem('yt_pos_' + activeVideoId) || "0");
 
         var player = null;
@@ -224,14 +229,14 @@
                 },
                 events: {
                     'onReady': function(e) {
-                        player.unMute();      // فك كتم الصوت فوراً
-                        player.setVolume(100); // رفع الصوت لأعلى درجة
+                        player.unMute();
+                        player.setVolume(100);
 
                         if (savedStartSec > 0) {
                             player.seekTo(savedStartSec, true);
                         }
 
-                        // إذا كان المستمع مشغلاً للصوت وانتقل لصفحة أخرى بموقعك، يواصل التشغيل تلقائياً
+                        // إذا كان مستمعاً وانتقل لصفحة أخرى بموقعك، يواصل التشغيل تلقائياً
                         if (sessionStorage.getItem('site_audio_should_play') === 'true') {
                             isPlaying = true;
                             playIcon.style.display = 'none';
@@ -263,10 +268,12 @@
             });
         }
 
-        // 2. النقر على الزر (تبديل فوري للأيقونة والتشغيل)
-        playBtn.addEventListener('click', function() {
+        // 2. النقر على زر التشغيل (مع منع انتشار الحدث لمنع التداخل مع الصعود)
+        playBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation(); // يمنع وصول النقر لأي زر آخر نهائياً
+
             if (!isPlaying) {
-                // تبديل فوري للأيقونة
                 isPlaying = true;
                 playIcon.style.display = 'none';
                 pauseIcon.style.display = 'block';
@@ -293,7 +300,7 @@
             }
         });
 
-        // 3. حفظ ثواني المقطع كل ثانية أثناء الاستماع لعدم فقدان أي لحظة
+        // 3. حفظ ثواني المقطع كل ثانية أثناء الاستماع
         setInterval(function() {
             if (player && typeof player.getCurrentTime === 'function' && isPlaying) {
                 var sec = player.getCurrentTime();
@@ -303,7 +310,6 @@
             }
         }, 1000);
 
-        // حفظ الموقع فور الخروج أو الانتقال لصفحة ثانية
         function saveBeforeLeaving() {
             if (player && typeof player.getCurrentTime === 'function') {
                 var sec = player.getCurrentTime();
@@ -315,7 +321,7 @@
         window.addEventListener('beforeunload', saveBeforeLeaving);
         window.addEventListener('pagehide', saveBeforeLeaving);
 
-        // إظهار الأزرار بعد التمرير لأسفل الصفحة (أكثر من 100 بكسل كما في تصميمك)
+        // إظهار الأزرار بعد التمرير لأسفل الصفحة (أكثر من 100 بكسل)
         window.addEventListener('scroll', function() {
             var buttonContainer = document.querySelector('.button-container');
             if (window.scrollY > 100) {
@@ -325,9 +331,10 @@
             }
         });
 
-        // زر الصعود للأعلى بسلاسة
-        document.querySelector('.scroll-to-top').addEventListener('click', function(event) {
-            event.preventDefault();
+        // 4. النقر على زر الصعود للأعلى (مستقل تماماً)
+        document.querySelector('.scroll-to-top').addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation(); // منع التداخل
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     </script>

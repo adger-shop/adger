@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>أدجر-بحث</title>
-    <link rel="icon" href="logo2.png" type="image/x-icon">
+    <link rel="icon" href="adger.png" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -854,15 +853,6 @@
         
         backButton.addEventListener('click', () => window.history.back());
         
-        const searchTexts = ["ابحث هنا", "اكتشف العروض الجديدة", "تصفح الفئات", "ابحث عن العلامات التجارية", "ابحث عن الكلمات الرئيسية"];
-        let currentTextIndex = 0;
-        setInterval(() => {
-            currentTextIndex = (currentTextIndex + 1) % searchTexts.length;
-            if (document.activeElement !== searchInput) {
-                 searchInput.placeholder = searchTexts[currentTextIndex];
-            }
-        }, 5000);
-        
         function executeSearch(searchTerm) {
             const term = searchTerm.trim();
             if (term && term !== "ابحث هنا") {
@@ -872,7 +862,7 @@
             }
         }
         
-        searchButton.addEventListener('click', () => executeSearch(searchInput.value || searchTexts[currentTextIndex]));
+        searchButton.addEventListener('click', () => executeSearch(searchInput.value));
         searchInput.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') executeSearch(searchInput.value);
         });

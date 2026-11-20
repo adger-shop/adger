@@ -116,15 +116,14 @@
     .brand-sub { font-size: 0.7rem; color: #ebd9b0; display: block; white-space: nowrap; }
 
     .hijri-pill {
-      display: flex; align-items: center; gap: 6px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
       background: rgba(255, 255, 255, 0.1);
       border: 1px solid rgba(198, 150, 54, 0.55);
       padding: 5px 13px; border-radius: 999px;
       font-size: 0.82rem; font-weight: 700; color: #fbeac6;
       white-space: nowrap;
-      flex-shrink: 1;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      flex-shrink: 0;
+      width: fit-content;
     }
 
     .nav-links { display: flex; align-items: center; gap: 2px; list-style: none; }
@@ -204,11 +203,13 @@
     }
     .hero-grid { display: grid; grid-template-columns: 1.45fr 1fr; gap: 26px; align-items: center; position: relative; z-index: 2; }
     .hero-tag {
-      display: inline-flex; align-items: center; gap: 8px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; text-align: center; line-height: 1.5;
       background: rgba(198, 150, 54, 0.22); border: 1px solid rgba(198, 150, 54, 0.55);
       color: #fae0a2; padding: 5px 14px; border-radius: 999px; font-size: 0.84rem; margin-bottom: 12px;
       max-width: 100%;
     }
+    /* حذف التاريخ الهجري من خلفية الموسوعة السلفية وإبقاؤه في الشريط العلوي فقط */
+    #mobileHijriTag { display: none; }
     .hero h1 { font-size: clamp(1.75rem, 3.8vw, 2.9rem); line-height: 1.3; margin-bottom: 10px; color: #fff; }
     .hero p { color: #d7e7e2; font-size: clamp(0.92rem, 1.5vw, 1.02rem); max-width: 650px; margin-bottom: 20px; }
     .hero-btns { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -242,7 +243,8 @@
     .stat-mini { background: rgba(255, 255, 255, 0.08); padding: 9px 4px; border-radius: 12px; text-align: center; }
     .stat-mini strong { display: block; font-size: 1.18rem; color: #ffd882; }
     .stat-mini span { font-size: 0.72rem; color: #cfe0da; }
-    .sync-banner { margin-top: 14px; font-size: 0.84rem; color: #fbeac6; display: flex; align-items: center; gap: 8px; min-height: 26px; }
+    .sync-banner { margin-top: 14px; font-size: 0.84rem; color: #fbeac6; display: block; line-height: 1.85; min-height: 26px; }
+    .sync-banner strong { display: inline; margin-inline: 3px; color: #ffd882; }
 
     /* العناوين */
     .section-head {
@@ -825,12 +827,29 @@
     .seek-row input[type="range"] { flex: 1; accent-color: var(--gold); cursor: pointer; min-width: 60px; }
     .dock-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 
+    /* شعار الإشعار المنبثق المحسّن بوضوح النص وتناسب الحجم */
     .toast {
-      position: fixed; top: 90px; left: 50%; transform: translateX(-50%);
-      background: #073227; color: #ffd882; border: 1px solid var(--gold);
-      padding: 10px 22px; border-radius: 999px; font-weight: 700; z-index: 2200;
-      display: none; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
-      max-width: 92vw; text-align: center;
+      position: fixed;
+      top: calc(var(--nav-height) + 14px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(6, 41, 32, 0.96);
+      color: #fff6dc;
+      border: 1.5px solid var(--gold);
+      padding: 9px 20px;
+      border-radius: 16px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      line-height: 1.55;
+      z-index: 2200;
+      display: none;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(8px);
+      width: max-content;
+      max-width: min(520px, calc(100vw - 32px));
+      text-align: center;
+      word-break: break-word;
+      pointer-events: none;
     }
 
     footer {
@@ -846,14 +865,41 @@
     /* =========================================================================
        التجاوب الكامل على جميع المقاسات والشاشات
        ========================================================================= */
+    /* ملاءمة الروابط والتاريخ الهجري من 1001 إلى 1380 بكسل مع الحفاظ على الشعار بحجمه الكامل */
+    @media (max-width: 1380px) and (min-width: 1001px) {
+      .nav-container { padding: 0 10px; gap: 6px; }
+      .hijri-pill { padding: 4px 10px; font-size: 0.76rem; }
+      .nav-links a, .nav-links button { padding: 6px 6px; font-size: 0.78rem; }
+      .icon-btn { width: 36px; height: 36px; font-size: 1.05rem; }
+    }
+
+    @media (max-width: 1180px) and (min-width: 1001px) {
+      .nav-container { padding: 0 8px; gap: 5px; }
+      .hijri-pill {
+        padding: 3px 9px;
+        font-size: 0.7rem;
+        white-space: normal;
+        text-align: center;
+        line-height: 1.25;
+        max-width: 135px;
+      }
+      .nav-links a, .nav-links button { padding: 5px 4px; font-size: 0.72rem; gap: 2px; }
+      .icon-btn { width: 34px; height: 34px; font-size: 1rem; }
+      .nav-actions { gap: 5px; }
+    }
+
     @media (max-width: 1200px) {
       .sheikhs-grid, .cards-grid { grid-template-columns: repeat(3, 1fr); }
     }
 
-    @media (max-width: 1180px) {
+    /* إزالة عناصر القائمة من الشريط ووضعها في القائمة المنسدلة بدءاً من أقل من 1000 بكسل، مع تقليل المسافة بين التاريخ والشعار */
+    @media (max-width: 1000px) {
       .menu-toggle { display: grid; }
+      .hijri-pill {
+        margin-inline-end: auto;
+      }
       .nav-links {
-        position: fixed; top: var(--nav-height); right: 0; left: 0;
+        position: absolute; top: 100%; right: 0; left: 0;
         background: #073227; flex-direction: column; align-items: stretch;
         padding: 14px 16px; gap: 6px;
         border-bottom: 2px solid var(--gold);
@@ -867,6 +913,7 @@
         width: 100%; justify-content: flex-start; padding: 11px 14px; font-size: 0.96rem;
         background: rgba(255, 255, 255, 0.05);
       }
+      .nav-hijri-mobile { display: none; }
     }
 
     /* تحويل الفهرس إلى درج جانبي سلس (Drawer) للشاشات الصغيرة */
@@ -941,13 +988,6 @@
     }
 
     @media (max-width: 720px) {
-      .hijri-pill { display: none; }
-      .nav-hijri-mobile {
-        display: block; text-align: center; padding: 8px 12px; margin-bottom: 6px;
-        border-radius: 10px; background: rgba(198, 150, 54, 0.16);
-        border: 1px solid rgba(198, 150, 54, 0.45); color: #fbeac6;
-        font-size: 0.85rem; font-weight: 700;
-      }
       .hero { padding: 24px 18px; border-radius: 18px; margin: 14px auto 24px; }
       .stats-row { grid-template-columns: repeat(2, 1fr); }
       .fiqh-panel, .trivia-card, .adhkar-banner { padding: 18px 16px; }
@@ -993,10 +1033,50 @@
       .reader-page, .adhkar-win-body { padding: 16px 14px; }
       .hadith-entry, .tafsir-entry { padding: 14px; font-size: 1.22rem; }
       .quran-ayah-text { font-size: 1.35rem; }
+
+      .toast {
+        top: calc(var(--nav-height) + 10px);
+        padding: 7px 15px;
+        font-size: 0.82rem;
+        line-height: 1.45;
+        border-radius: 13px;
+        max-width: calc(100vw - 28px);
+      }
     }
 
-    /* تنظيم أزرار البطاقة على الشاشات 800 بكسل وأقل */
-    @media (max-width: 800px) {
+    /* تصغير تدريجي للشعار والتاريخ الهجري عند اقتراب التداخل بين العناصر */
+    @media (max-width: 690px) {
+      .nav-container { padding: 0 12px; gap: 8px; }
+      .brand { gap: 8px; }
+      .brand-icon { width: 36px; height: 36px; font-size: 18px; border-radius: 10px; }
+      .brand-title { font-size: 1.26rem; }
+      .brand-sub { font-size: 0.64rem; }
+      .hijri-pill { padding: 4px 10px; font-size: 0.75rem; }
+      .icon-btn { width: 36px; height: 36px; font-size: 1.05rem; }
+      .nav-actions { gap: 6px; }
+    }
+
+    @media (max-width: 590px) {
+      :root { --nav-height: 68px; }
+      .nav-container { padding: 0 10px; gap: 6px; }
+      .brand { gap: 6px; }
+      .brand-icon { width: 32px; height: 32px; font-size: 16px; border-radius: 9px; }
+      .brand-title { font-size: 1.12rem; }
+      .brand-sub { font-size: 0.56rem; }
+      .hijri-pill {
+        padding: 3px 9px;
+        font-size: 0.69rem;
+        white-space: normal;
+        text-align: center;
+        line-height: 1.3;
+        flex-shrink: 1;
+      }
+      .icon-btn { width: 34px; height: 34px; font-size: 1rem; }
+      .nav-actions { gap: 5px; }
+    }
+
+    /* تنظيم أزرار البطاقة على الشاشات 900 بكسل وأقل */
+    @media (max-width: 900px) {
       .card-actions {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -1045,15 +1125,34 @@
 
     @media (max-width: 480px) {
       .sheikhs-grid, .cards-grid { grid-template-columns: 1fr; }
-      :root { --nav-height: 66px; }
+      :root { --nav-height: 64px; }
       .container { padding: 0 12px; }
-      .nav-container { padding: 0 10px; gap: 6px; }
-      .brand-icon { width: 35px; height: 35px; font-size: 18px; border-radius: 10px; }
-      .brand-title { font-size: 1.22rem; }
-      .brand-sub { font-size: 0.64rem; }
+      .nav-container { padding: 0 8px; gap: 5px; }
+      .brand { gap: 5px; }
+      .brand-icon { width: 28px; height: 28px; font-size: 14px; border-radius: 8px; }
+      .brand-title { font-size: 0.98rem; }
+      .brand-sub {
+        font-size: 0.52rem;
+        white-space: normal;
+        line-height: 1.15;
+        max-width: 96px;
+      }
+      .hijri-pill {
+        font-size: 0.64rem;
+        padding: 3px 7px;
+        line-height: 1.25;
+        white-space: normal;
+        text-align: center;
+        flex-shrink: 1;
+      }
+      .hero-tag {
+        font-size: 0.78rem;
+        padding: 5px 12px;
+      }
       
-      .icon-btn { width: 36px; height: 36px; font-size: 1rem; }
-      .badge-count { min-width: 16px; height: 16px; font-size: 0.65rem; top: -2px; left: -2px; }
+      .icon-btn { width: 31px; height: 31px; font-size: 0.94rem; }
+      .nav-actions { gap: 4px; }
+      .badge-count { min-width: 15px; height: 15px; font-size: 0.62rem; top: -2px; left: -2px; }
       
       .hero-btns a, .hero-btns button { width: 100%; }
       .sheikh-select { width: 100%; }
@@ -1074,6 +1173,32 @@
       .dur-badge {
         font-size: 0.72rem;
       }
+
+      .toast {
+        top: calc(var(--nav-height) + 8px);
+        padding: 6px 13px;
+        font-size: 0.76rem;
+        line-height: 1.4;
+        border-radius: 11px;
+        max-width: calc(100vw - 22px);
+      }
+    }
+
+    @media (max-width: 355px) {
+      .brand-icon { width: 25px; height: 25px; font-size: 13px; }
+      .brand-title { font-size: 0.88rem; }
+      .brand-sub { font-size: 0.46rem; max-width: 82px; }
+      .hijri-pill { font-size: 0.58rem; padding: 2px 6px; }
+      .icon-btn { width: 28px; height: 28px; font-size: 0.86rem; }
+    }
+
+    .eq-bars.loading span { animation: eqLoad 1.5s infinite ease-in-out; }
+    .eq-bars.loading span:nth-child(2) { animation-delay: 0.2s; }
+    .eq-bars.loading span:nth-child(3) { animation-delay: 0.4s; }
+    .eq-bars.loading span:nth-child(4) { animation-delay: 0.6s; }
+    @keyframes eqLoad {
+      0%, 100% { transform: translateY(0); opacity: 0.65; }
+      50% { transform: translateY(-4px); opacity: 1; }
     }
   </style>
 </head>
@@ -1095,7 +1220,7 @@
         <li class="nav-hijri-mobile" id="mobileNavHijri">🌙 التاريخ الهجري</li>
         <li><a href="#" onclick="event.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); closeMobileMenu();">الرئيسية</a></li>
         <li><a href="#sheikhs" onclick="closeMobileMenu()">العلماء والمشايخ</a></li>
-        <li><a href="#library" onclick="closeMobileMenu()">الصوتيات</a></li>
+        <li><a href="#library" onclick="event.preventDefault(); closeMobileMenu(); if (typeof selectSheikh === 'function') selectSheikh('all', true);">الصوتيات</a></li>
         <li><a href="#books" onclick="closeMobileMenu()">مكتبة الكتب</a></li>
         <li><a href="#stories" onclick="closeMobileMenu()">القصص الكاملة</a></li>
         <li><a href="#fiqh" onclick="closeMobileMenu()">تعلم الفقه</a></li>
@@ -1444,7 +1569,7 @@
       if (overlay) overlay.classList.toggle('active', shouldOpen);
     }
 
-    // ١. التاريخ الهجري
+   // ١. التاريخ الهجري
     function updateHijriDate() {
       const now = new Date();
       let hijriStr = '';
@@ -1457,11 +1582,39 @@
           weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
         }).format(now);
       }
-      document.getElementById('hijriDateDisplay').textContent = `🌙 ${hijriStr}`;
-      document.getElementById('mobileHijriTag').textContent = `🌙 ${hijriStr}`;
-      document.getElementById('mobileNavHijri').textContent = `🌙 ${hijriStr}`;
-    }
 
+      hijriStr = hijriStr.replace(/،/g, '').replace(/\s+/g, ' ').trim();
+      const hijriHtml = hijriStr.replace(/([0-9٠-٩]+)\s+(هـ?)/g, '<span style="white-space:nowrap;">$1&nbsp;$2</span>');
+
+      // حساب الشروق والغروب التقريبي حسب اليوم والتوقيت الصيفي لتحديد الصباح والليل بدقة
+      const startOfYear = new Date(now.getFullYear(), 0, 0);
+      const dayOfYear = Math.floor((now - startOfYear) / 86400000);
+      const declRad = (-23.44 * Math.cos((2 * Math.PI / 365) * (dayOfYear + 10))) * Math.PI / 180;
+      const latRad = 29 * Math.PI / 180;
+      const cosOmega = Math.max(-1, Math.min(1, -Math.tan(latRad) * Math.tan(declRad)));
+      const halfDayHours = (Math.acos(cosOmega) * 180 / Math.PI) / 15;
+      const b = (2 * Math.PI / 365) * (dayOfYear - 81);
+      const eotMinutes = 9.87 * Math.sin(2 * b) - 7.53 * Math.cos(b) - 1.5 * Math.sin(b);
+      const dstShiftHours = (new Date(now.getFullYear(), 0, 1).getTimezoneOffset() - now.getTimezoneOffset()) / 60;
+      const solarNoon = 12 - (eotMinutes / 60) - 0.1 + dstShiftHours;
+      const sunrise = solarNoon - halfDayHours;
+      const sunset = solarNoon + halfDayHours;
+      const currentHour = now.getHours() + now.getMinutes() / 60;
+      const isMorning = currentHour >= sunrise && currentHour < sunset;
+
+      const iconHtml = isMorning
+        ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="flex-shrink:0; filter:drop-shadow(0 0 4px rgba(255,196,45,0.75));"><circle cx="12" cy="12" r="5" fill="#ffd24c" stroke="#ff9f1a" stroke-width="1.5"/><g stroke="#ffd24c" stroke-width="2" stroke-linecap="round"><line x1="12" y1="2" x2="12" y2="4.5"/><line x1="12" y1="19.5" x2="12" y2="22"/><line x1="2" y1="12" x2="4.5" y2="12"/><line x1="19.5" y1="12" x2="22" y2="12"/><line x1="4.93" y1="4.93" x2="6.7" y2="6.7"/><line x1="17.3" y1="17.3" x2="19.07" y2="19.07"/><line x1="19.07" y1="4.93" x2="17.3" y2="6.7"/><line x1="6.7" y1="17.3" x2="4.93" y2="19.07"/></g></svg>`
+        : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="flex-shrink:0; filter:drop-shadow(0 0 4px rgba(255,228,132,0.7));"><path d="M20.2 14.5A8.5 8.5 0 0 1 9.5 3.8a8.5 8.5 0 1 0 10.7 10.7Z" fill="#ffe484" stroke="#f6c445" stroke-width="1.3" stroke-linejoin="round"/><path d="M17.5 4.5l.65 1.55 1.55.65-1.55.65-.65 1.55-.65-1.55-1.55-.65 1.55-.65.65-1.55Z" fill="#fff5cc"/></svg>`;
+
+      const fullHtml = `${iconHtml}<span>${hijriHtml}</span>`;
+      document.getElementById('hijriDateDisplay').innerHTML = fullHtml;
+      document.getElementById('mobileHijriTag').innerHTML = fullHtml;
+      document.getElementById('mobileNavHijri').innerHTML = fullHtml;
+
+      if (!window._hijriTimer) {
+        window._hijriTimer = setInterval(updateHijriDate, 60000);
+      }
+    }
     // ٢. التذكرة القرآنية
     const ayahs = [
       { text: '﴿ وَذَكِّرْ فَإِنَّ الذِّكْرَىٰ تَنفَعُ الْمُؤْمِنِينَ ﴾', ref: 'سورة الذاريات - الآية ٥٥' },
@@ -1708,17 +1861,134 @@
       return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
     }
 
+    function parseDurationSeconds(dur) {
+      if (dur === null || dur === undefined) return null;
+      if (typeof dur === 'number') return (isFinite(dur) && dur > 0) ? dur : null;
+      const clean = String(dur).trim();
+      if (!clean) return null;
+      if (clean.includes(':')) {
+        const parts = clean.split(':').map(p => Number(p.trim()));
+        if (parts.length < 2 || parts.some(p => isNaN(p) || p < 0)) return null;
+        if (parts.length === 2) return parts[0] * 60 + parts[1];
+        if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+        return null;
+      }
+      const n = parseFloat(clean);
+      return (!isNaN(n) && isFinite(n) && n > 0) ? n : null;
+    }
+
     function formatDuration(len) {
       if (!len) return 'ملف صوتي';
-      if (typeof len === 'string' && len.includes(':')) {
-        const parts = len.split(':').map(p => p.trim());
-        if (parts.length >= 2 && parts.every(p => !isNaN(Number(p)))) {
-          return parts.map(p => String(Math.floor(Number(p))).padStart(2, '0')).join(':');
+      const parsed = parseDurationSeconds(len);
+      if (parsed !== null) return formatTime(parsed);
+      return 'ملف صوتي';
+    }
+
+    let verifiedDurations = {};
+    try {
+      verifiedDurations = JSON.parse(localStorage.getItem('manar_verified_durs_v1') || '{}');
+    } catch (e) {
+      verifiedDurations = {};
+    }
+
+    lectures.forEach(item => {
+      if (verifiedDurations[item.mp3]) {
+        item.duration = verifiedDurations[item.mp3];
+        item._durVerified = true;
+      }
+    });
+
+    function syncVerifiedDuration(item, realSecs) {
+      if (!item || !isFinite(realSecs) || realSecs <= 0) return false;
+      const realStr = formatTime(realSecs);
+      const oldSecs = parseDurationSeconds(item.duration);
+      const changed = item.duration !== realStr;
+
+      item.duration = realStr;
+      item._durVerified = true;
+      item._durProbeDone = true;
+
+      lectures.forEach(l => {
+        if (l.mp3 === item.mp3) {
+          l.duration = realStr;
+          l._durVerified = true;
+          l._durProbeDone = true;
+        }
+      });
+
+      if (changed) {
+        verifiedDurations[item.mp3] = realStr;
+        try {
+          localStorage.setItem('manar_verified_durs_v1', JSON.stringify(verifiedDurations));
+        } catch (e) {}
+        document.querySelectorAll(`.dur-badge[data-dur-id="${item.id}"]`).forEach(el => {
+          el.textContent = `⏱ ${realStr}`;
+        });
+      }
+
+      const wasLongOrUnknown = (oldSecs === null || oldSecs >= 600);
+      const isNowShort = realSecs < 600;
+      const wasShort = (oldSecs !== null && oldSecs < 600);
+      const isNowLong = realSecs >= 600;
+      return changed && ((wasLongOrUnknown && isNowShort) || (wasShort && isNowLong));
+    }
+
+    const durationProbeQueue = [];
+    let activeDurationProbes = 0;
+    let needsResortAfterProbe = false;
+
+    function scheduleVisibleDurationProbes(slice) {
+      while (durationProbeQueue.length) {
+        const dropped = durationProbeQueue.pop();
+        if (dropped) dropped._durQueued = false;
+      }
+      for (const item of slice) {
+        if (!item._durVerified && !item._durProbeDone && !item._durQueued) {
+          item._durQueued = true;
+          durationProbeQueue.push(item);
         }
       }
-      const secs = parseFloat(len);
-      if (isNaN(secs) || secs <= 0 || !isFinite(secs)) return 'ملف صوتي';
-      return formatTime(secs);
+      runNextDurationProbe();
+    }
+
+    function runNextDurationProbe() {
+      while (activeDurationProbes < 2 && durationProbeQueue.length > 0) {
+        const item = durationProbeQueue.shift();
+        activeDurationProbes++;
+
+        const tmpAudio = new Audio();
+        tmpAudio.preload = 'metadata';
+        let finished = false;
+
+        const finish = (secs) => {
+          if (finished) return;
+          finished = true;
+          clearTimeout(timer);
+          tmpAudio.onloadedmetadata = null;
+          tmpAudio.onerror = null;
+          try { tmpAudio.removeAttribute('src'); tmpAudio.load(); } catch (e) {}
+
+          item._durProbeDone = true;
+          item._durQueued = false;
+          if (secs && isFinite(secs) && secs > 0) {
+            if (syncVerifiedDuration(item, secs)) {
+              needsResortAfterProbe = true;
+            }
+          }
+          activeDurationProbes--;
+          runNextDurationProbe();
+        };
+
+        const timer = setTimeout(() => finish(null), 7000);
+        tmpAudio.onloadedmetadata = () => finish(tmpAudio.duration);
+        tmpAudio.onerror = () => finish(null);
+        tmpAudio.src = item.mp3;
+      }
+
+      if (activeDurationProbes === 0 && durationProbeQueue.length === 0 && needsResortAfterProbe) {
+        needsResortAfterProbe = false;
+        renderLectures();
+      }
     }
 
     function cleanTitle(rawName, prefix) {
@@ -1818,13 +2088,15 @@
           seenUrls.add(url);
 
           const displayTitle = cleanTitle(f.title || f.name, col.prefix);
+          const verified = verifiedDurations[url];
           lectures.push({
             id: `${col.id}_${idx}`,
             sheikhId: col.sheikhId,
             sheikh: col.sheikh,
             title: displayTitle,
             topic: detectTopic(displayTitle, col.defaultTopic),
-            duration: formatDuration(f.length),
+            duration: verified || formatDuration(f.length),
+            _durVerified: Boolean(verified),
             mp3: url
           });
         });
@@ -1873,7 +2145,17 @@
           const [sheikhId, sheikh, title, topic, duration, mp3] = row;
           if (!seenUrls.has(mp3)) {
             seenUrls.add(mp3);
-            lectures.push({ id: `c_${idx}`, sheikhId, sheikh, title, topic, duration, mp3 });
+            const verified = verifiedDurations[mp3];
+            lectures.push({
+              id: `c_${idx}`,
+              sheikhId,
+              sheikh,
+              title,
+              topic,
+              duration: verified || formatDuration(duration),
+              _durVerified: Boolean(verified),
+              mp3
+            });
           }
         });
         catalogReady = true;
@@ -2188,43 +2470,374 @@
       } catch (e) {}
     }
 
-    // ٧. قائمة القصص الكاملة (٣٢ قصة)
+    // ٧. قائمة القصص الكاملة من كتب أئمة السلف الكبار (٣٢ قصة مطولة)
     const storiesData = [
-      { id: 'st1', cat: 'قصص الأنبياء', title: 'قصة نبي الله آدم عليه السلام', wikiTitle: 'آدم في الإسلام', brief: 'خلق آدم عليه السلام، وسجود الملائكة، وإسكان الجنة، والهبوط والتوبة.' },
-      { id: 'st2', cat: 'قصص الأنبياء', title: 'قصة نبي الله إدريس عليه السلام', wikiTitle: 'إدريس', brief: 'أول من خط بالقلم، ورفعه الله مكاناً علياً، ودعوته للتوحيد والعمل الصالح.' },
-      { id: 'st3', cat: 'قصص الأنبياء', title: 'قصة نبي الله نوح عليه السلام', wikiTitle: 'نوح في الإسلام', brief: 'ألف سنة إلا خمسين عاماً من الدعوة، وبناء السفينة، والطوفان العظيم.' },
-      { id: 'st4', cat: 'قصص الأنبياء', title: 'قصة نبي الله هود عليه السلام وقوم عاد', wikiTitle: 'هود', brief: 'دعوة قوم عاد في الأحقاف وإهلاك المستكبرين بالريح الصرصر العاتية.' },
-      { id: 'st5', cat: 'قصص الأنبياء', title: 'قصة نبي الله صالح عليه السلام والناقة', wikiTitle: 'صالح', brief: 'معجزة الناقة لقوم ثمود في الحِجر وعاقبة تكذيبهم وعقرهم لها.' },
-      { id: 'st6', cat: 'قصص الأنبياء', title: 'قصة خليل الله إبراهيم عليه السلام', wikiTitle: 'إبراهيم في الإسلام', brief: 'تحطيم الأصنام، والنار برداً وسلاماً، والهجرة، وبناء الكعبة مع إسماعيل.' },
-      { id: 'st7', cat: 'قصص الأنبياء', title: 'قصة نبي الله إسماعيل عليه السلام', wikiTitle: 'إسماعيل في الإسلام', brief: 'قصة هاجر وماء زمزم، والفداء العظيم بالذبح، ورفع القواعد من البيت.' },
-      { id: 'st8', cat: 'قصص الأنبياء', title: 'قصة نبي الله لوط عليه السلام', wikiTitle: 'لوط في الإسلام', brief: 'دعوة قومه، ومجيء الملائكة ضيوفاً، ونجاته وإهلاك القرية المؤتفكة.' },
-      { id: 'st9', cat: 'قصص الأنبياء', title: 'قصة نبي الله يوسف الصديق عليه السلام', wikiTitle: 'يوسف في الإسلام', brief: 'أحسن القصص كاملةً من الرؤيا والبئر والسجن والعفة إلى خزائن مصر.' },
-      { id: 'st10', cat: 'قصص الأنبياء', title: 'قصة نبي الله أيوب عليه السلام', wikiTitle: 'أيوب في الإسلام', brief: 'الصبر الجميل على الابتلاء في المال والأهل والجسد حتى كشف الضر.' },
-      { id: 'st11', cat: 'قصص الأنبياء', title: 'قصة كليم الله موسى عليه السلام', wikiTitle: 'موسى في الإسلام', brief: 'قصر فرعون، ومدين، والوحي في الطور، وفلق البحر، وقصة الخضر.' },
-      { id: 'st12', cat: 'قصص الأنبياء', title: 'قصة نبي الله داود وسليمان عليهما السلام', wikiTitle: 'سليمان في الإسلام', brief: 'تسخير الريح والجن والطير، وقصة النملة، والهدهد، وملكة سبأ.' },
-      { id: 'st13', cat: 'قصص الأنبياء', title: 'قصة نبي الله يونس عليه السلام', wikiTitle: 'يونس في الإسلام', brief: 'ركوب البحر وبطن الحوت وتسبيح الظلمات وإيمان أهل نينوى.' },
-      { id: 'st14', cat: 'قصص الأنبياء', title: 'قصة نبي الله عيسى بن مريم عليه السلام', wikiTitle: 'عيسى بن مريم', brief: 'المولد المعجز، والكلام في المهد، والمعجزات بإذن الله، ورفعه إلى السماء.' },
+      {
+        id: 'st1', cat: 'قصص الأنبياء',
+        title: 'قصة نبي الله آدم عليه السلام',
+        source: 'البداية والنهاية — الحافظ ابن كثير',
+        wsPages: [
+          'البداية والنهاية/الجزء الأول/باب خلق آدم عليه السلام',
+          'البداية والنهاية/الجزء الأول/احتجاج آدم وموسى عليهما السلام',
+          'البداية والنهاية/الجزء الأول/الأحاديث الواردة في خلق آدم',
+          'البداية والنهاية/الجزء الأول/قصة قابيل وهابيل',
+          'البداية والنهاية/الجزء الأول/وفاة آدم ووصيته إلى ابنه شيث'
+        ],
+        brief: 'من كتاب البداية والنهاية للحافظ ابن كثير: خلق آدم، وسجود الملائكة، والأحاديث الواردة في خلقه، وقصة قابيل وهابيل، ووفاته.'
+      },
+      {
+        id: 'st2', cat: 'قصص الأنبياء',
+        title: 'قصة نبي الله إدريس عليه السلام',
+        source: 'البداية والنهاية — الحافظ ابن كثير',
+        wsPages: [
+          'البداية والنهاية/الجزء الأول/إدريس عليه السلام'
+        ],
+        brief: 'من كتاب البداية والنهاية للحافظ ابن كثير: نسب إدريس عليه السلام، وأول من خط بالقلم، ورفعه مكاناً علياً.'
+      },
+      {
+        id: 'st3', cat: 'قصص الأنبياء',
+        title: 'قصة نبي الله نوح عليه السلام',
+        source: 'البداية والنهاية — الحافظ ابن كثير',
+        wsPages: [
+          'البداية والنهاية/الجزء الأول/قصة نوح عليه السلام',
+          'البداية والنهاية/الجزء الأول/ذكر شيء من أخبار نوح عليه السلام',
+          'البداية والنهاية/الجزء الأول/صومه عليه السلام',
+          'البداية والنهاية/الجزء الأول/حجه عليه السلام',
+          'البداية والنهاية/الجزء الأول/وصيته لولده'
+        ],
+        brief: 'من كتاب البداية والنهاية للحافظ ابن كثير: دعوة نوح لقومه، والسفينة والطوفان، وأخباره وصومه ووصيته لولده.'
+      },
+      {
+        id: 'st4', cat: 'قصص الأنبياء',
+        title: 'قصة نبي الله هود عليه السلام وقوم عاد',
+        source: 'البداية والنهاية — الحافظ ابن كثير',
+        wsPages: [
+          'البداية والنهاية/الجزء الأول/قصة هود عليه السلام'
+        ],
+        brief: 'من كتاب البداية والنهاية للحافظ ابن كثير: دعوة هود عليه السلام لقوم عاد وإهلاكهم بالريح الصرصر العاتية.'
+      },
+      {
+        id: 'st5', cat: 'قصص الأنبياء',
+        title: 'قصة نبي الله صالح عليه السلام والناقة',
+        source: 'البداية والنهاية — الحافظ ابن كثير',
+        wsPages: [
+          'البداية والنهاية/الجزء الأول/قصة صالح نبي ثمود عليه السلام',
+          'البداية والنهاية/الجزء الأول/مرور النبي بوادي الحجر من أرض ثمود عام تبوك'
+        ],
+        brief: 'من كتاب البداية والنهاية للحافظ ابن كثير: آية الناقة لقوم ثمود، وعقرها، وهلاكهم، ومرور النبي ﷺ بالحِجر.'
+      },
+      {
+        id: 'st6', cat: 'قصص الأنبياء',
+        title: 'قصة خليل الله إبراهيم عليه السلام',
+        source: 'البداية والنهاية — الحافظ ابن كثير',
+        wsPages: [
+          'البداية والنهاية/الجزء الأول/قصة إبراهيم خليل الرحمن',
+          'البداية والنهاية/الجزء الأول/ذكر مناظرة إبراهيم الخليل مع من ادعى الربوبية',
+          'البداية والنهاية/الجزء الأول/هجرة الخليل إلى بلاد الشام',
+          'البداية والنهاية/الجزء الأول/بناء البيت العتيق',
+          'البداية والنهاية/الجزء الأول/ذكر ثناء الله ورسوله الكريم على عبده وخليله إبراهيم',
+          'البداية والنهاية/الجزء الأول/وفاة إبراهيم وما قيل في عمره'
+        ],
+        brief: 'من كتاب البداية والنهاية للحافظ ابن كثير: نشأة إبراهيم، ومناظرته النمرود، والنار، وهجرته، وبناء الكعبة، ووفاته.'
+      },
+      {
+        id: 'st7', cat: 'قصص الأنبياء',
+        title: 'قصة نبي الله إسماعيل عليه السلام',
+        source: 'البداية والنهاية — الحافظ ابن كثير',
+        wsPages: [
+          'البداية والنهاية/الجزء الأول/ذكر مولد إسماعيل عليه السلام من هاجر',
+          'البداية والنهاية/الجزء الأول/ذكر مهاجرة إبراهيم بابنه إسماعيل وأمه هاجر',
+          'البداية والنهاية/الجزء الأول/قصة الذبيح',
+          'البداية والنهاية/الجزء الأول/إسماعيل عليه السلام'
+        ],
+        brief: 'من كتاب البداية والنهاية للحافظ ابن كثير: قصة هاجر وزمزم، والرؤيا والفداء في قصة الذبيح، وسيرة إسماعيل عليه السلام.'
+      },
+      {
+        id: 'st8', cat: 'قصص الأنبياء',
+        title: 'قصة نبي الله لوط عليه السلام وقوم شعيب',
+        source: 'البداية والنهاية — الحافظ ابن كثير',
+        wsPages: [
+          'البداية والنهاية/الجزء الأول/ذكر أولاد إبراهيم الخليل',
+          'البداية والنهاية/الجزء الأول/قصة مدين قوم شعيب عليه السلام'
+        ],
+        brief: 'من كتاب البداية والنهاية للحافظ ابن كثير: قصة لوط عليه السلام وما حل بقومه المؤتفكة، وتبعها قصة مدين قوم شعيب.'
+      },
+      {
+        id: 'st9', cat: 'قصص الأنبياء',
+        title: 'قصة نبي الله يوسف الصديق عليه السلام',
+        source: 'البداية والنهاية — الحافظ ابن كثير',
+        wsPages: [
+          'البداية والنهاية/الجزء الأول/إسحاق بن إبراهيم عليهما الصلاة والتسليم',
+          'البداية والنهاية/الجزء الأول/ما وقع من الأمور العجيبة في حياة إسرائيل'
+        ],
+        brief: 'من كتاب البداية والنهاية للحافظ ابن كثير: سيرة إسحاق ويعقوب وقصة يوسف عليه السلام كاملة بالأدلة والآثار.'
+      },
+      {
+        id: 'st10', cat: 'قصص الأنبياء',
+        title: 'قصة نبي الله أيوب عليه السلام',
+        source: 'البداية والنهاية — الحافظ ابن كثير',
+        wsPages: [
+          'البداية والنهاية/الجزء الأول/قصة نبي الله أيوب',
+          'البداية والنهاية/الجزء الأول/قصة ذي الكفل الذي زعم قوم أنه ابن أيوب'
+        ],
+        brief: 'من كتاب البداية والنهاية للحافظ ابن كثير: صبر أيوب عليه السلام على البلاء وكشف الضر، وقصة ذي الكفل.'
+      },
+      {
+        id: 'st11', cat: 'قصص الأنبياء',
+        title: 'قصة كليم الله موسى عليه السلام',
+        source: 'البداية والنهاية — الحافظ ابن كثير',
+        wsPages: [
+          'البداية والنهاية/الجزء الأول/قصة موسى الكليم',
+          'البداية والنهاية/الجزء الأول/فصل',
+          'البداية والنهاية/الجزء الأول/هلاك فرعون وجنوده',
+          'البداية والنهاية/الجزء الأول/فصل فيما كان من أمر بني إسرائيل بعد هلاك فرعون',
+          'البداية والنهاية/الجزء الأول/قصة عبادتهم العجل في غيبة موسى كليم الله عنهم',
+          'البداية والنهاية/الجزء الأول/قصة موسى والخضر عليهما السلام',
+          'البداية والنهاية/الجزء الأول/حديث الفتون',
+          'البداية والنهاية/الجزء الأول/باب ذكر فضائل موسى عليه السلام وشمائله وصفاته ووفائه'
+        ],
+        brief: 'من كتاب البداية والنهاية للحافظ ابن كثير: سيرة موسى الكليم كاملةً في ثمانية أبواب مطولة مع حديث الفتون والخضر ووفاته.'
+      },
+      {
+        id: 'st12', cat: 'قصص الأنبياء',
+        title: 'قصة نبي الله داود وسليمان عليهما السلام',
+        source: 'البداية والنهاية — الحافظ ابن كثير',
+        wsPages: [
+          'البداية والنهاية/الجزء الثاني/قصة داود وما كان في أيامه وذكر فضائله وشمائله ودلائل نبوته وإعلامه',
+          'البداية والنهاية/الجزء الثاني/ذكر كمية حياته وكيفية وفاته عليه السلام',
+          'البداية والنهاية/الجزء الثاني/قصة سليمان بن داود عليهما السلام',
+          'البداية والنهاية/الجزء الثاني/ذكر وفاته وكم كانت مدة ملكه وحياته'
+        ],
+        brief: 'من كتاب البداية والنهاية للحافظ ابن كثير: قصة داود وفضائله، وملك سليمان عليه السلام والهدهد وبلقيس ووفاته.'
+      },
+      {
+        id: 'st13', cat: 'قصص الأنبياء',
+        title: 'قصة نبي الله يونس عليه السلام',
+        source: 'البداية والنهاية — الحافظ ابن كثير',
+        wsPages: [
+          'البداية والنهاية/الجزء الأول/قصة يونس',
+          'البداية والنهاية/الجزء الأول/فضل يونس'
+        ],
+        brief: 'من كتاب البداية والنهاية للحافظ ابن كثير: دعوة يونس أهل نينوى، وقصته في بطن الحوت، وفضله في السنة.'
+      },
+      {
+        id: 'st14', cat: 'قصص الأنبياء',
+        title: 'قصة نبي الله عيسى بن مريم عليه السلام',
+        source: 'البداية والنهاية — الحافظ ابن كثير',
+        wsPages: [
+          'البداية والنهاية/الجزء الثاني/قصة زكريا ويحيى عليهما السلام',
+          'البداية والنهاية/الجزء الثاني/قصة عيسى بن مريم عبد الله ورسوله وابن أمته عليه من الله أفضل الصلاة والسلام',
+          'البداية والنهاية/الجزء الثاني/ميلاد العبد الرسول عيسى بن مريم العذراء البتول',
+          'البداية والنهاية/الجزء الثاني/ذكر منشأ عيسى بن مريم عليهما السلام',
+          'البداية والنهاية/الجزء الثاني/ذكر خبر المائدة',
+          'البداية والنهاية/الجزء الثاني/ذكر رفع عيسى عليه السلام إلى السماء',
+          'البداية والنهاية/الجزء الثاني/ذكر صفة عيسى عليه السلام وشمائله وفضائله'
+        ],
+        brief: 'من كتاب البداية والنهاية للحافظ ابن كثير: قصة زكريا ويحيى، ومولد المسيح عيسى بن مريم ونشأته ومعجزاته ورفعه إلى السماء.'
+      },
 
-      { id: 'st15', cat: 'قصص الصحابة', title: 'سيرة أبي بكر الصديق رضي الله عنه', wikiTitle: 'أبو بكر الصديق', brief: 'إسلامه، وصحبته في الغار، وإنفاقه، وخلافته، وحروب الردة وجمع القرآن.' },
-      { id: 'st16', cat: 'قصص الصحابة', title: 'سيرة الفاروق عمر بن الخطاب رضي الله عنه', wikiTitle: 'عمر بن الخطاب', brief: 'إسلامه، وهجرته، وعدله، وفتوحاته المباركة واستشهاده في المحراب.' },
-      { id: 'st17', cat: 'قصص الصحابة', title: 'سيرة ذي النورين عثمان بن عفان رضي الله عنه', wikiTitle: 'عثمان بن عفان', brief: 'حياؤه، وتجهيزه جيش العسرة، ونسخ المصحف، وثباته يوم الدار.' },
-      { id: 'st18', cat: 'قصص الصحابة', title: 'سيرة علي بن أبي طالب رضي الله عنه', wikiTitle: 'علي بن أبي طالب', brief: 'أول من أسلم من الفتيان، وفداؤه يوم الهجرة، وبطولاته في خيبر.' },
-      { id: 'st19', cat: 'قصص الصحابة', title: 'قصة مصعب بن عمير رضي الله عنه', wikiTitle: 'مصعب بن عمير', brief: 'من نعيم مكة إلى أول سفير للإسلام في المدينة واستشهاده في أحد.' },
-      { id: 'st20', cat: 'قصص الصحابة', title: 'قصة سلمان الفارسي رضي الله عنه', wikiTitle: 'سلمان الفارسي', brief: 'رحلة البحث عن الحق عبر البلدان والأديان حتى لقاء النبي ﷺ.' },
-      { id: 'st21', cat: 'قصص الصحابة', title: 'قصة بلال بن رباح رضي الله عنه', wikiTitle: 'بلال بن رباح', brief: 'الصمود تحت الصخرة في بطحاء مكة، وأول مؤذن في الإسلام.' },
-      { id: 'st22', cat: 'قصص الصحابة', title: 'سيرة سيف الله خالد بن الوليد رضي الله عنه', wikiTitle: 'خالد بن الوليد', brief: 'إسلامه وقيادته العبقرية في مؤتة واليمامة واليرموك.' },
+      {
+        id: 'st15', cat: 'قصص الصحابة',
+        title: 'سيرة أبي بكر الصديق رضي الله عنه',
+        source: 'البداية والنهاية — الحافظ ابن كثير',
+        wsPages: [
+          'البداية والنهاية/الجزء الخامس/فصل خلافة أبي بكر',
+          'البداية والنهاية/الجزء السادس/خلافة أبي بكر الصديق رضي الله عنه وما فيها من الحوادث'
+        ],
+        brief: 'من كتاب البداية والنهاية للحافظ ابن كثير: بيعة السقيفة، وخطبة الصديق، وسيرته وأعماله في خلافته.'
+      },
+      {
+        id: 'st16', cat: 'قصص الصحابة',
+        title: 'سيرة الفاروق عمر بن الخطاب رضي الله عنه',
+        source: 'البداية والنهاية — الحافظ ابن كثير',
+        wsPages: [
+          'البداية والنهاية/الجزء السابع/خلافة عمر بن الخطاب رضي الله عنه',
+          'البداية والنهاية/الجزء السابع/فتح بيت المقدس على يدي عمر بن الخطاب',
+          'البداية والنهاية/الجزء السابع/وفاة عمر بن الخطاب رضي الله عنه تعالى',
+          'البداية والنهاية/الجزء السابع/صفته رضي الله عنه',
+          'البداية والنهاية/الجزء السابع/الأول فيما ورد في فضائله مع غيره'
+        ],
+        brief: 'من كتاب البداية والنهاية للحافظ ابن كثير: خلافة الفاروق، وفتح بيت المقدس، وصفته وعدله واستشهاده وفضائله.'
+      },
+      {
+        id: 'st17', cat: 'قصص الصحابة',
+        title: 'سيرة ذي النورين عثمان بن عفان رضي الله عنه',
+        source: 'البداية والنهاية — الحافظ ابن كثير',
+        wsPages: [
+          'البداية والنهاية/الجزء السابع/خلافة أمير المؤمنين عثمان بن عفان ثم استهلت سنة أربع وعشرين',
+          'البداية والنهاية/الجزء السابع/ذكر حصر أمير المؤمنين عثمان بن عفان',
+          'البداية والنهاية/الجزء السابع/فصل استمرار حصار عثمان بن عفان',
+          'البداية والنهاية/الجزء السابع/صفة قتله رضي الله عنه',
+          'البداية والنهاية/الجزء السابع/فصل مقتل عثمان رضي الله عنه',
+          'البداية والنهاية/الجزء السابع/فصل قتل عثمان أول الفتن وآخر الفتن الدجال'
+        ],
+        brief: 'من كتاب البداية والنهاية للحافظ ابن كثير: خلافة عثمان، وتفاصيل الحصار، ورؤياه ﷺ، وثباته واستشهاده رضي الله عنه.'
+      },
+      {
+        id: 'st18', cat: 'قصص الصحابة',
+        title: 'سيرة علي بن أبي طالب رضي الله عنه',
+        source: 'البداية والنهاية — الحافظ ابن كثير',
+        wsPages: [
+          'البداية والنهاية/الجزء السابع/خلافة أمير المؤمنين علي بن أبي طالب رضي الله عنه',
+          'البداية والنهاية/الجزء السابع/ابتداء وقعة الجمل',
+          'البداية والنهاية/الجزء السابع/فصل فراغ علي رضي الله عنه من أمر الجمل',
+          'البداية والنهاية/الجزء السابع/ذكر مقتل أمير المؤمنين علي بن أبي طالب',
+          'البداية والنهاية/الجزء السابع/صفة مقتله رضي الله عنه',
+          'البداية والنهاية/الجزء السابع/حديث آخر في فضل علي'
+        ],
+        brief: 'من كتاب البداية والنهاية للحافظ ابن كثير: بيعة أمير المؤمنين علي بن أبي طالب، وأحداث خلافته، ومقتله وفضائله.'
+      },
+      {
+        id: 'st19', cat: 'قصص الصحابة',
+        title: 'ترجمة مصعب بن عمير رضي الله عنه',
+        source: 'سير أعلام النبلاء — الحافظ الذهبي',
+        wsPages: [
+          'سير أعلام النبلاء/مصعب بن عمير'
+        ],
+        brief: 'من كتاب سير أعلام النبلاء للحافظ الذهبي: هجرة مصعب بن عمير، وسفارته إلى المدينة، واستشهاده يوم أحد.'
+      },
+      {
+        id: 'st20', cat: 'قصص الصحابة',
+        title: 'ترجمة سلمان الفارسي رضي الله عنه',
+        source: 'سير أعلام النبلاء — الحافظ الذهبي',
+        wsPages: [
+          'سير أعلام النبلاء/سلمان الفارسي'
+        ],
+        brief: 'من كتاب سير أعلام النبلاء للحافظ الذهبي: سيرة سلمان الباحث عن الحقيقة ومناقبه ومشاركته في الخندق.'
+      },
+      {
+        id: 'st21', cat: 'قصص الصحابة',
+        title: 'ترجمة بلال بن رباح رضي الله عنه',
+        source: 'سير أعلام النبلاء — الحافظ الذهبي',
+        wsPages: [
+          'سير أعلام النبلاء/بلال بن رباح'
+        ],
+        brief: 'من كتاب سير أعلام النبلاء للحافظ الذهبي: صبر مؤذن رسول الله ﷺ على التعذيب في مكة، ومناقبه وأخباره.'
+      },
+      {
+        id: 'st22', cat: 'قصص الصحابة',
+        title: 'سيرة سيف الله خالد بن الوليد رضي الله عنه',
+        source: 'سير أعلام النبلاء للذهبي والبداية والنهاية لابن كثير',
+        wsPages: [
+          'سير أعلام النبلاء/خالد بن الوليد',
+          'البداية والنهاية/الجزء السابع/وقعة اليرموك'
+        ],
+        brief: 'من سير أعلام النبلاء للذهبي والبداية والنهاية لابن كثير: إسلام خالد، وغزوة مؤتة، وقيادته يوم اليرموك.'
+      },
 
-      { id: 'st23', cat: 'مواقف وغزوات السيرة', title: 'قصة الإسراء والمعراج كاملة', wikiTitle: 'الإسراء والمعراج', brief: 'الرحلة المباركة من المسجد الحرام إلى الأقصى ثم السماوات العلا.' },
-      { id: 'st24', cat: 'مواقف وغزوات السيرة', title: 'قصة الهجرة النبوية الشريفة كاملة', wikiTitle: 'الهجرة النبوية', brief: 'دار الندوة، وغار ثور، وسراقة، وأم معبد، واستقبال الأنصار.' },
-      { id: 'st25', cat: 'مواقف وغزوات السيرة', title: 'قصة غزوة بدر الكبرى (يوم الفرقان)', wikiTitle: 'غزوة بدر', brief: 'تفاصيل المعركة الفاصلة كاملةً ونزول الملائكة ونصر الله للمؤمنين.' },
-      { id: 'st26', cat: 'مواقف وغزوات السيرة', title: 'قصة غزوة أحد ودروسها الكاملة', wikiTitle: 'غزوة أحد', brief: 'أحداث المعركة وجبل الرماة وصمود الصحابة واستشهاد حمزة.' },
-      { id: 'st27', cat: 'مواقف وغزوات السيرة', title: 'قصة غزوة الخندق (الأحزاب)', wikiTitle: 'غزوة الخندق', brief: 'حفر الخندق حول المدينة، وثبات المؤمنين أمام الأحزاب والريح.' },
-      { id: 'st28', cat: 'مواقف وغزوات السيرة', title: 'قصة فتح مكة المكرمة وحجة الوداع', wikiTitle: 'فتح مكة', brief: 'دخول مكة سلماً، وتحطيم الأصنام، وخطبة العفو العام.' },
+      {
+        id: 'st23', cat: 'مواقف وغزوات السيرة',
+        title: 'قصة الإسراء والمعراج كاملة',
+        source: 'البداية والنهاية — الحافظ ابن كثير',
+        wsPages: [
+          'البداية والنهاية/الجزء الثالث/فصل الإسراء برسول الله صلى الله عليه وسلم من مكة إلى بيت المقدس',
+          'البداية والنهاية/الجزء الثالث/فصل نزول فرضية الصلاة صبيحة الإسراء'
+        ],
+        brief: 'من كتاب البداية والنهاية للحافظ ابن كثير: أحاديث الإسراء والمعراج مسندةً مفصلةً، ونزول فرضية الصلوات الخمس.'
+      },
+      {
+        id: 'st24', cat: 'مواقف وغزوات السيرة',
+        title: 'قصة الهجرة النبوية الشريفة كاملة',
+        source: 'البداية والنهاية — الحافظ ابن كثير',
+        wsPages: [
+          'البداية والنهاية/الجزء الثالث/باب الهجرة من مكة إلى المدينة',
+          'البداية والنهاية/الجزء الثالث/باب هجرة رسول الله صلى الله عليه وسلم بنفسه الكريمة من مكة إلى المدينة ومعه أبو بكر الصديق رضي الله عنه',
+          'البداية والنهاية/الجزء الثالث/فصل تأسيس مسجد قباء',
+          'البداية والنهاية/الجزء الثالث/فصل في إسلام عبد الله بن سلام',
+          'البداية والنهاية/الجزء الثالث/فصل بناء الحجرات لرسول الله حول مسجده الشريف'
+        ],
+        brief: 'من كتاب البداية والنهاية للحافظ ابن كثير: تفاصيل الهجرة النبوية، وغار ثور، وسراقة، وأم معبد، وتأسيس قباء والمسجد النبوي.'
+      },
+      {
+        id: 'st25', cat: 'مواقف وغزوات السيرة',
+        title: 'قصة غزوة بدر الكبرى (يوم الفرقان)',
+        source: 'البداية والنهاية — الحافظ ابن كثير',
+        wsPages: [
+          'البداية والنهاية/الجزء الثالث/غزوة بدر العظمى يوم الفرقان يوم التقى الجمعان',
+          'البداية والنهاية/الجزء الثالث/طرح رؤوس الكفر في بئر يوم بدر',
+          'البداية والنهاية/الجزء الثالث/فصل عدد القتلى والأسرى من المشركين يوم بدر سبعون',
+          'البداية والنهاية/الجزء الثالث/فصل رجوع النبي عليه السلام من بدر إلى المدينة',
+          'البداية والنهاية/الجزء الثالث/فصل تسمية من شهد بدرا من المسلمين'
+        ],
+        brief: 'من كتاب البداية والنهاية للحافظ ابن كثير: معركة بدر كاملةً بأحداثها ونزول الملائكة وأسماء البدريين الكرام.'
+      },
+      {
+        id: 'st26', cat: 'مواقف وغزوات السيرة',
+        title: 'قصة غزوة أحد ودروسها الكاملة',
+        source: 'البداية والنهاية — الحافظ ابن كثير',
+        wsPages: [
+          'البداية والنهاية/الجزء الرابع/غزوة أحد في شوال سنة ثلاث',
+          'البداية والنهاية/الجزء الرابع/فصل فيما لقي النبي صلى الله عليه وسلم يومئذ من المشركين قبحهم الله',
+          'البداية والنهاية/الجزء الرابع/فصل مشاركة أم عمارة في القتال يوم أحد',
+          'البداية والنهاية/الجزء الرابع/دعاء النبي صلى الله عليه وسلم يوم أحد'
+        ],
+        brief: 'من كتاب البداية والنهاية للحافظ ابن كثير: وقعة أحد بالتفصيل، واستشهاد حمزة، وثبات النبي ﷺ والصحابة.'
+      },
+      {
+        id: 'st27', cat: 'مواقف وغزوات السيرة',
+        title: 'قصة غزوة الخندق (الأحزاب)',
+        source: 'البداية والنهاية — الحافظ ابن كثير',
+        wsPages: [
+          'البداية والنهاية/الجزء الرابع/غزوة الخندق أو الأحزاب',
+          'البداية والنهاية/الجزء الرابع/فصل نزول قريش بمجتمع الأسيال يوم الخندق',
+          'البداية والنهاية/الجزء الرابع/فصل في دعائه عليه السلام على الأحزاب',
+          'البداية والنهاية/الجزء الرابع/فصل الأشعار في الخندق وبني قريظة'
+        ],
+        brief: 'من كتاب البداية والنهاية للحافظ ابن كثير: حفر الخندق، وتألب الأحزاب، ودعاء النبي ﷺ وهزيمة الأحزاب بالريح.'
+      },
+      {
+        id: 'st28', cat: 'مواقف وغزوات السيرة',
+        title: 'قصة فتح مكة المكرمة كاملة',
+        source: 'البداية والنهاية — الحافظ ابن كثير',
+        wsPages: [
+          'البداية والنهاية/الجزء الرابع/فصل استخلاف كلثوم بن حصين الغفاري على المدينة',
+          'البداية والنهاية/الجزء الرابع/فصل نزول النبي عليه السلام إلى مر الظهران',
+          'البداية والنهاية/الجزء الرابع/صفة دخوله صلى الله عليه وسلم مكة',
+          'البداية والنهاية/الجزء الرابع/فصل في مدة إقامته عليه السلام بمكة',
+          'البداية والنهاية/الجزء الرابع/فصل عدد الذين شهدوا فتح مكة'
+        ],
+        brief: 'من كتاب البداية والنهاية للحافظ ابن كثير: مسير الجيش إلى مكة، وإسلام أبي سفيان، ودخول مكة، والعفو وتكسير الأصنام.'
+      },
 
-      { id: 'st29', cat: 'قصص القرآن', title: 'قصة أصحاب الكهف والفتية المؤمنين', wikiTitle: 'أصحاب الكهف', brief: 'فرار الفتية بدينهم إلى الكهف ونومهم ثلاثمئة وتسع سنين.' },
-      { id: 'st30', cat: 'قصص القرآن', title: 'قصة ذي القرنين وبناء السد', wikiTitle: 'ذو القرنين', brief: 'الملك الصالح الذي طاف مشارق الأرض ومغاربها وبنى سد يأجوج ومأجوج.' },
-      { id: 'st31', cat: 'قصص القرآن', title: 'قصة أصحاب الفيل وحماية البيت الحرام', wikiTitle: 'أصحاب الفيل', brief: 'زحف أبرهة الأشرم لهدم الكعبة وإهلاك جيشه بالطير الأبابيل.' },
-      { id: 'st32', cat: 'قصص القرآن', title: 'قصة قارون وكنوزه في سورة القصص', wikiTitle: 'قارون', brief: 'غناه وبغيه على قوم موسى وخسف الله به وبداره الأرض.' }
+      {
+        id: 'st29', cat: 'قصص القرآن',
+        title: 'قصة أصحاب الكهف والفتية المؤمنين',
+        source: 'البداية والنهاية — الحافظ ابن كثير',
+        wsPages: [
+          'البداية والنهاية/الجزء الثاني/قصة أصحاب الكهف'
+        ],
+        brief: 'من كتاب البداية والنهاية للحافظ ابن كثير: خبر الفتية المؤمنين، وفرارهم بدينهم، وبعثهم بعد ثلاثمئة وتسع سنين.'
+      },
+      {
+        id: 'st30', cat: 'قصص القرآن',
+        title: 'قصة ذي القرنين وبناء السد',
+        source: 'البداية والنهاية — الحافظ ابن كثير',
+        wsPages: [
+          'البداية والنهاية/الجزء الثاني/خبر ذي القرنين',
+          'البداية والنهاية/الجزء الثاني/بيان طلب ذي القرنين عين الحياة',
+          'البداية والنهاية/الجزء الثاني/ذكر أمتي يأجوج ومأجوج وصفاتهم'
+        ],
+        brief: 'من كتاب البداية والنهاية للحافظ ابن كثير: سيرة الملك الصالح ذي القرنين، وبناء الردم، وأخبار يأجوج ومأجوج.'
+      },
+      {
+        id: 'st31', cat: 'قصص القرآن',
+        title: 'قصة أصحاب الفيل وحماية البيت الحرام',
+        source: 'البداية والنهاية — الحافظ ابن كثير',
+        wsPages: [
+          'البداية والنهاية/الجزء الثاني/خروج أبرهة الأشرم على أرياط واختلافهما',
+          'البداية والنهاية/الجزء الثاني/سبب قصد أبرهة بالفيل مكة ليخرب الكعبة'
+        ],
+        brief: 'من كتاب البداية والنهاية للحافظ ابن كثير: قصة أبرهة وبناء القليس، وزحفه إلى مكة، وإهلاك جيشه بالطير الأبابيل.'
+      },
+      {
+        id: 'st32', cat: 'قصص القرآن',
+        title: 'قصة قارون وكنوزه مع موسى عليه السلام',
+        source: 'البداية والنهاية — الحافظ ابن كثير',
+        wsPages: [
+          'البداية والنهاية/الجزء الأول/قصة قارون مع موسى عليه السلام'
+        ],
+        brief: 'من كتاب البداية والنهاية للحافظ ابن كثير: بغي قارون على قوم موسى بكنوزه، وخسف الله به وبداره الأرض.'
+      }
     ];
 
     // ٨. منهج الفقه والعلوم الشرعية
@@ -2333,7 +2946,7 @@
     // ١٠. الأذكار
     const morningAdhkar = [
       { id: 'm1', title: 'آية الكرسي', text: 'اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ.', count: 1, virtue: 'من قالها حين يصبح أُجير من الجن حتى يمسي.' },
-      { id: 'm2', title: 'سورة الإخلاص', text: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ﴿قُلْ هُوَ اللَّهُ أَحَدٌ * اللَّهُ الصَّمَدُ * لَمْ يَلِدْ وَلَمْ يُولَدْ * وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ﴾.', count: 3, virtue: 'تقرأ ثلاث مرات مع الفلق والناس، تكفيك من كل شيء.' },
+      { id: 'm2', title: 'سورة الإخلاص', text: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ﴿قُلْ هُوَ اللَّهُ أَحَدٌ * اللَّهُ الصَّمَدُ * لَمْ يَلِدْ وَلَمْ يُولَدْ * وَمَلْ يَكُن لَّهُ كُفُوًا أَحَدٌ﴾.', count: 3, virtue: 'تقرأ ثلاث مرات مع الفلق والناس، تكفيك من كل شيء.' },
       { id: 'm3', title: 'سورة الفلق', text: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ﴿قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ * مِن شَرِّ مَا خَلَقَ * وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ * وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ * وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ﴾.', count: 3, virtue: 'من المعوذات التي تحفظ المسلم صباحاً ومساءً.' },
       { id: 'm4', title: 'سورة الناس', text: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ﴿قُلْ أَعُوذُ بِرَبِّ النَّاسِ * مَلِكِ النَّاسِ * إِلَٰهِ النَّاسِ * مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ * الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ * مِنَ الْجِنَّةِ وَالنَّاسِ﴾.', count: 3, virtue: 'حفظ من وسوسة الشيطان وشر الخلق.' },
       { id: 'm5', title: 'أصبحنا وأصبح الملك لله', text: 'أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ، رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَذَا الْيَوْمِ وَخَيْرَ مَا بَعْدَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَذَا الْيَوْمِ وَشَرِّ مَا بَعْدَهُ، رَبِّ أَعُوذُ بِكَ مِنَ الْكَسَلِ وَسُوءِ الْكِبَرِ، رَبِّ أَعُوذُ بِكَ مِنْ عَذَابٍ فِي النَّارِ وَعَذَابٍ فِي الْقَبْرِ.', count: 1, virtue: 'رواه مسلم؛ استعاذة جامعة وسؤال خير اليوم كله.' },
@@ -2350,7 +2963,7 @@
 
     const eveningAdhkar = [
       { id: 'e1', title: 'آية الكرسي', text: 'اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ.', count: 1, virtue: 'من قالها حين يمسي أُجير من الجن حتى يصبح.' },
-      { id: 'e2', title: 'سورة الإخلاص', text: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ﴿قُلْ هُوَ اللَّهُ أَحَدٌ * اللَّهُ الصَّمَدُ * لَمْ يَلِدْ وَلَمْ يُولَدْ * وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ﴾.', count: 3, virtue: 'تكفيك من كل شيء في ليلتك.' },
+      { id: 'e2', title: 'سورة الإخلاص', text: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ﴿قُلْ هُوَ اللَّهُ أَحَدٌ * اللَّهُ الصَّمَدُ * لَمْ يَلِدْ وَلَمْ يُولَدْ * وَمَلْ يَكُن لَّهُ كُفُوًا أَحَدٌ﴾.', count: 3, virtue: 'تكفيك من كل شيء في ليلتك.' },
       { id: 'e3', title: 'سورة الفلق', text: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ﴿قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ * مِن شَرِّ مَا خَلَقَ * وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ * وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ * وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ﴾.', count: 3, virtue: 'حماية من شر الليل والحاسدين.' },
       { id: 'e4', title: 'سورة الناس', text: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ﴿قُلْ أَعُوذُ بِرَبِّ النَّاسِ * مَلِكِ النَّاسِ * إِلَٰهِ النَّاسِ * مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ * الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ * مِنَ الْجِنَّةِ وَالنَّاسِ﴾.', count: 3, virtue: 'تحصين من وسوسة الجن والإنس.' },
       { id: 'e5', title: 'أمسينا وأمسى الملك لله', text: 'أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ، رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَذِهِ اللَّيْلَةِ وَخَيْرَ مَا بَعْدَهَا، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَذِهِ اللَّيْلَةِ وَشَرِّ مَا بَعْدَهَا، رَبِّ أَعُوذُ بِكَ مِنَ الْكَسَلِ وَسُوءِ الْكِبَرِ، رَبِّ أَعُوذُ بِكَ مِنْ عَذَابٍ فِي النَّارِ وَعَذَابٍ فِي الْقَبْرِ.', count: 1, virtue: 'من أذكار المساء الثابتة في صحيح مسلم.' },
@@ -2522,6 +3135,20 @@
       return result;
     }
 
+    function pushShortLecturesBottom(list) {
+      const regular = [];
+      const shortUnder10 = [];
+      for (const item of list) {
+        const secs = parseDurationSeconds(item.duration);
+        if (secs !== null && secs < 600) {
+          shortUnder10.push(item);
+        } else {
+          regular.push(item);
+        }
+      }
+      return regular.concat(shortUnder10);
+    }
+
     function getFilteredLectures() {
       const filtered = lectures.filter(item => {
         if (showFavOnly && !favorites.includes(item.id)) return false;
@@ -2534,9 +3161,11 @@
         return true;
       });
 
-      return (selectedSheikh === 'all' && !showFavOnly && !searchQuery.trim())
+      const ordered = (selectedSheikh === 'all' && !showFavOnly && !searchQuery.trim())
         ? interleaveBySheikh(filtered)
         : filtered;
+
+      return pushShortLecturesBottom(ordered);
     }
 
     function getCurrentCardsColumns() {
@@ -2585,7 +3214,7 @@
           <article class="lecture-card ${isPlaying ? 'playing' : ''}">
             <div class="card-top-row">
               <span class="cat-badge" title="${item.topic}">${item.topic}</span>
-              <span class="dur-badge">⏱ ${cleanDur}</span>
+              <span class="dur-badge" data-dur-id="${item.id}">⏱ ${cleanDur}</span>
             </div>
             <div class="card-sheikh">🎙️ ${item.sheikh}</div>
             <h3 class="card-title">${item.title}</h3>
@@ -2599,6 +3228,7 @@
       }).join('');
 
       document.getElementById('loadMoreBtn').style.display = displayCount < filtered.length ? 'inline-flex' : 'none';
+      scheduleVisibleDurationProbes(slice);
     }
 
     function loadMore() {
@@ -2685,13 +3315,25 @@
         currentIndex = currentQueue.findIndex(l => l.id === id);
       }
 
+      // تصفير شريط الصوت وإظهار مثلث التشغيل ▶ طالما لم يعمل الصوت فعلياً
+      audioEl.pause();
+      document.getElementById('playPauseBtn').textContent = '▶';
+      document.getElementById('eqBars').classList.remove('animating');
+      document.getElementById('seekBar').value = 0;
+      document.getElementById('curTime').textContent = '00:00';
+      document.getElementById('durTime').textContent = '00:00';
+
       document.getElementById('dockTitle').textContent = item.title;
       document.getElementById('dockSheikh').textContent = `${item.sheikh} — جاري تجهيز الصوت...`;
       document.getElementById('playerDock').classList.add('visible');
 
       audioEl.src = item.mp3;
+      audioEl.load();
       audioEl.playbackRate = playbackSpeeds[speedIdx].val;
-      audioEl.play().catch(() => {});
+      audioEl.play().catch(() => {
+        document.getElementById('playPauseBtn').textContent = '▶';
+        document.getElementById('eqBars').classList.remove('animating');
+      });
       renderLectures();
     }
 
@@ -2726,24 +3368,60 @@
       document.getElementById('speedBtn').textContent = sp.label;
     }
 
-    function closeDock() {
+   function closeDock() {
       audioEl.pause();
-      audioEl.src = '';
+      audioEl.removeAttribute('src');
+      audioEl.load();
+      document.getElementById('eqBars').classList.remove('animating', 'loading');
+      document.getElementById('playPauseBtn').textContent = '▶';
       document.getElementById('playerDock').classList.remove('visible');
       currentIndex = -1;
       renderLectures();
     }
 
-    audioEl.addEventListener('playing', () => {
+   audioEl.addEventListener('playing', () => {
       const item = currentQueue[currentIndex];
       if (item) document.getElementById('dockSheikh').textContent = item.sheikh;
       document.getElementById('playPauseBtn').textContent = '⏸';
+      document.getElementById('eqBars').classList.remove('loading');
       document.getElementById('eqBars').classList.add('animating');
+    });
+
+    audioEl.addEventListener('loadstart', () => {
+      document.getElementById('eqBars').classList.remove('animating');
+      document.getElementById('eqBars').classList.add('loading');
+    });
+
+    audioEl.addEventListener('waiting', () => {
+      document.getElementById('eqBars').classList.remove('animating');
+      document.getElementById('eqBars').classList.add('loading');
+    });
+
+    audioEl.addEventListener('stalled', () => {
+      if (audioEl.paused) {
+        document.getElementById('eqBars').classList.remove('animating', 'loading');
+      } else if (audioEl.readyState < 3) {
+        document.getElementById('eqBars').classList.remove('animating');
+        document.getElementById('eqBars').classList.add('loading');
+      }
+    });
+
+    audioEl.addEventListener('seeking', () => {
+      if (audioEl.paused) {
+        document.getElementById('eqBars').classList.remove('animating', 'loading');
+      } else if (audioEl.readyState < 3) {
+        document.getElementById('eqBars').classList.remove('animating');
+        document.getElementById('eqBars').classList.add('loading');
+      }
+    });
+
+    audioEl.addEventListener('emptied', () => {
+      document.getElementById('eqBars').classList.remove('animating', 'loading');
     });
 
     audioEl.addEventListener('pause', () => {
       document.getElementById('playPauseBtn').textContent = '▶';
-      document.getElementById('eqBars').classList.remove('animating');
+      document.getElementById('eqBars').classList.remove('animating', 'loading');
     });
 
     // تحديث أوقات الصوت في المشغل بدقة ونظافة تامة
@@ -2752,18 +3430,45 @@
       if (audioEl.duration && isFinite(audioEl.duration)) {
         seek.value = (audioEl.currentTime / audioEl.duration) * 100;
         document.getElementById('durTime').textContent = formatTime(audioEl.duration);
+      } else {
+        seek.value = 0;
       }
       document.getElementById('curTime').textContent = formatTime(audioEl.currentTime);
-    });
 
-    audioEl.addEventListener('loadedmetadata', () => {
-      if (audioEl.duration && isFinite(audioEl.duration)) {
-        document.getElementById('durTime').textContent = formatTime(audioEl.duration);
+      if (audioEl.paused || audioEl.ended) {
+        document.getElementById('eqBars').classList.remove('animating', 'loading');
+      } else if (audioEl.readyState < 3) {
+        document.getElementById('eqBars').classList.remove('animating');
+        document.getElementById('eqBars').classList.add('loading');
+      } else if (audioEl.currentTime > 0) {
+        document.getElementById('eqBars').classList.remove('loading');
+        document.getElementById('eqBars').classList.add('animating');
       }
     });
 
+    function handleActualAudioDuration() {
+      if (audioEl.duration && isFinite(audioEl.duration) && audioEl.duration > 0) {
+        document.getElementById('durTime').textContent = formatTime(audioEl.duration);
+        const curItem = currentQueue[currentIndex];
+        if (curItem) {
+          syncVerifiedDuration(curItem, audioEl.duration);
+        }
+      }
+    }
+
+    audioEl.addEventListener('loadedmetadata', handleActualAudioDuration);
+    audioEl.addEventListener('durationchange', handleActualAudioDuration);
+
+    audioEl.addEventListener('ended', () => {
+      document.getElementById('eqBars').classList.remove('animating', 'loading');
+    });
     audioEl.addEventListener('ended', playNext);
-    audioEl.addEventListener('error', () => { showToast('تعذر الاتصال بهذا الملف الصوتي — جرب المقطع التالي'); });
+   audioEl.addEventListener('error', () => {
+      document.getElementById('playPauseBtn').textContent = '▶';
+      document.getElementById('eqBars').classList.remove('animating', 'loading');
+      if (!audioEl.getAttribute('src') || currentIndex === -1) return;
+      showToast('تعذر الاتصال بهذا الملف الصوتي — جرب المقطع التالي');
+    });
 
     document.getElementById('seekBar').addEventListener('input', (e) => {
       if (audioEl.duration && isFinite(audioEl.duration)) {
@@ -3521,28 +4226,15 @@
       await renderCurrentReaderChapter(myToken);
     }
 
-    async function fetchWikipediaArticleParse(title) {
-      const apiUrl = `https://ar.wikipedia.org/w/api.php?action=parse&page=${encodeURIComponent(title)}&prop=text&redirects=1&format=json&origin=*`;
+  async function fetchWikisourceStoryPage(pageTitle) {
+      const apiUrl = `https://ar.wikisource.org/w/api.php?action=parse&page=${encodeURIComponent(pageTitle)}&prop=text&redirects=1&format=json&origin=*`;
       const res = await fetch(apiUrl);
       if (!res.ok) return null;
       const data = await res.json();
       return data.parse?.text?.['*'] || null;
     }
 
-    async function searchAndFetchWikipediaStory(queryTitle) {
-      const searchUrl = `https://ar.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(queryTitle)}&srlimit=3&format=json&origin=*`;
-      const res = await fetch(searchUrl);
-      if (!res.ok) return null;
-      const data = await res.json();
-      const hits = data.query?.search || [];
-      for (const hit of hits) {
-        const html = await fetchWikipediaArticleParse(hit.title);
-        if (html) return html;
-      }
-      return null;
-    }
-
-    // فتح القصة وتجهيز وسوم الفصول (قفل التمرير الخلفي التام + تفعيل وضع ورقي الافتراضي)
+    // فتح القصة كاملةً من كتب أئمة السلف الكبار (قفل التمرير الخلفي التام + تفعيل وضع ورقي الافتراضي)
     async function openUnifiedStory(storyId) {
       const st = storiesData.find(s => s.id === storyId);
       if (!st) return;
@@ -3561,7 +4253,7 @@
       };
 
       document.getElementById('readerTitle').textContent = st.title;
-      document.getElementById('readerSubtitle').textContent = `✨ ${st.cat} — النص الكامل غير منقوص`;
+      document.getElementById('readerSubtitle').textContent = `📚 ${st.source || 'البداية والنهاية — الحافظ ابن كثير'} (${st.cat})`;
       document.getElementById('btnViewText').style.display = 'inline-flex';
       document.getElementById('btnViewText').classList.add('active');
       document.getElementById('btnViewPdf').style.display = 'none';
@@ -3576,21 +4268,29 @@
       const page = document.getElementById('readerPage');
 
       if (!storyCache[st.id]) {
-        sidebar.innerHTML = '<div style="padding:12px; font-weight:700;">⏳ جاري جلب الفصول...</div>';
-        page.innerHTML = '<div style="text-align:center; padding:50px;"><h3>⏳ جاري استدعاء القصة كاملةً بكل أحداثها وتفاصيلها...</h3></div>';
+        sidebar.innerHTML = '<div style="padding:12px; font-weight:700;">⏳ جاري جلب الفصول والأبواب...</div>';
+        page.innerHTML = `<div style="text-align:center; padding:50px;"><h3>⏳ جاري استدعاء النص الكامل من (${st.source || 'البداية والنهاية — الحافظ ابن كثير'})...</h3></div>`;
 
         try {
-          let htmlStr = await fetchWikipediaArticleParse(st.wikiTitle);
-          if (!htmlStr) {
-            const cleanQuery = st.title.replace(/قصة |سيرة |نبي الله |عليه السلام|رضي الله عنه|عليهما السلام|كاملة/g, '').trim();
-            htmlStr = await searchAndFetchWikipediaStory(cleanQuery);
-          }
-          if (!htmlStr) throw new Error('لم يتم العثور على المقال');
+          const pagesList = st.wsPages || [];
+          const pagesHtml = await Promise.all(
+            pagesList.map(p => fetchWikisourceStoryPage(p).catch(() => null))
+          );
 
-          storyCache[st.id] = parseFullWikipediaStoryHtml(htmlStr);
+          const allSections = [];
+          pagesList.forEach((pagePath, idx) => {
+            const htmlStr = pagesHtml[idx];
+            if (!htmlStr) return;
+            const chName = pagePath.split('/').pop();
+            const parsed = parseWikisourceStoryHtml(htmlStr, chName);
+            allSections.push(...parsed);
+          });
+
+          if (!allSections.length) throw new Error('لم يتم العثور على النص');
+          storyCache[st.id] = allSections;
         } catch (err) {
           if (myToken !== activeReaderToken) return;
-          page.innerHTML = `<div style="text-align:center; padding:40px;"><p style="margin-bottom:14px;">تعذر الوصول إلى خادم الموسوعة لهذه القصة في هذه اللحظة.</p><button class="btn-gold" onclick="openUnifiedStory('${st.id}')">إعادة المحاولة ↻</button></div>`;
+          page.innerHTML = `<div style="text-align:center; padding:40px;"><p style="margin-bottom:14px;">تعذر الوصول إلى خادم الكتاب لهذه القصة في هذه اللحظة.</p><button class="btn-gold" onclick="openUnifiedStory('${st.id}')">إعادة المحاولة ↻</button></div>`;
           return;
         }
       }
@@ -3612,6 +4312,9 @@
           <span>📑 تتصفح الفصول والأبواب؟</span>
           <button class="btn-gold" style="padding: 4px 10px; font-size: 0.78rem;" onclick="toggleReaderSidebar(true)">فتح الفهرس ⇦</button>
         </div>
+        <div style="background:rgba(197,155,67,0.12); border-right:4px solid var(--gold); padding:10px 14px; border-radius:8px; margin-bottom:18px; font-size:0.95rem; font-weight:700; color:var(--primary);">
+          📚 المصدر: ${st.source || 'البداية والنهاية — الحافظ ابن كثير'} — النص الكامل بأبوابه وفصوله
+        </div>
         <div class="book-reader-text" style="font-size:${readerSession.fontSize}rem;">
           ${sections.map((sec, i) => `
             <h3 id="storySec_${i}" data-ch-idx="${i}" class="story-section-title">${sec.title}</h3>
@@ -3622,60 +4325,59 @@
       page.scrollTop = 0;
     }
 
-    // استبعاد أقسام السينما والتلفزيون والدراما والمراجع غير اللائقة
-    function parseFullWikipediaStoryHtml(htmlStr) {
+    // استخراج النص الكامل النظيف من كتب العلماء على ويكي مصدر وحذف حواشي التنقل فقط
+    function parseWikisourceStoryHtml(htmlStr, defaultTitle) {
       const doc = new DOMParser().parseFromString(htmlStr, 'text/html');
       doc.querySelectorAll(
-        '.mw-editsection, .infobox, .navbox, .vertical-navbox, .sistersitebox, .hatnote, .ambox, .mbox-small, .mw-references-wrap, ol.references, sup.reference, .reflist, #toc, .toc, table, figure, style, script, .mw-empty-elt, .noprint'
+        '.mw-editsection, .ws-noexport, .noprint, .headertemplate, .footertemplate, .navbox, .vertical-navbox, .sistersitebox, .hatnote, .mw-references-wrap, ol.references, sup.reference, .reflist, #toc, .toc, table, figure, style, script, .mw-empty-elt'
       ).forEach(el => el.remove());
 
       const root = doc.querySelector('.mw-parser-output') || doc.body;
-      const forbiddenHeadings = /^(المصادر|مصادر|المراجع|مراجع|المصادر والمراجع|مراجع ومصادر|الهوامش|هوامش|انظر أيضا|انظر أيضًا|طالع أيضا|طالع أيضًا|شاهد أيضا|شاهد أيضًا|وصلات خارجية|روابط خارجية|قراءة إضافية|مقالات ذات صلة|التصنيفات|بوابات|معرض الصور|المعرض|حواش|حواشي|في السينما والتلفزيون|السينما والتلفزيون|في التلفزيون والسينما|في السينما|في التلفزيون|في الفن|الأعمال الفنية|الدراما|في الدراما|في المسلسلات|تجسيده في الدراما|شخصيته في السينما والتلفزيون|في الأعمال الفنية)$/i;
+      const sections = [];
+      let cur = { title: defaultTitle, paragraphs: [] };
 
-      const rawSections = [];
-      let cur = { level: 2, title: 'مقدمة القصة', paragraphs: [] };
-
-      const extractCleanText = (node) => {
-        if (node.tagName === 'UL' || node.tagName === 'OL') {
-          return Array.from(node.querySelectorAll('li'))
-            .map(li => '• ' + li.textContent.replace(/\s+/g, ' ').trim())
-            .filter(t => t.length > 3);
-        }
-        const txt = node.textContent.replace(/\s+/g, ' ').trim();
-        return txt.length > 2 ? [txt] : [];
+      const isNavNoise = (txt) => {
+        if (!txt || txt.length < 3) return true;
+        if (/^(←|→|▲|△|\[\[|ملاحظات:|هامش$)/.test(txt)) return true;
+        if ((txt.includes('البداية والنهاية - الجزء') || txt.includes('البداية والنهاية – الجزء')) && txt.includes('|')) return true;
+        if (/^(الجزء\s+(الأول|الثاني|الثالث|الرابع|الخامس|السادس|السابع).*(ابن كثير|الذهبي))/.test(txt) && txt.length < 90) return true;
+        return false;
       };
 
-      for (const child of Array.from(root.children)) {
-        let headingNode = null;
-        if (/^H[2-4]$/.test(child.tagName)) {
-          headingNode = child;
-        } else if (child.classList && child.classList.contains('mw-heading')) {
-          headingNode = child.querySelector('h2, h3, h4');
-        }
+      const walk = (container) => {
+        for (const child of Array.from(container.children)) {
+          if (/^H[1-5]$/.test(child.tagName) || child.classList?.contains('mw-heading')) {
+            const hText = child.textContent.replace(/\[.*?\]/g, '').trim();
+            if (hText && !isNavNoise(hText)) {
+              if (cur.paragraphs.length > 0) sections.push(cur);
+              cur = { title: hText, paragraphs: [] };
+            }
+            continue;
+          }
 
-        if (headingNode) {
-          rawSections.push(cur);
-          const hLevel = parseInt(headingNode.tagName[1], 10) || 2;
-          const hTitle = headingNode.textContent.replace(/\[.*?\]/g, '').trim();
-          cur = { level: hLevel, title: hTitle, paragraphs: [] };
-        } else {
-          const items = extractCleanText(child);
-          cur.paragraphs.push(...items);
-        }
-      }
-      rawSections.push(cur);
+          if (child.tagName === 'UL' || child.tagName === 'OL') {
+            Array.from(child.querySelectorAll('li')).forEach(li => {
+              const t = li.textContent.replace(/\s+/g, ' ').trim();
+              if (!isNavNoise(t)) cur.paragraphs.push('• ' + t);
+            });
+            continue;
+          }
 
-      const cleanSections = [];
-      for (const sec of rawSections) {
-        if (forbiddenHeadings.test(sec.title) || /السينما|التلفزيون|المسلسلات|الأعمال الفنية|الدراما/i.test(sec.title)) {
-          if (sec.level === 2) break;
-          continue;
-        }
-        if (sec.paragraphs.length === 0) continue;
-        cleanSections.push(sec);
-      }
+          if (child.tagName === 'DIV' && child.querySelector('p, h2, h3, h4, ul, ol, div.poem')) {
+            walk(child);
+            continue;
+          }
 
-      return cleanSections.length ? cleanSections : [{ title: 'نص القصة', paragraphs: ['لم يُعثَر على محتوى نصي.'] }];
+          const txt = child.textContent.replace(/\s+/g, ' ').trim();
+          if (!isNavNoise(txt)) {
+            cur.paragraphs.push(txt);
+          }
+        }
+      };
+
+      walk(root);
+      if (cur.paragraphs.length > 0) sections.push(cur);
+      return sections;
     }
 
     function updateReaderDownloadButtons() {
@@ -4135,3 +4837,459 @@
     resolveAllBookMetadata();
     syncArchiveCollectionsSilently();
   </script>
+
+
+
+
+<!-- ========================================================================= -->
+<!-- بداية كود مشهد الاسترخاء الطبيعي الحقيقي (مقاطع فيديو حقيقية بدون حظر)       -->
+<!-- ========================================================================= -->
+
+<style>
+  /* زر فتح المشهد في مشغل الصوت */
+  .btn-relax-launch {
+    background: linear-gradient(135deg, #105543, #c69636) !important;
+    color: #fff !important;
+    font-weight: 800 !important;
+    border: 1px solid rgba(255, 216, 130, 0.5) !important;
+    box-shadow: 0 0 14px rgba(198, 150, 54, 0.4) !important;
+    animation: relaxGlow 2.5s infinite ease-in-out;
+  }
+  @keyframes relaxGlow {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(198, 150, 54, 0.3); }
+    50% { transform: scale(1.04); box-shadow: 0 0 20px rgba(198, 150, 54, 0.7); }
+  }
+
+  /* حاوية المشهد الشاملة كخلفية كاملة */
+  #relaxSceneModal {
+    position: fixed;
+    inset: 0;
+    z-index: 2800;
+    background: #000;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  #relaxSceneModal.active {
+    display: flex;
+    opacity: 1;
+  }
+
+  /* حاوية الفيديو لتغطية الشاشة بالكامل دون هوامش سوداء */
+  .relax-video-wrapper {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+    pointer-events: none; /* لمنع التشتت أثناء التأمل */
+  }
+
+  .relax-video-wrapper iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    height: 56.25vw; /* نسبة 16:9 */
+    min-height: 100vh;
+    min-width: 177.77vh; /* 16:9 */
+    transform: translate(-50%, -50%) scale(1.05); /* تكبير طفيف لإخفاء حواف المشغل */
+    border: 0;
+    filter: brightness(0.85) contrast(1.05);
+  }
+
+  /* طبقة سينمائية خافتة فوق الفيديو لإبراز الأزرار والكتابة */
+  .relax-video-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: radial-gradient(circle at center, transparent 35%, rgba(0, 0, 0, 0.6) 100%);
+    pointer-events: none;
+  }
+
+  /* الشريط العلوي العائم لاختيار المناظر */
+  .relax-top-bar {
+    position: relative;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 22px;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.35) 75%, transparent 100%);
+  }
+
+  .relax-scene-pills {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 4px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .relax-scene-pills::-webkit-scrollbar { display: none; }
+
+  .scene-pill {
+    background: rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #fff;
+    padding: 7px 16px;
+    border-radius: 999px;
+    font-size: 0.84rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+    font-family: 'Cairo', sans-serif;
+  }
+  .scene-pill:hover,
+  .scene-pill.active {
+    background: linear-gradient(135deg, #c69636, #9f7521);
+    color: #062920;
+    border-color: #ffd882;
+    box-shadow: 0 4px 14px rgba(198, 150, 54, 0.55);
+    transform: translateY(-1px);
+  }
+
+  .relax-top-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .relax-circle-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.16);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .relax-circle-btn:hover {
+    background: #c69636;
+    color: #062920;
+    transform: scale(1.08);
+  }
+
+  /* مشغل الصوت الزجاجي العائم في الأسفل */
+  .relax-bottom-dock {
+    position: relative;
+    z-index: 20;
+    margin-top: auto;
+    padding: 18px 24px 22px;
+    background: linear-gradient(0deg, rgba(3, 14, 11, 0.94) 0%, rgba(3, 14, 11, 0.6) 75%, transparent 100%);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-top: 1px solid rgba(198, 150, 54, 0.35);
+  }
+
+  .relax-dock-content {
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .relax-info-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .relax-titles { min-width: 0; flex: 1; }
+  .relax-titles h4 {
+    font-family: 'Amiri', serif;
+    font-size: 1.35rem;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 2px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+  }
+  .relax-titles span {
+    font-size: 0.85rem;
+    color: #ffd882;
+    font-weight: 700;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+  }
+
+  .relax-controls-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+  }
+
+  .relax-play-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #c69636, #ab7e20);
+    color: #062920;
+    font-size: 1.3rem;
+    font-weight: 800;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 6px 20px rgba(198, 150, 54, 0.45);
+    cursor: pointer;
+    transition: transform 0.2s, filter 0.2s;
+  }
+  .relax-play-btn:hover {
+    transform: scale(1.08);
+    filter: brightness(1.1);
+  }
+
+  .relax-seek-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.82rem;
+    color: #edf3f0;
+    font-weight: 700;
+  }
+  .relax-seek-row input[type="range"] {
+    flex: 1;
+    accent-color: #c69636;
+    height: 6px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  @media (max-width: 720px) {
+    .relax-top-bar { padding: 10px 12px; }
+    .relax-bottom-dock { padding: 12px 14px 16px; }
+    .relax-titles h4 { font-size: 1.15rem; }
+    .relax-titles span { font-size: 0.76rem; }
+    .relax-play-btn { width: 44px; height: 44px; font-size: 1.1rem; }
+  }
+</style>
+
+<!-- عناصر واجهة المشهد المرئي المفتوحة في الشاشة -->
+<div id="relaxSceneModal">
+  <!-- حاوية تضمين الفيديو عالي الجودة في الخلفية -->
+  <div class="relax-video-wrapper">
+    <iframe id="relaxBgIframe" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  </div>
+  <div class="relax-video-overlay"></div>
+
+  <!-- الشريط العلوي لاختيار المقاطع الطبيعية الحقيقية -->
+  <div class="relax-top-bar">
+    <div class="relax-scene-pills">
+      <button class="scene-pill active" onclick="switchRelaxScene(0)">🌲 أنهار الغابات العذبة</button>
+      <button class="scene-pill" onclick="switchRelaxScene(1)">🌊 أمواج المحيط وغروب الشمس</button>
+      <button class="scene-pill" onclick="switchRelaxScene(2)">🌧️ هطول الأمطار في الطبيعة</button>
+      <button class="scene-pill" onclick="switchRelaxScene(3)">🌌 سماء الليل والشفق القطبي</button>
+      <button class="scene-pill" onclick="switchRelaxScene(4)">🏔️ سكون جبال الألب السويسرية</button>
+      <button class="scene-pill" onclick="switchRelaxScene(5)">🔥 نار دافئة وسط الغابة</button>
+      <button class="scene-pill" onclick="switchRelaxScene(6)">☁️ انسياب السحب الشاهقة</button>
+    </div>
+    <div class="relax-top-actions">
+      <button class="relax-circle-btn" onclick="toggleSceneFullscreen()" title="ملء الشاشة">⛶</button>
+      <button class="relax-circle-btn" onclick="closeRelaxScene()" title="الرجوع للصفحة">✕</button>
+    </div>
+  </div>
+
+  <!-- شريط التحكم الصوتي العائم المنسجم تماماً مع خطبة/صوت الموقع -->
+  <div class="relax-bottom-dock">
+    <div class="relax-dock-content">
+      <div class="relax-info-row">
+        <div class="relax-titles">
+          <h4 id="relaxDockTitle">اختر خطبة للاستماع</h4>
+          <span id="relaxDockSheikh">وا إسلاماه</span>
+        </div>
+        <div class="relax-controls-row">
+          <button class="dock-btn" onclick="if(typeof playPrev==='function') playPrev()" title="السابق">⏮</button>
+          <button class="relax-play-btn" id="relaxPlayPauseBtn" onclick="if(typeof togglePlayPause==='function') togglePlayPause()">▶</button>
+          <button class="dock-btn" onclick="if(typeof playNext==='function') playNext()" title="التالي">⏭</button>
+        </div>
+      </div>
+
+      <div class="relax-seek-row">
+        <span id="relaxCurTime">00:00</span>
+        <input type="range" id="relaxSeekBar" min="0" max="100" value="0" />
+        <span id="relaxDurTime">00:00</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // 1. معرفات مقاطع يوتيوب الطبيعية الرسمية فائقة الدقة (بدون إعلانات وبوضع صامت دائم وتكرار تلقائي)
+    const REAL_YOUTUBE_SCENES = [
+      { id: "17lqZk5yNdg", title: "أنهار الغابات العذبة" },
+      { id: "bn9F19HiXY8", title: "أمواج المحيط وغروب الشمس" },
+      { id: "mPZkdNFkNps", title: "هطول الأمطار في الطبيعة" },
+      { id: "rS1z5e1aE-A", title: "سماء الليل والشفق القطبي" },
+      { id: "linlz7-Pnvw", title: "سكون جبال الألب السويسرية" },
+      { id: "L_LUpnjgPso", title: "نار دافئة وسط الغابة" },
+      { id: "p0tZ33yW-5Y", title: "انسياب السحب الشاهقة" }
+    ];
+
+    let relaxActive = false;
+    let currentSceneIdx = 0;
+    const iframeEl = document.getElementById('relaxBgIframe');
+
+    function buildEmbedUrl(videoId) {
+      // إعدادات البث: تشغيل تلقائي، صامت تماماً (mute=1) لعدم التداخل مع صوت الخطبة، تكرار مستمر، وإخفاء أدوات يوتيوب
+      return `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}&playsinline=1&rel=0&modestbranding=1&enablejsapi=1`;
+    }
+
+    // 2. التثبيت التلقائي للزر داخل مشغل الصوت
+    function injectRelaxButtonAutomatically() {
+      if (document.getElementById('btnRelaxScene')) return;
+      const dockRight = document.querySelector('#playerDock .dock-right');
+      if (dockRight) {
+        const btn = document.createElement('button');
+        btn.id = 'btnRelaxScene';
+        btn.className = 'dock-btn btn-relax-launch';
+        btn.title = 'مشاهد طبيعية حقيقية 4K للتأمل والاسترخاء';
+        btn.innerHTML = '🌿 تأمل الطبيعة';
+        btn.onclick = openRelaxScene;
+        const dlBtn = document.getElementById('dockDownloadBtn');
+        if (dlBtn) dockRight.insertBefore(btn, dlBtn);
+        else dockRight.prepend(btn);
+      }
+    }
+
+    const checkTimer = setInterval(() => {
+      injectRelaxButtonAutomatically();
+      if (document.getElementById('btnRelaxScene')) clearInterval(checkTimer);
+    }, 400);
+
+    // 3. دوال الفتح والإغلاق وتبديل المقاطع
+    window.openRelaxScene = function() {
+      const modal = document.getElementById('relaxSceneModal');
+      if (!modal) return;
+      if (typeof lockPageScroll === 'function') lockPageScroll();
+      modal.classList.add('active');
+      relaxActive = true;
+      syncSceneAudioInfo();
+
+      // تشغيل الفيديو عند الفتح إن لم يكن مشغلاً
+      if (iframeEl && (!iframeEl.src || iframeEl.src === "about:blank" || iframeEl.src === window.location.href)) {
+        switchRelaxScene(currentSceneIdx);
+      }
+    };
+
+    window.closeRelaxScene = function() {
+      const modal = document.getElementById('relaxSceneModal');
+      if (!modal) return;
+      modal.classList.remove('active');
+      relaxActive = false;
+
+      // إيقاف الفيديو لتوفير استهلاك المعالج والإنترنت
+      if (iframeEl) {
+        iframeEl.src = "about:blank";
+      }
+
+      if (document.fullscreenElement) {
+        document.exitFullscreen().catch(() => {});
+      }
+
+      const anyOpen = document.querySelectorAll('.modal-backdrop.open');
+      if (!anyOpen.length) {
+        document.documentElement.classList.remove('modal-open');
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = '';
+      }
+    };
+
+    window.switchRelaxScene = function(idx) {
+      if (idx < 0 || idx >= REAL_YOUTUBE_SCENES.length) return;
+      currentSceneIdx = idx;
+
+      document.querySelectorAll('.scene-pill').forEach((btn, i) => {
+        btn.classList.toggle('active', i === idx);
+      });
+
+      if (iframeEl) {
+        iframeEl.src = buildEmbedUrl(REAL_YOUTUBE_SCENES[idx].id);
+      }
+    };
+
+    window.toggleSceneFullscreen = function() {
+      const modal = document.getElementById('relaxSceneModal');
+      if (!document.fullscreenElement) {
+        if (modal.requestFullscreen) modal.requestFullscreen();
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    };
+
+    function syncSceneAudioInfo() {
+      const audio = document.getElementById('mainAudio');
+      const dTitle = document.getElementById('dockTitle');
+      const dSheikh = document.getElementById('dockSheikh');
+
+      if (dTitle) document.getElementById('relaxDockTitle').textContent = dTitle.textContent;
+      if (dSheikh) document.getElementById('relaxDockSheikh').textContent = dSheikh.textContent;
+      if (audio) {
+        document.getElementById('relaxPlayPauseBtn').textContent = audio.paused ? '▶' : '⏸';
+      }
+    }
+
+    // تزامن التحكم الصوتي مع مشغل الموقع الأصلي
+    const mainAudio = document.getElementById('mainAudio');
+    if (mainAudio) {
+      mainAudio.addEventListener('timeupdate', () => {
+        if (!relaxActive) return;
+        const curEl = document.getElementById('relaxCurTime');
+        const durEl = document.getElementById('relaxDurTime');
+        const seekEl = document.getElementById('relaxSeekBar');
+        const playBtn = document.getElementById('relaxPlayPauseBtn');
+
+        if (typeof formatTime === 'function') {
+          if (curEl) curEl.textContent = formatTime(mainAudio.currentTime);
+          if (durEl && isFinite(mainAudio.duration)) durEl.textContent = formatTime(mainAudio.duration);
+        }
+        if (seekEl && isFinite(mainAudio.duration) && mainAudio.duration > 0) {
+          seekEl.value = (mainAudio.currentTime / mainAudio.duration) * 100;
+        }
+        if (playBtn) playBtn.textContent = mainAudio.paused ? '▶' : '⏸';
+      });
+
+      mainAudio.addEventListener('play', () => {
+        const btn = document.getElementById('relaxPlayPauseBtn');
+        if (btn) btn.textContent = '⏸';
+      });
+      mainAudio.addEventListener('pause', () => {
+        const btn = document.getElementById('relaxPlayPauseBtn');
+        if (btn) btn.textContent = '▶';
+      });
+    }
+
+    const relaxSeek = document.getElementById('relaxSeekBar');
+    if (relaxSeek && mainAudio) {
+      relaxSeek.addEventListener('input', (e) => {
+        if (mainAudio.duration && isFinite(mainAudio.duration)) {
+          mainAudio.currentTime = (e.target.value / 100) * mainAudio.duration;
+        }
+      });
+    }
+  })();
+</script>
+<!-- ========================================================================= -->
+<!-- نهاية كود مشهد الاسترخاء الطبيعي الحقيقي                                    -->
+<!-- ========================================================================= -->
